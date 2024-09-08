@@ -12,3 +12,80 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Endereco {
+  id     Int     @id @default(autoincrement())
+  numero Int?
+  rua    String
+  bairro String
+  cidade String
+  estado String
+  pais   String
+  Hotel  Hotel[]
+}
+
+model FotosHotel {
+  id       Int    @id @default(autoincrement())
+  url_foto String
+  id_hotel Hotel  @relation(fields: [hotelId], references: [id])
+  hotelId  Int
+}
+
+model Hotel {
+  id                 Int          @id @default(autoincrement())
+  nome               String
+  telefone           String
+  sobre              String?
+  descricao          String?
+  visualizacoes      Int          @default(0)
+  informacoes_extras String?
+  pet                Boolean
+  endereco           Endereco     @relation(fields: [enderecoId], references: [id])
+  FotosHotel         FotosHotel[]
+  enderecoId         Int
+  Avaliacao          Avaliacao[]
+}
+
+model Avaliacao {
+  id              Int    @id @default(autoincrement())
+  custo_beneficio Int
+  atendimento     Int
+  comida          Int
+  limpeza         Int
+  conforto        Int
+  localizacao     Int
+  comentario      Int
+  hotel           Hotel  @relation(fields: [hotelId], references: [id])
+  hotelId         Int
+  cliente         Client @relation(fields: [clientId], references: [id])
+  clientId        Int
+}
+
+model Usuario {
+  id              Int            @id @default(autoincrement())
+  nome            String
+  sobrenome       String
+  email           String
+  hash_senha      String
+  telefone        String?
+  data_nascimento DateTime?
+  vip             Boolean
+  Client          Client[]
+  Proprietario    Proprietario[]
+}
+
+model Client {
+  id        Int         @id @default(autoincrement())
+  usuario   Usuario     @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+  Avaliacao Avaliacao[]
+}
+
+model Proprietario {
+  id               Int     @id @default(autoincrement())
+  usuario          Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId        Int
+  tempo_hospedagem Int?
+  avaliacao        String?
+  sobre            String?
+}
