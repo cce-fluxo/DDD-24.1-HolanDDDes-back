@@ -12,7 +12,6 @@ import { FotosHoteisModule } from './fotos_hoteis/fotos_hoteis.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
 import { ComodidadesHoteisModule } from './comodidades_hoteis/comodidades_hoteis.module';
 import { DescricaoDetalhadaModule } from './descricao_detalhada/descricao_detalhada.module';
-import { AvaliacaoHotelModule } from './avaliacao_hotel/avaliacao_hotel.module';
 import { FotoUsuarioModule } from './foto_usuario/foto_usuario.module';
 import { NotificacaoModule } from './notificacao/notificacao.module';
 import { InteresseModule } from './interesse/interesse.module';
@@ -39,7 +38,6 @@ import { DatabaseModule } from './database/database.module';
     EnderecosModule,
     ComodidadesHoteisModule,
     DescricaoDetalhadaModule,
-    AvaliacaoHotelModule,
     FotoUsuarioModule,
     NotificacaoModule,
     InteresseModule,
