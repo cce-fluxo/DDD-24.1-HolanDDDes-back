@@ -24,6 +24,7 @@ import { CobrancaModule } from './cobranca/cobranca.module';
 import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ganho.module';
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { DatabaseModule } from './database/database.module';
+import { AvaliacaoModule } from './avaliacao/avaliacao.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { DatabaseModule } from './database/database.module';
     GerenciamentoGanhoModule,
     GerenciamentoGanhoAcomodacaoModule,
     DatabaseModule,
+    AvaliacaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
