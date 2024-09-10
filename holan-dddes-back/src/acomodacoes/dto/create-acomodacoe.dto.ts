@@ -4,14 +4,9 @@ export class CreateAcomodacoeDto {
   banheiros: number;
   quartos: number;
   camas: number;
-  valor_diaria: float;
-  valor_pet: float;
+  valor_diaria: number;
+  valor_pet: number;
   complemento: string;
   tipo_acomodacaoId: number;
   hotelId: number;
-  FotoAcomodacao: list;
-  Reserva: list;
-  Gerenciamento_ganhos: list;
-  Avaliacao_acomodacao: list;
-  ComodidadeNaAcomodacao: list;
 }

@@ -1,1 +1,4 @@
-export class CreateComodidadesHoteiDto {}
+export class CreateComodidadesHoteiDto {
+  hotelId: number;
+  comodidadeId: number;
+}

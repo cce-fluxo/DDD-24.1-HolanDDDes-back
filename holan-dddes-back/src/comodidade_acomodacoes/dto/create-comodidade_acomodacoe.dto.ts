@@ -1,1 +1,4 @@
-export class CreateComodidadeAcomodacoeDto {}
+export class CreateComodidadeAcomodacoeDto {
+  id: number;
+  nome: string;
+}

@@ -1,1 +1,5 @@
-export class CreateFotoUsuarioDto {}
+export class CreateFotoUsuarioDto {
+  id: number;
+  urlFoto: string;
+  usuarioId: number;
+}

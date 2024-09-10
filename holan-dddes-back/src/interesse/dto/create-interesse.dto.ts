@@ -1,1 +1,4 @@
-export class CreateInteresseDto {}
+export class CreateInteresseDto {
+  id: number;
+  nome: string;
+}
