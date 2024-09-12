@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFavoritoDto } from './dto/create-favorito.dto';
 import { UpdateFavoritoDto } from './dto/update-favorito.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class FavoritoService {
+  constructor(private readonly prisma: PrismaService) {}
   create(createFavoritoDto: CreateFavoritoDto) {
-    return 'This action adds a new favorito';
+    const CriarFavorito = this.prisma.favorito.create({
+      data: createFavoritoDto,
+    });
+    return CriarFavorito;
   }
 
-  findAll() {
-    return `This action returns all favorito`;
+  findAll(findAllFavoritoDto: any) {
+    const AcharTodosFavoritos = this.prisma.favorito.findMany({
+      where: findAllFavoritoDto,
+    });
+    return AcharTodosFavoritos;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorito`;
+  findOne(findOneFavoritoDto: any) {
+    const AcharUmFavorito = this.prisma.favorito.findUnique({
+      where: findOneFavoritoDto,
+    });
+    return AcharUmFavorito;
   }
 
-  update(id: number, updateFavoritoDto: UpdateFavoritoDto) {
-    return `This action updates a #${id} favorito`;
+  update(p0: number, updateFavoritoDto: UpdateFavoritoDto) {
+    const AtualizarFavorito = this.prisma.favorito.update({
+      where: { id: updateFavoritoDto.id },
+      data: updateFavoritoDto,
+    });
+    return AtualizarFavorito;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} favorito`;
+  remove(deleteFavoritoDto: any) {
+    const DeletarFavorito = this.prisma.favorito.delete({
+      where: deleteFavoritoDto,
+    });
+    return DeletarFavorito;
   }
 }

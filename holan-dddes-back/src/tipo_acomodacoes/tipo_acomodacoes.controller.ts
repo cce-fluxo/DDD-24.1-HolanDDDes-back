@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TipoAcomodacoesService } from './tipo_acomodacoes.service';
 import { CreateTipoAcomodacoeDto } from './dto/create-tipo_acomodacoe.dto';
 import { UpdateTipoAcomodacoeDto } from './dto/update-tipo_acomodacoe.dto';
 
 @Controller('tipo-acomodacoes')
 export class TipoAcomodacoesController {
-  constructor(private readonly tipoAcomodacoesService: TipoAcomodacoesService) {}
+  constructor(
+    private readonly tipoAcomodacoesService: TipoAcomodacoesService,
+  ) {}
 
   @Post()
   create(@Body() createTipoAcomodacoeDto: CreateTipoAcomodacoeDto) {
@@ -13,8 +23,8 @@ export class TipoAcomodacoesController {
   }
 
   @Get()
-  findAll() {
-    return this.tipoAcomodacoesService.findAll();
+  findAll(@Body() findAllTipoAcomodacoeDto: any) {
+    return this.tipoAcomodacoesService.findAll(findAllTipoAcomodacoeDto);
   }
 
   @Get(':id')
@@ -23,7 +33,10 @@ export class TipoAcomodacoesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTipoAcomodacoeDto: UpdateTipoAcomodacoeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTipoAcomodacoeDto: UpdateTipoAcomodacoeDto,
+  ) {
     return this.tipoAcomodacoesService.update(+id, updateTipoAcomodacoeDto);
   }
 

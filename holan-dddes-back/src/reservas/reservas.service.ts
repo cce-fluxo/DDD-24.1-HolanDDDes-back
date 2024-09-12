@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class ReservasService {
+  constructor(private prisma: PrismaService) {}
   create(createReservaDto: CreateReservaDto) {
-    return 'This action adds a new reserva';
+    const CriarReserva = this.prisma.reserva.create({
+      data: createReservaDto,
+    });
+    return CriarReserva;
   }
 
-  findAll() {
-    return `This action returns all reservas`;
+  findAll(findAllReservaDto: any) {
+    const AcharTodasReservas = this.prisma.reserva.findMany({
+      where: findAllReservaDto,
+    });
+    return AcharTodasReservas;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reserva`;
+  findOne(findOneReservaDto: any) {
+    const AcharUmaReserva = this.prisma.reserva.findUnique({
+      where: findOneReservaDto,
+    });
+    return AcharUmaReserva;
   }
 
-  update(id: number, updateReservaDto: UpdateReservaDto) {
-    return `This action updates a #${id} reserva`;
+  update(p0: number, updateReservaDto: UpdateReservaDto) {
+    const AtualizarReserva = this.prisma.reserva.update({
+      where: { id: updateReservaDto.id },
+      data: updateReservaDto,
+    });
+    return AtualizarReserva;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reserva`;
+  remove(deleteReservaDto: any) {
+    const DeletarReserva = this.prisma.reserva.delete({
+      where: deleteReservaDto,
+    });
+    return DeletarReserva;
   }
 }

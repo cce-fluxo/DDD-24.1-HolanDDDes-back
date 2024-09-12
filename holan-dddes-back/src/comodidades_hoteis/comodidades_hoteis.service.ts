@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateComodidadesHoteiDto } from './dto/create-comodidades_hotei.dto';
 import { UpdateComodidadesHoteiDto } from './dto/update-comodidades_hotei.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class ComodidadesHoteisService {
+  constructor(private prisma: PrismaService) {}
   create(createComodidadesHoteiDto: CreateComodidadesHoteiDto) {
-    return 'This action adds a new comodidadesHotei';
+    const criarComodidadesHotei = this.prisma.comodidadesHotei.create({
+      data: createComodidadesHoteiDto,
+    });
+    return criarComodidadesHotei;
   }
 
-  findAll() {
-    return `This action returns all comodidadesHoteis`;
+  findAll(findAllComodidadesHoteiDto: any) {
+    const acharTodasComodidadesHoteis = this.prisma.comodidadesHotei.findMany({
+      where: findAllComodidadesHoteiDto,
+    });
+    return acharTodasComodidadesHoteis;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comodidadesHotei`;
+  findOne(findOneComodidadesHoteiDto: any) {
+    const acharUmaComodidadesHotei = this.prisma.comodidadesHotei.findUnique({
+      where: findOneComodidadesHoteiDto,
+    });
+    return acharUmaComodidadesHotei;
   }
 
-  update(id: number, updateComodidadesHoteiDto: UpdateComodidadesHoteiDto) {
-    return `This action updates a #${id} comodidadesHotei`;
+  update(p0: number, updateComodidadesHoteiDto: UpdateComodidadesHoteiDto) {
+    const atualizarComodidadesHotei = this.prisma.comodidadesHotei.update({
+      where: { id: updateComodidadesHoteiDto.id },
+      data: updateComodidadesHoteiDto,
+    });
+    return atualizarComodidadesHotei;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comodidadesHotei`;
+  remove(deleteComodidadesHoteiDto: any) {
+    const deletarComodidadesHotei = this.prisma.comodidadesHotei.delete({
+      where: deleteComodidadesHoteiDto,
+    });
+    return deletarComodidadesHotei;
   }
 }

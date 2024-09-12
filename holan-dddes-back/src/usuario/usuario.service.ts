@@ -1,32 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class UsuarioService {
-  constructor(private prisma: PrismaService) {} 
+  constructor(private prisma: PrismaService) {}
 
   create(createUsuarioDto: CreateUsuarioDto) {
-    const a = this.prisma.usuario.create(
-      
-      {
+    const CriarUsuario = this.prisma.usuario.create({
+      data: createUsuarioDto,
+    });
+    return CriarUsuario;
   }
 
-  findAll() {
-    return `This action returns all usuario`;
+  findAll(findAllUsuarioDto: any) {
+    const AcharTodosUsuarios = this.prisma.usuario.findMany({
+      where: findAllUsuarioDto,
+    });
+    return AcharTodosUsuarios;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  findOne(findOneUsuarioDto: any) {
+    const AcharUmUsuario = this.prisma.usuario.findUnique({
+      where: findOneUsuarioDto,
+    });
+    return AcharUmUsuario;
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  update(p0: number, updateUsuarioDto: UpdateUsuarioDto) {
+    const AtualizarUsuario = this.prisma.usuario.update({
+      where: { id: updateUsuarioDto.id },
+      data: updateUsuarioDto,
+    });
+    return AtualizarUsuario;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  remove(deleteUsuarioDto: any) {
+    const DeletarUsuario = this.prisma.usuario.delete({
+      where: deleteUsuarioDto,
+    });
+    return DeletarUsuario;
   }
-}
 }

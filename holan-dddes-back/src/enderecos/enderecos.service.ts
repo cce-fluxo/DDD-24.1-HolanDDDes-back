@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class EnderecosService {
+  constructor(private readonly prisma: PrismaService) {}
   create(createEnderecoDto: CreateEnderecoDto) {
-    return 'This action adds a new endereco';
+    const CriarEndereco = this.prisma.endereco.create({
+      data: createEnderecoDto,
+    });
+    return CriarEndereco;
   }
 
-  findAll() {
-    return `This action returns all enderecos`;
+  findAll(findAllEnderecoDto: any) {
+    const AcharTodosEnderecos = this.prisma.endereco.findMany({
+      where: findAllEnderecoDto,
+    });
+    return AcharTodosEnderecos;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} endereco`;
+  findOne(findOneEnderecoDto: any) {
+    const AcharUmEndereco = this.prisma.endereco.findUnique({
+      where: findOneEnderecoDto,
+    });
+    return AcharUmEndereco;
   }
 
-  update(id: number, updateEnderecoDto: UpdateEnderecoDto) {
-    return `This action updates a #${id} endereco`;
+  update(p0: number, updateEnderecoDto: UpdateEnderecoDto) {
+    const AtualizarEndereco = this.prisma.endereco.update({
+      where: { id: updateEnderecoDto.id },
+      data: updateEnderecoDto,
+    });
+    return AtualizarEndereco;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} endereco`;
+  remove(deleteEnderecoDto: any) {
+    const DeletarEndereco = this.prisma.endereco.delete({
+      where: deleteEnderecoDto,
+    });
+    return DeletarEndereco;
   }
 }

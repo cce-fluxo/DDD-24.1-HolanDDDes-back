@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDescricaoDetalhadaDto } from './dto/create-descricao_detalhada.dto';
 import { UpdateDescricaoDetalhadaDto } from './dto/update-descricao_detalhada.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class DescricaoDetalhadaService {
+  constructor(private prisma: PrismaService) {}
   create(createDescricaoDetalhadaDto: CreateDescricaoDetalhadaDto) {
-    return 'This action adds a new descricaoDetalhada';
+    const CriarDescricaoDetalhada = this.prisma.descricaoDetalhada.create({
+      data: createDescricaoDetalhadaDto,
+    });
+    return CriarDescricaoDetalhada;
   }
 
-  findAll() {
-    return `This action returns all descricaoDetalhada`;
+  findAll(findAllDescricaoDetalhadaDto: any) {
+    const AcharTodasDescricaoDetalhadas =
+      this.prisma.descricaoDetalhada.findMany({
+        where: findAllDescricaoDetalhadaDto,
+      });
+    return AcharTodasDescricaoDetalhadas;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} descricaoDetalhada`;
+  findOne(findOneDescricaoDetalhadaDto: any) {
+    const AcharUmaDescricaoDetalhada =
+      this.prisma.descricaoDetalhada.findUnique({
+        where: findOneDescricaoDetalhadaDto,
+      });
+    return AcharUmaDescricaoDetalhada;
   }
 
-  update(id: number, updateDescricaoDetalhadaDto: UpdateDescricaoDetalhadaDto) {
-    return `This action updates a #${id} descricaoDetalhada`;
+  update(p0: number, updateDescricaoDetalhadaDto: UpdateDescricaoDetalhadaDto) {
+    const AtualizarDescricaoDetalhada = this.prisma.descricaoDetalhada.update({
+      where: { id: updateDescricaoDetalhadaDto.id },
+      data: updateDescricaoDetalhadaDto,
+    });
+    return AtualizarDescricaoDetalhada;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} descricaoDetalhada`;
+  remove(deleteDescricaoDetalhadaDto: any) {
+    const DeletarDescricaoDetalhada = this.prisma.descricaoDetalhada.delete({
+      where: deleteDescricaoDetalhadaDto,
+    });
+    return DeletarDescricaoDetalhada;
   }
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { FotosHoteisService } from './fotos_hoteis.service';
 import { CreateFotosHoteiDto } from './dto/create-fotos_hotei.dto';
 import { UpdateFotosHoteiDto } from './dto/update-fotos_hotei.dto';
@@ -13,8 +21,8 @@ export class FotosHoteisController {
   }
 
   @Get()
-  findAll() {
-    return this.fotosHoteisService.findAll();
+  findAll(@Body() findAllFotosHoteiDto: any) {
+    return this.fotosHoteisService.findAll(findAllFotosHoteiDto);
   }
 
   @Get(':id')
@@ -23,7 +31,10 @@ export class FotosHoteisController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFotosHoteiDto: UpdateFotosHoteiDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFotosHoteiDto: UpdateFotosHoteiDto,
+  ) {
     return this.fotosHoteisService.update(+id, updateFotosHoteiDto);
   }
 

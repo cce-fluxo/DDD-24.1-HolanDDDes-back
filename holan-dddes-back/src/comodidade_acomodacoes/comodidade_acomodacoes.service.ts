@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { CreateComodidadeAcomodacoeDto } from './dto/create-comodidade_acomodacoe.dto';
 import { UpdateComodidadeAcomodacoeDto } from './dto/update-comodidade_acomodacoe.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class ComodidadeAcomodacoesService {
+  constructor(private prisma: PrismaService) {}
   create(createComodidadeAcomodacoeDto: CreateComodidadeAcomodacoeDto) {
-    return 'This action adds a new comodidadeAcomodacoe';
+    const CriarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacoe.create({
+      data: createComodidadeAcomodacoeDto,
+    });
+    return CriarComodidadeAcomodacoe;
   }
 
-  findAll() {
-    return `This action returns all comodidadeAcomodacoes`;
+  findAll(findAllComodidadeAcomodacoeDto: any) {
+    const AcharTodasComodidadesAcomodacoes =
+      this.prisma.comodidadeAcomodacoe.findMany({
+        where: findAllComodidadeAcomodacoeDto,
+      });
+    return AcharTodasComodidadesAcomodacoes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comodidadeAcomodacoe`;
+  findOne(findOneComodidadeAcomodacoeDto: any) {
+    const AcharUmaComodidadeAcomodacoe =
+      this.prisma.comodidadeAcomodacoe.findUnique({
+        where: findOneComodidadeAcomodacoeDto,
+      });
+    return AcharUmaComodidadeAcomodacoe;
   }
 
-  update(id: number, updateComodidadeAcomodacoeDto: UpdateComodidadeAcomodacoeDto) {
-    return `This action updates a #${id} comodidadeAcomodacoe`;
+  update(
+    p0: number,
+    updateComodidadeAcomodacoeDto: UpdateComodidadeAcomodacoeDto,
+  ) {
+    const AtualizarComodidadeAcomodacoe =
+      this.prisma.comodidadeAcomodacoe.update({
+        where: { id: updateComodidadeAcomodacoeDto.id },
+        data: updateComodidadeAcomodacoeDto,
+      });
+    return AtualizarComodidadeAcomodacoe;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comodidadeAcomodacoe`;
+  remove(deleteComodidadeAcomodacoeDto: any) {
+    const DeletarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacoe.delete(
+      {
+        where: deleteComodidadeAcomodacoeDto,
+      },
+    );
+    return DeletarComodidadeAcomodacoe;
   }
 }

@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFotosAcomodacoeDto } from './dto/create-fotos_acomodacoe.dto';
 import { UpdateFotosAcomodacoeDto } from './dto/update-fotos_acomodacoe.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class FotosAcomodacoesService {
+  constructor(private prisma: PrismaService) {}
   create(createFotosAcomodacoeDto: CreateFotosAcomodacoeDto) {
-    return 'This action adds a new fotosAcomodacoe';
+    const CriarFotosAcomodacoe = this.prisma.fotosAcomodacoe.create({
+      data: createFotosAcomodacoeDto,
+    });
+    return CriarFotosAcomodacoe;
   }
 
-  findAll() {
-    return `This action returns all fotosAcomodacoes`;
+  findAll(findAllFotosAcomodacoeDto: any) {
+    const AcharTodasFotosAcomodacoes = this.prisma.fotosAcomodacoe.findMany({
+      where: findAllFotosAcomodacoeDto,
+    });
+    return AcharTodasFotosAcomodacoes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fotosAcomodacoe`;
+  findOne(findOneFotosAcomodacoeDto: any) {
+    const AcharUmaFotosAcomodacoe = this.prisma.fotosAcomodacoe.findUnique({
+      where: findOneFotosAcomodacoeDto,
+    });
+    return AcharUmaFotosAcomodacoe;
   }
 
-  update(id: number, updateFotosAcomodacoeDto: UpdateFotosAcomodacoeDto) {
-    return `This action updates a #${id} fotosAcomodacoe`;
+  update(p0: number, updateFotosAcomodacoeDto: UpdateFotosAcomodacoeDto) {
+    const AtualizarFotosAcomodacoe = this.prisma.fotosAcomodacoe.update({
+      where: { id: updateFotosAcomodacoeDto.id },
+      data: updateFotosAcomodacoeDto,
+    });
+    return AtualizarFotosAcomodacoe;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fotosAcomodacoe`;
+  remove(deleteFotosAcomodacoeDto: any) {
+    const DeletarFotosAcomodacoe = this.prisma.fotosAcomodacoe.delete({
+      where: deleteFotosAcomodacoeDto,
+    });
+    return DeletarFotosAcomodacoe;
   }
 }

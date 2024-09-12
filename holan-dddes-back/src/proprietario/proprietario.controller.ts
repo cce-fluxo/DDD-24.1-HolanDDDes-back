@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProprietarioService } from './proprietario.service';
 import { CreateProprietarioDto } from './dto/create-proprietario.dto';
 import { UpdateProprietarioDto } from './dto/update-proprietario.dto';
@@ -13,8 +21,8 @@ export class ProprietarioController {
   }
 
   @Get()
-  findAll() {
-    return this.proprietarioService.findAll();
+  findAll(@Body() findAllProprietarioDto: any) {
+    return this.proprietarioService.findAll(findAllProprietarioDto);
   }
 
   @Get(':id')
@@ -23,7 +31,10 @@ export class ProprietarioController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProprietarioDto: UpdateProprietarioDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProprietarioDto: UpdateProprietarioDto,
+  ) {
     return this.proprietarioService.update(+id, updateProprietarioDto);
   }
 

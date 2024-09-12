@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CupomService } from './cupom.service';
 import { CreateCupomDto } from './dto/create-cupom.dto';
 import { UpdateCupomDto } from './dto/update-cupom.dto';
@@ -13,8 +21,8 @@ export class CupomController {
   }
 
   @Get()
-  findAll() {
-    return this.cupomService.findAll();
+  findAll(@Body() findAllCupomDto: any) {
+    return this.cupomService.findAll(findAllCupomDto);
   }
 
   @Get(':id')

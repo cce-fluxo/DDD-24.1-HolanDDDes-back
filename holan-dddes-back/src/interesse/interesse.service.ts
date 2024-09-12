@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInteresseDto } from './dto/create-interesse.dto';
 import { UpdateInteresseDto } from './dto/update-interesse.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class InteresseService {
+  constructor(private readonly prisma: PrismaService) {}
   create(createInteresseDto: CreateInteresseDto) {
-    return 'This action adds a new interesse';
+    const criarInteresse = this.prisma.interesse.create({
+      data: createInteresseDto,
+    });
+    return criarInteresse;
   }
 
-  findAll() {
-    return `This action returns all interesse`;
+  findAll(findAllInteresseDto: any) {
+    const acharTodosInteresses = this.prisma.interesse.findMany({
+      where: findAllInteresseDto,
+    });
+    return acharTodosInteresses;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} interesse`;
+  findOne(findOneInteresseDto: any) {
+    const acharUmInteresse = this.prisma.interesse.findUnique({
+      where: findOneInteresseDto,
+    });
+    return acharUmInteresse;
   }
 
-  update(id: number, updateInteresseDto: UpdateInteresseDto) {
-    return `This action updates a #${id} interesse`;
+  update(p0: number, updateInteresseDto: UpdateInteresseDto) {
+    const atualizarInteresse = this.prisma.interesse.update({
+      where: { id: updateInteresseDto.id },
+      data: updateInteresseDto,
+    });
+    return atualizarInteresse;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} interesse`;
+  remove(deleteInteresseDto: any) {
+    const deletarInteresse = this.prisma.interesse.delete({
+      where: deleteInteresseDto,
+    });
+    return deletarInteresse;
   }
 }
