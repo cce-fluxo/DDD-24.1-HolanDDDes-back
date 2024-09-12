@@ -72,7 +72,7 @@ CREATE TABLE "Usuario" (
     "email" TEXT NOT NULL,
     "hash_senha" TEXT NOT NULL,
     "telefone" TEXT,
-    "data_nascimento" TIMESTAMP(3),
+    "data_nascimento" DATE,
     "vip" BOOLEAN NOT NULL,
 
     CONSTRAINT "Usuario_pkey" PRIMARY KEY ("id")
