@@ -1,4 +1,5 @@
 export class CreateAvaliacaoAcomodacoeDto {
+  id: number;
   custo_beneficio: number;
   atendimento: number;
   comida: number;

@@ -1,26 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAvaliacaoAcomodacoeDto } from './dto/create-avaliacao_acomodacoe.dto';
 import { UpdateAvaliacaoAcomodacoeDto } from './dto/update-avaliacao_acomodacoe.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class AvaliacaoAcomodacoesService {
+  constructor(private prisma: PrismaService) {}
   create(createAvaliacaoAcomodacoeDto: CreateAvaliacaoAcomodacoeDto) {
-    return 'This action adds a new avaliacaoAcomodacoe';
+    const CriarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.create({
+      data: createAvaliacaoAcomodacoeDto,
+    });
+    return CriarAvaliacaoAcomodacoe;
   }
 
-  findAll() {
-    return `This action returns all avaliacaoAcomodacoes`;
+  findAll(findAllAvaliacaoAcomodacoeDto: any) {
+    const AcharTodasAvaliacoesAcomodacoes =
+      this.prisma.avaliacaoAcomodacoe.findMany({
+        where: findAllAvaliacaoAcomodacoeDto,
+      });
+    return AcharTodasAvaliacoesAcomodacoes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} avaliacaoAcomodacoe`;
+  findOne(findOneAvaliacaoAcomodacoeDto: any) {
+    const AcharUmaAvaliacaoAcomodacoe =
+      this.prisma.avaliacaoAcomodacoe.findUnique({
+        where: findOneAvaliacaoAcomodacoeDto,
+      });
+    return AcharUmaAvaliacaoAcomodacoe;
   }
 
-  update(id: number, updateAvaliacaoAcomodacoeDto: UpdateAvaliacaoAcomodacoeDto) {
-    return `This action updates a #${id} avaliacaoAcomodacoe`;
+  update(
+    p0: number,
+    updateAvaliacaoAcomodacoeDto: UpdateAvaliacaoAcomodacoeDto,
+  ) {
+    const AtualizarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.update({
+        where: { id: updateAvaliacaoAcomodacoeDto.id },
+        data: updateAvaliacaoAcomodacoeDto,
+      });
+    return AtualizarAvaliacaoAcomodacoe;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} avaliacaoAcomodacoe`;
+  remove(deleteAvaliacaoAcomodacoeDto: any) {
+    const DeletarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.delete({
+      where: deleteAvaliacaoAcomodacoeDto,
+    });
+    return DeletarAvaliacaoAcomodacoe;
   }
 }
