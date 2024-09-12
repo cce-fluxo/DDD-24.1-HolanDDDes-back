@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCobrancaDto } from './dto/create-cobranca.dto';
 import { UpdateCobrancaDto } from './dto/update-cobranca.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class CobrancaService {
+  constructor(private prisma: PrismaService) {}
   create(createCobrancaDto: CreateCobrancaDto) {
-    return 'This action adds a new cobranca';
+    const CriarCobranca = this.prisma.cobranca.create({
+      data: createCobrancaDto,
+    });
+    return CriarCobranca;
   }
 
-  findAll() {
-    return `This action returns all cobranca`;
+  findAll(findAllCobrancaDto: any) {
+    const AcharTodasCobrancas = this.prisma.cobranca.findMany({
+      where: findAllCobrancaDto,
+    });
+    return AcharTodasCobrancas;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cobranca`;
+  findOne(findOneCobrancaDto: any) {
+    const AcharUmaCobranca = this.prisma.cobranca.findUnique({
+      where: findOneCobrancaDto,
+    });
+    return AcharUmaCobranca;
   }
 
-  update(id: number, updateCobrancaDto: UpdateCobrancaDto) {
-    return `This action updates a #${id} cobranca`;
+  update(p0: number, updateCobrancaDto: UpdateCobrancaDto) {
+    const AtualizarCobranca = this.prisma.cobranca.update({
+      where: { id: updateCobrancaDto.id },
+      data: updateCobrancaDto,
+    });
+    return AtualizarCobranca;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cobranca`;
+  remove(deleteCobrancaDto: any) {
+    const DeletarCobranca = this.prisma.cobranca.delete({
+      where: deleteCobrancaDto,
+    });
+    return DeletarCobranca;
   }
 }

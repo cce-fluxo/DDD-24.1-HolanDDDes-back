@@ -33,10 +33,12 @@ export class AvaliacaoAcomodacoesService {
     p0: number,
     updateAvaliacaoAcomodacoeDto: UpdateAvaliacaoAcomodacoeDto,
   ) {
-    const AtualizarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.update({
+    const AtualizarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.update(
+      {
         where: { id: updateAvaliacaoAcomodacoeDto.id },
         data: updateAvaliacaoAcomodacoeDto,
-      });
+      },
+    );
     return AtualizarAvaliacaoAcomodacoe;
   }
 
