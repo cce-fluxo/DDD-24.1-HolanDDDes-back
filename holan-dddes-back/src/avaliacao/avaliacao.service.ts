@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAvaliacaoDto } from './dto/create-avaliacao.dto';
 import { UpdateAvaliacaoDto } from './dto/update-avaliacao.dto';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class AvaliacaoService {
+  constructor(private prisma: PrismaService) {}
   create(createAvaliacaoDto: CreateAvaliacaoDto) {
-    return 'This action adds a new avaliacao';
+    const CriarAvaliacao = this.prisma.avaliacao.create({
+      data: createAvaliacaoDto,
+    });
+    return CriarAvaliacao;
   }
 
-  findAll() {
-    return `This action returns all avaliacao`;
+  findAll(findAllAvaliacaoDto: any) {
+    const BuscarAvaliacao = this.prisma.avaliacao.findMany({
+      where: findAllAvaliacaoDto,
+    });
+    return BuscarAvaliacao;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} avaliacao`;
+  findOne(findOneAvaliacaoDto: any) {
+    const BuscarAvaliacao = this.prisma.avaliacao.findUnique({
+      where: findOneAvaliacaoDto,
+    });
+    return BuscarAvaliacao;
   }
 
-  update(id: number, updateAvaliacaoDto: UpdateAvaliacaoDto) {
-    return `This action updates a #${id} avaliacao`;
+  update(UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
+    const AtualizarAvaliacao = this.prisma.avaliacao.update({
+      where: { id: UpdateAvaliacaoDto.id },
+      data: UpdateAvaliacaoDto,
+    });
+    return AtualizarAvaliacao;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} avaliacao`;
+  remove(DeleteAvaliacaoDto: any) {
+    const DeletarAvaliacao = this.prisma.avaliacao.delete({
+      where: DeleteAvaliacaoDto,
+    });
+    return DeletarAvaliacao;
   }
 }

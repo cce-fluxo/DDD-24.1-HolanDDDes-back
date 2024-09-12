@@ -25,6 +25,7 @@ import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ga
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { DatabaseModule } from './database/database.module';
 import { AvaliacaoModule } from './avaliacao/avaliacao.module';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -54,6 +55,6 @@ import { AvaliacaoModule } from './avaliacao/avaliacao.module';
     AvaliacaoModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
