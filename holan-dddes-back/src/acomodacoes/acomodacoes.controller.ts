@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AcomodacoesService } from './acomodacoes.service';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
@@ -14,7 +22,8 @@ export class AcomodacoesController {
 
   @Get()
   findAll() {
-    return this.acomodacoesService.findAll();
+    const findAllAcomaodacoesDto = {};
+    return this.acomodacoesService.findAll(findAllAcomaodacoesDto);
   }
 
   @Get(':id')
@@ -23,7 +32,10 @@ export class AcomodacoesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAcomodacoeDto: UpdateAcomodacoeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAcomodacoeDto: UpdateAcomodacoeDto,
+  ) {
     return this.acomodacoesService.update(+id, updateAcomodacoeDto);
   }
 

@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class AcomodacoesService {
+  constructor(private prisma: PrismaService) {}
   create(createAcomodacoeDto: CreateAcomodacoeDto) {
-    return 'This action adds a new acomodacoe';
+    const CriarAcomodacao = this.prisma.acomodacoe.create({
+      data: createAcomodacoeDto,
+    });
+    return CriarAcomodacao;
   }
 
-  findAll() {
-    return `This action returns all acomodacoes`;
+  findAll(findAllAcomaodacoesDto: any) {
+    const AcharTodasAcomodacoes = this.prisma.acomodacoe.findMany({
+      where: findAllAcomaodacoesDto,
+    });
+    return AcharTodasAcomodacoes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} acomodacoe`;
+  findOne(findOneAcomodacoeDto: any) {
+    const AcharUmaAcomodacao = this.prisma.acomodacoe.findUnique({
+      where: findOneAcomodacoeDto,
+    });
+    return AcharUmaAcomodacao;
   }
 
-  update(id: number, updateAcomodacoeDto: UpdateAcomodacoeDto) {
-    return `This action updates a #${id} acomodacoe`;
+  update(p0: number, updateAcomodacoeDto: UpdateAcomodacoeDto) {
+    const AtualizarAcomodacao = this.prisma.acomodacoe.update({
+      where: { id: updateAcomodacoeDto.id },
+      data: updateAcomodacoeDto,
+    });
+    return AtualizarAcomodacao;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} acomodacoe`;
+  remove(DeleteAcomodacoeDto: any) {
+    const DeletarAcomodacao = this.prisma.acomodacoe.delete({
+      where: DeleteAcomodacoeDto,
+    });
+    return DeletarAcomodacao;
   }
 }
