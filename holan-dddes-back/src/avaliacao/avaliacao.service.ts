@@ -27,7 +27,7 @@ export class AvaliacaoService {
     return BuscarAvaliacao;
   }
 
-  update(UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
+  update(p0: number, UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
     const AtualizarAvaliacao = this.prisma.avaliacao.update({
       where: { id: UpdateAvaliacaoDto.id },
       data: UpdateAvaliacaoDto,
