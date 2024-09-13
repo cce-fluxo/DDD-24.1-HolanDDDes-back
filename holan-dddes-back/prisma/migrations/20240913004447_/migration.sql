@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Usuario" ALTER COLUMN "data_nascimento" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "data_nascimento" SET DATA TYPE DATE;

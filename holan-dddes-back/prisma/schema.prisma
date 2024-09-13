@@ -79,7 +79,7 @@ model Usuario {
   email           String
   hash_senha      String
   telefone        String?
-  data_nascimento DateTime?
+  data_nascimento DateTime?     @default(now()) @db.Date
   vip             Boolean
   Client          Client?
   FotoUsuario     FotoUsuario[]
