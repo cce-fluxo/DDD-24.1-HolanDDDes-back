@@ -6,7 +6,7 @@ export class CreateAvaliacaoDto {
   limpeza: number;
   conforto: number;
   localizacao: number;
-  comentario?: number;
+  comentario?: string;
   hotelId: number;
   clientId: number;
 }

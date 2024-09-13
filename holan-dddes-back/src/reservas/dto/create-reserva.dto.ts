@@ -7,4 +7,5 @@ export class CreateReservaDto {
   aceitaPet: boolean;
   clienteId: number;
   acomodacaoId: number;
+  cupomId: number;
 }

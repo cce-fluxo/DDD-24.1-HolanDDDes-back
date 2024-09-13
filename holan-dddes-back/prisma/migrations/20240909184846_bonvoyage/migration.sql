@@ -26,11 +26,11 @@ CREATE TABLE "Hotel" (
     "nome" TEXT NOT NULL,
     "telefone" TEXT NOT NULL,
     "sobre" TEXT,
-    "descricao" TEXT,
     "visualizacoes" INTEGER NOT NULL DEFAULT 0,
     "informacoes_extras" TEXT,
     "pet" BOOLEAN NOT NULL,
     "enderecoId" INTEGER NOT NULL,
+    "proprietarioId" INTEGER NOT NULL,
 
     CONSTRAINT "Hotel_pkey" PRIMARY KEY ("id")
 );
@@ -44,7 +44,7 @@ CREATE TABLE "Avaliacao" (
     "limpeza" INTEGER NOT NULL,
     "conforto" INTEGER NOT NULL,
     "localizacao" INTEGER NOT NULL,
-    "comentario" INTEGER,
+    "comentario" TEXT,
     "hotelId" INTEGER NOT NULL,
     "clientId" INTEGER NOT NULL,
 
@@ -54,7 +54,6 @@ CREATE TABLE "Avaliacao" (
 -- CreateTable
 CREATE TABLE "Descricao_detalhada" (
     "id" SERIAL NOT NULL,
-    "descricao" TEXT,
     "sobre" TEXT,
     "banheiro" TEXT,
     "quarto" TEXT,
@@ -162,6 +161,7 @@ CREATE TABLE "Reserva" (
     "aceita_pet" BOOLEAN NOT NULL,
     "clienteId" INTEGER NOT NULL,
     "acomodacaoId" INTEGER NOT NULL,
+    "cupomId" INTEGER,
 
     CONSTRAINT "Reserva_pkey" PRIMARY KEY ("id")
 );
@@ -185,7 +185,7 @@ CREATE TABLE "Avaliacao_acomodacao" (
     "limpeza" INTEGER NOT NULL,
     "conforto" INTEGER NOT NULL,
     "localizacao" INTEGER NOT NULL,
-    "comentario" INTEGER,
+    "comentario" TEXT,
     "acomodacaoId" INTEGER NOT NULL,
     "clienteId" INTEGER NOT NULL,
 
@@ -233,9 +233,12 @@ CREATE TABLE "ProprietarioNoInteresse" (
 -- CreateTable
 CREATE TABLE "Cupom" (
     "id" SERIAL NOT NULL,
+    "titulo" TEXT NOT NULL,
+    "status" BOOLEAN NOT NULL,
     "codigo" TEXT NOT NULL,
     "desconto" DOUBLE PRECISION NOT NULL,
     "data_validade" TIMESTAMP(3) NOT NULL,
+    "descricao" TEXT NOT NULL,
 
     CONSTRAINT "Cupom_pkey" PRIMARY KEY ("id")
 );

@@ -3,9 +3,9 @@ export class CreateHoteiDto {
   nome: string;
   telefone: string;
   sobre?: string;
-  descricao?: string;
   visualizacoes: number;
   informacoesExtras?: string;
   pet: boolean;
   enderecoId: number;
+  proprietarioId: number;
 }

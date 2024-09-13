@@ -42,6 +42,8 @@ model Hotel {
   Favorito            Favorito[]
   FotosHotel          FotosHotel[]
   endereco            Endereco             @relation(fields: [enderecoId], references: [id])
+  proprietarioId      Int                  @unique
+  Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id])
 }
 
 model Avaliacao {
@@ -52,7 +54,7 @@ model Avaliacao {
   limpeza         Int
   conforto        Int
   localizacao     Int
-  comentario      Int?
+  comentario      String?
   hotelId         Int
   clientId        Int
   cliente         Client @relation(fields: [clientId], references: [id])
@@ -61,7 +63,6 @@ model Avaliacao {
 
 model Descricao_detalhada {
   id        Int     @id @default(autoincrement())
-  descricao String?
   sobre     String?
   banheiro  String?
   quarto    String?
@@ -105,6 +106,7 @@ model Proprietario {
   Gerenciamento_ganhos Gerenciamento_ganhos[]
   usuario              Usuario                   @relation(fields: [usuarioId], references: [id])
   Interesse            ProprietarioNoInteresse[]
+  Hotel                Hotel?
 }
 
 model FotoUsuario {
@@ -170,6 +172,8 @@ model Reserva {
   Cobranca           Cobranca?
   acomodacao         Acomodacao @relation(fields: [acomodacaoId], references: [id])
   cliente            Client     @relation(fields: [clienteId], references: [id])
+  cupomId            Int?       @unique
+  cupom              Cupom?     @relation(fields: [cupomId], references: [id])
 }
 
 model Gerenciamento_ganhos_acomodacao {
@@ -188,7 +192,7 @@ model Avaliacao_acomodacao {
   limpeza         Int
   conforto        Int
   localizacao     Int
-  comentario      Int?
+  comentario      String?
   acomodacaoId    Int
   clienteId       Int
   acomodacao      Acomodacao @relation(fields: [acomodacaoId], references: [id])
@@ -230,10 +234,14 @@ model ProprietarioNoInteresse {
 
 model Cupom {
   id            Int              @id @default(autoincrement())
+  titulo        String
+  Status        Boolean
   codigo        String
   desconto      Float
   data_validade DateTime
+  descricao     String
   Cliente       ClienteNoCupom[]
+  Reserva       Reserva?
 }
 
 model ClienteNoCupom {
