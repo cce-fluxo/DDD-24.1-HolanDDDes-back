@@ -44,6 +44,7 @@ model Hotel {
   endereco            Endereco             @relation(fields: [enderecoId], references: [id])
   proprietarioId      Int                  @unique
   Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id])
+  Cupom               CupomNoHotel[]
 }
 
 model Avaliacao {
@@ -242,6 +243,7 @@ model Cupom {
   descricao     String
   Cliente       ClienteNoCupom[]
   Reserva       Reserva?
+  Hotel         CupomNoHotel[] 
 }
 
 model ClienteNoCupom {
@@ -289,4 +291,13 @@ model ComodidadeNoHotel {
   hotel        Hotel           @relation(fields: [hotelId], references: [id])
 
   @@id([hotelId, comodidadeId])
+}
+
+model CupomNoHotel {
+  hotelId Int
+  cupomId Int
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+  cupom   Cupom @relation(fields: [cupomId], references: [id])
+
+  @@id([hotelId, cupomId])
 }
