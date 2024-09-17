@@ -7,7 +7,7 @@ import { PrismaService } from '../database/prisma.service';
 export class ComodidadeAcomodacoesService {
   constructor(private prisma: PrismaService) {}
   create(createComodidadeAcomodacoeDto: CreateComodidadeAcomodacoeDto) {
-    const CriarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacoe.create({
+    const CriarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacao.create({
       data: createComodidadeAcomodacoeDto,
     });
     return CriarComodidadeAcomodacoe;
@@ -15,7 +15,7 @@ export class ComodidadeAcomodacoesService {
 
   findAll(findAllComodidadeAcomodacoeDto: any) {
     const AcharTodasComodidadesAcomodacoes =
-      this.prisma.comodidadeAcomodacoe.findMany({
+      this.prisma.comodidadeAcomodacao.findMany({
         where: findAllComodidadeAcomodacoeDto,
       });
     return AcharTodasComodidadesAcomodacoes;
@@ -23,26 +23,22 @@ export class ComodidadeAcomodacoesService {
 
   findOne(findOneComodidadeAcomodacoeDto: any) {
     const AcharUmaComodidadeAcomodacoe =
-      this.prisma.comodidadeAcomodacoe.findUnique({
+      this.prisma.comodidadeAcomodacao.findUnique({
         where: findOneComodidadeAcomodacoeDto,
       });
     return AcharUmaComodidadeAcomodacoe;
   }
 
-  update(
-    p0: number,
-    updateComodidadeAcomodacoeDto: UpdateComodidadeAcomodacoeDto,
-  ) {
-    const AtualizarComodidadeAcomodacoe =
-      this.prisma.comodidadeAcomodacoe.update({
-        where: { id: updateComodidadeAcomodacoeDto.id },
-        data: updateComodidadeAcomodacoeDto,
-      });
-    return AtualizarComodidadeAcomodacoe;
+  update(id: number, UpdateComodidadeAcomodacoeDto: UpdateComodidadeAcomodacoeDto) {
+    const comodidadeAcomodacao = this.prisma.comodidadeAcomodacao.update({
+      where: {id},
+      data: UpdateComodidadeAcomodacoeDto,
+    })
+    return comodidadeAcomodacao;
   }
 
   remove(deleteComodidadeAcomodacoeDto: any) {
-    const DeletarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacoe.delete(
+    const DeletarComodidadeAcomodacoe = this.prisma.comodidadeAcomodacao.delete(
       {
         where: deleteComodidadeAcomodacoeDto,
       },
