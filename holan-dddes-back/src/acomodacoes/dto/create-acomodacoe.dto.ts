@@ -1,5 +1,4 @@
 export class CreateAcomodacoeDto {
-  id: number;
   titulo: string;
   descricao?: string;
   banheiros: number;

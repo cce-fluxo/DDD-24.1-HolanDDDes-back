@@ -7,4 +7,4 @@ import { PrismaService } from '../database/prisma.service';
   controllers: [tipoAcomodacaosController],
   providers: [tipoAcomodacaosService, PrismaService],
 })
-export class tipoAcomodacaosModule {}
+export class TipoAcomodacoesModule {}
