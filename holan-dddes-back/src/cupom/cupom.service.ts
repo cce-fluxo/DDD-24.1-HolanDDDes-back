@@ -27,12 +27,12 @@ export class CupomService {
     return AcharUmCupom;
   }
 
-  update(p0: number, updateCupomDto: UpdateCupomDto) {
-    const AtualizarCupom = this.prisma.cupom.update({
-      where: { id: updateCupomDto.id },
-      data: updateCupomDto,
-    });
-    return AtualizarCupom;
+  update(id: number, UpdateCupomDto: UpdateCupomDto) {
+    const cupom = this.prisma.cupom.update({
+      where: {id},
+      data: UpdateCupomDto,
+    })
+    return cupom;
   }
 
   remove(deleteCupomDto: any) {
