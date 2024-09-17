@@ -27,12 +27,12 @@ export class AvaliacaoService {
     return BuscarAvaliacao;
   }
 
-  update(p0: number, UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
-    const AtualizarAvaliacao = this.prisma.avaliacao.update({
-      where: { id: UpdateAvaliacaoDto.id },
+  update(id: number, UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
+    const avaliacao = this.prisma.avaliacao.update({
+      where: {id},
       data: UpdateAvaliacaoDto,
-    });
-    return AtualizarAvaliacao;
+    })
+    return avaliacao;
   }
 
   remove(DeleteAvaliacaoDto: any) {
