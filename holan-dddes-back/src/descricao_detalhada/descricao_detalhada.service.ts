@@ -7,7 +7,7 @@ import { PrismaService } from '../database/prisma.service';
 export class DescricaoDetalhadaService {
   constructor(private prisma: PrismaService) {}
   create(createDescricaoDetalhadaDto: CreateDescricaoDetalhadaDto) {
-    const CriarDescricaoDetalhada = this.prisma.descricaoDetalhada.create({
+    const CriarDescricaoDetalhada = this.prisma.descricao_detalhada.create({
       data: createDescricaoDetalhadaDto,
     });
     return CriarDescricaoDetalhada;
@@ -15,7 +15,7 @@ export class DescricaoDetalhadaService {
 
   findAll(findAllDescricaoDetalhadaDto: any) {
     const AcharTodasDescricaoDetalhadas =
-      this.prisma.descricaoDetalhada.findMany({
+      this.prisma.descricao_detalhada.findMany({
         where: findAllDescricaoDetalhadaDto,
       });
     return AcharTodasDescricaoDetalhadas;
@@ -23,22 +23,22 @@ export class DescricaoDetalhadaService {
 
   findOne(findOneDescricaoDetalhadaDto: any) {
     const AcharUmaDescricaoDetalhada =
-      this.prisma.descricaoDetalhada.findUnique({
+      this.prisma.descricao_detalhada.findUnique({
         where: findOneDescricaoDetalhadaDto,
       });
     return AcharUmaDescricaoDetalhada;
   }
 
-  update(p0: number, updateDescricaoDetalhadaDto: UpdateDescricaoDetalhadaDto) {
-    const AtualizarDescricaoDetalhada = this.prisma.descricaoDetalhada.update({
-      where: { id: updateDescricaoDetalhadaDto.id },
-      data: updateDescricaoDetalhadaDto,
-    });
-    return AtualizarDescricaoDetalhada;
+  update(id: number, UpdateDescricaoDetalhadaDto: UpdateDescricaoDetalhadaDto) {
+    const descricaoDetalhada = this.prisma.descricao_detalhada.update({
+      where: {id},
+      data: UpdateDescricaoDetalhadaDto,
+    })
+    return descricaoDetalhada
   }
 
   remove(deleteDescricaoDetalhadaDto: any) {
-    const DeletarDescricaoDetalhada = this.prisma.descricaoDetalhada.delete({
+    const DeletarDescricaoDetalhada = this.prisma.descricao_detalhada.delete({
       where: deleteDescricaoDetalhadaDto,
     });
     return DeletarDescricaoDetalhada;
