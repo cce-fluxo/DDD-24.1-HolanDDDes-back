@@ -7,7 +7,7 @@ import { PrismaService } from '../database/prisma.service';
 export class GerenciamentoGanhoService {
   constructor(private readonly prisma: PrismaService) {}
   create(createGerenciamentoGanhoDto: CreateGerenciamentoGanhoDto) {
-    const criarGerenciamentoGanho = this.prisma.gerenciamentoGanho.create({
+    const criarGerenciamentoGanho = this.prisma.gerenciamento_ganhos.create({
       data: createGerenciamentoGanhoDto,
     });
     return criarGerenciamentoGanho;
@@ -15,14 +15,14 @@ export class GerenciamentoGanhoService {
 
   findAll(findAllGerenciamentoGanhoDto: any) {
     const acharTodasGerenciamentoGanhos =
-      this.prisma.gerenciamentoGanho.findMany({
+      this.prisma.gerenciamento_ganhos.findMany({
         where: findAllGerenciamentoGanhoDto,
       });
     return acharTodasGerenciamentoGanhos;
   }
 
   findOne(findOneGerenciamentoGanhoDto: any) {
-    const acharUmGerenciamentoGanho = this.prisma.gerenciamentoGanho.findUnique(
+    const acharUmGerenciamentoGanho = this.prisma.gerenciamento_ganhos.findUnique(
       {
         where: findOneGerenciamentoGanhoDto,
       },
@@ -30,16 +30,16 @@ export class GerenciamentoGanhoService {
     return acharUmGerenciamentoGanho;
   }
 
-  update(p0: number, updateGerenciamentoGanhoDto: UpdateGerenciamentoGanhoDto) {
-    const atualizarGerenciamentoGanho = this.prisma.gerenciamentoGanho.update({
-      where: { id: updateGerenciamentoGanhoDto.id },
-      data: updateGerenciamentoGanhoDto,
-    });
-    return atualizarGerenciamentoGanho;
+  update(id: number, UpdateGerenciamentoGanhoDto: UpdateGerenciamentoGanhoDto) {
+    const gerenciamentoGanho = this.prisma.gerenciamento_ganhos.update({
+      where: {id},
+      data: UpdateGerenciamentoGanhoDto,
+    })
+    return gerenciamentoGanho
   }
 
   remove(deleteGerenciamentoGanhoDto: any) {
-    const deletarGerenciamentoGanho = this.prisma.gerenciamentoGanho.delete({
+    const deletarGerenciamentoGanho = this.prisma.gerenciamento_ganhos.delete({
       where: deleteGerenciamentoGanhoDto,
     });
     return deletarGerenciamentoGanho;

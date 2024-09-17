@@ -1,5 +1,4 @@
-export class CreateFotosHoteiDto {
-  id: number;
-  urlFoto: string;
+export class CreatefotosHotelDto {
+  url_foto: string;
   hotelId: number;
 }

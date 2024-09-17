@@ -1,6 +1,5 @@
 export class CreateGerenciamentoGanhoDto {
-  id: number;
   data?: Date;
-  valorLucro?: number;
+  valor_lucro?: number;
   proprietarioId: number;
 }

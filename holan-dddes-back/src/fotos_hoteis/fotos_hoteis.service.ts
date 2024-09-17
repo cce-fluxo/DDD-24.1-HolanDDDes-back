@@ -1,44 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFotosHoteiDto } from './dto/create-fotos_hotei.dto';
-import { UpdateFotosHoteiDto } from './dto/update-fotos_hotei.dto';
+import { CreatefotosHotelDto } from './dto/create-fotos_hotei.dto';
+import { UpdatefotosHotelDto } from './dto/update-fotos_hotei.dto';
 import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
-export class FotosHoteisService {
+export class fotosHotelsService {
   constructor(private prisma: PrismaService) {}
-  create(createFotosHoteiDto: CreateFotosHoteiDto) {
-    const criarFotosHotei = this.prisma.fotosHotei.create({
-      data: createFotosHoteiDto,
+  create(createfotosHotelDto: CreatefotosHotelDto) {
+    const criarfotosHotel = this.prisma.fotosHotel.create({
+      data: createfotosHotelDto,
     });
-    return criarFotosHotei;
+    return criarfotosHotel;
   }
 
-  findAll(findAllFotosHoteiDto: any) {
-    const acharTodasFotosHoteis = this.prisma.fotosHotei.findMany({
-      where: findAllFotosHoteiDto,
+  findAll(findAllfotosHotelDto: any) {
+    const acharTodasfotosHotels = this.prisma.fotosHotel.findMany({
+      where: findAllfotosHotelDto,
     });
-    return acharTodasFotosHoteis;
+    return acharTodasfotosHotels;
   }
 
-  findOne(findOneFotosHoteiDto: any) {
-    const acharUmaFotosHotei = this.prisma.fotosHotei.findUnique({
-      where: findOneFotosHoteiDto,
+  findOne(findOnefotosHotelDto: any) {
+    const acharUmafotosHotel = this.prisma.fotosHotel.findUnique({
+      where: findOnefotosHotelDto,
     });
-    return acharUmaFotosHotei;
+    return acharUmafotosHotel;
   }
 
-  update(p0: number, updateFotosHoteiDto: UpdateFotosHoteiDto) {
-    const atualizarFotosHotei = this.prisma.fotosHotei.update({
-      where: { id: updateFotosHoteiDto.id },
-      data: updateFotosHoteiDto,
-    });
-    return atualizarFotosHotei;
+  update(id: number, UpdatefotosHotelDto: UpdatefotosHotelDto) {
+    const fotosHotel = this.prisma.fotosHotel.update({
+      where: {id},
+      data: UpdatefotosHotelDto,
+    })
+    return fotosHotel
   }
 
-  remove(deleteFotosHoteiDto: any) {
-    const deletarFotosHotei = this.prisma.fotosHotei.delete({
-      where: deleteFotosHoteiDto,
+  remove(deletefotosHotelDto: any) {
+    const deletarfotosHotel = this.prisma.fotosHotel.delete({
+      where: deletefotosHotelDto,
     });
-    return deletarFotosHotei;
+    return deletarfotosHotel;
   }
 }
