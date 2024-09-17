@@ -7,7 +7,7 @@ import { PrismaService } from '../database/prisma.service';
 export class AvaliacaoAcomodacoesService {
   constructor(private prisma: PrismaService) {}
   create(createAvaliacaoAcomodacoeDto: CreateAvaliacaoAcomodacoeDto) {
-    const CriarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.create({
+    const CriarAvaliacaoAcomodacoe = this.prisma.avaliacao_acomodacao.create({
       data: createAvaliacaoAcomodacoeDto,
     });
     return CriarAvaliacaoAcomodacoe;
@@ -15,7 +15,7 @@ export class AvaliacaoAcomodacoesService {
 
   findAll(findAllAvaliacaoAcomodacoeDto: any) {
     const AcharTodasAvaliacoesAcomodacoes =
-      this.prisma.avaliacaoAcomodacoe.findMany({
+      this.prisma.avaliacao_acomodacao.findMany({
         where: findAllAvaliacaoAcomodacoeDto,
       });
     return AcharTodasAvaliacoesAcomodacoes;
@@ -23,27 +23,22 @@ export class AvaliacaoAcomodacoesService {
 
   findOne(findOneAvaliacaoAcomodacoeDto: any) {
     const AcharUmaAvaliacaoAcomodacoe =
-      this.prisma.avaliacaoAcomodacoe.findUnique({
+      this.prisma.avaliacao_acomodacao.findUnique({
         where: findOneAvaliacaoAcomodacoeDto,
       });
     return AcharUmaAvaliacaoAcomodacoe;
   }
 
-  update(
-    p0: number,
-    updateAvaliacaoAcomodacoeDto: UpdateAvaliacaoAcomodacoeDto,
-  ) {
-    const AtualizarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.update(
-      {
-        where: { id: updateAvaliacaoAcomodacoeDto.id },
-        data: updateAvaliacaoAcomodacoeDto,
-      },
-    );
-    return AtualizarAvaliacaoAcomodacoe;
+  update(id: number, UpdateAvaliacaoAcomodacoeDto: UpdateAvaliacaoAcomodacoeDto) {
+    const avaliacaoAcomodacao = this.prisma.avaliacao_acomodacao.update({
+      where: {id},
+      data: UpdateAvaliacaoAcomodacoeDto,
+    })
+    return avaliacaoAcomodacao;
   }
 
   remove(deleteAvaliacaoAcomodacoeDto: any) {
-    const DeletarAvaliacaoAcomodacoe = this.prisma.avaliacaoAcomodacoe.delete({
+    const DeletarAvaliacaoAcomodacoe = this.prisma.avaliacao_acomodacao.delete({
       where: deleteAvaliacaoAcomodacoeDto,
     });
     return DeletarAvaliacaoAcomodacoe;
