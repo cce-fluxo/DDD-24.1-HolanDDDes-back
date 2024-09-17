@@ -1,5 +1,4 @@
 export class CreateEnderecoDto {
-  id: number;
   numero?: number;
   rua: string;
   bairro: string;
