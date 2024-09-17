@@ -1,44 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateComodidadesHoteiDto } from './dto/create-comodidades_hotei.dto';
-import { UpdateComodidadesHoteiDto } from './dto/update-comodidades_hotei.dto';
+import { CreateComodidadesHotelDto } from './dto/create-comodidades_hotei.dto';
+import { UpdateComodidadesHotelDto } from './dto/update-comodidades_hotei.dto';
 import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
-export class ComodidadesHoteisService {
+export class comodidadesHotelsService {
   constructor(private prisma: PrismaService) {}
-  create(createComodidadesHoteiDto: CreateComodidadesHoteiDto) {
-    const criarComodidadesHotei = this.prisma.comodidadesHotei.create({
-      data: createComodidadesHoteiDto,
+  create(CreateComodidadesHotelDto: CreateComodidadesHotelDto) {
+    const criarcomodidadesHotel = this.prisma.comodidadeHotel.create({
+      data: CreateComodidadesHotelDto,
     });
-    return criarComodidadesHotei;
+    return criarcomodidadesHotel;
   }
 
-  findAll(findAllComodidadesHoteiDto: any) {
-    const acharTodasComodidadesHoteis = this.prisma.comodidadesHotei.findMany({
-      where: findAllComodidadesHoteiDto,
+  findAll(findAllcomodidadesHotelDto: any) {
+    const acharTodascomodidadesHotels = this.prisma.comodidadeHotel.findMany({
+      where: findAllcomodidadesHotelDto,
     });
-    return acharTodasComodidadesHoteis;
+    return acharTodascomodidadesHotels;
   }
 
-  findOne(findOneComodidadesHoteiDto: any) {
-    const acharUmaComodidadesHotei = this.prisma.comodidadesHotei.findUnique({
-      where: findOneComodidadesHoteiDto,
+  findOne(findOnecomodidadesHotelDto: any) {
+    const acharUmacomodidadesHotel = this.prisma.comodidadeHotel.findUnique({
+      where: findOnecomodidadesHotelDto,
     });
-    return acharUmaComodidadesHotei;
+    return acharUmacomodidadesHotel;
   }
 
-  update(p0: number, updateComodidadesHoteiDto: UpdateComodidadesHoteiDto) {
-    const atualizarComodidadesHotei = this.prisma.comodidadesHotei.update({
-      where: { id: updateComodidadesHoteiDto.id },
-      data: updateComodidadesHoteiDto,
-    });
-    return atualizarComodidadesHotei;
+  update(id: number, UpdateComodidadesHotelDto: UpdateComodidadesHotelDto) {
+    const comodidadeHotel = this.prisma.comodidadeHotel.update({
+      where: {id},
+      data: UpdateComodidadesHotelDto,
+    })
+    return comodidadeHotel;
   }
 
-  remove(deleteComodidadesHoteiDto: any) {
-    const deletarComodidadesHotei = this.prisma.comodidadesHotei.delete({
-      where: deleteComodidadesHoteiDto,
+  remove(deletecomodidadesHotelDto: any) {
+    const deletarcomodidadesHotel = this.prisma.comodidadeHotel.delete({
+      where: deletecomodidadesHotelDto,
     });
-    return deletarComodidadesHotei;
+    return deletarcomodidadesHotel;
   }
 }

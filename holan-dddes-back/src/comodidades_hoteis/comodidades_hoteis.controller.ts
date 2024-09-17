@@ -7,41 +7,41 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ComodidadesHoteisService } from './comodidades_hoteis.service';
-import { CreateComodidadesHoteiDto } from './dto/create-comodidades_hotei.dto';
-import { UpdateComodidadesHoteiDto } from './dto/update-comodidades_hotei.dto';
+import { comodidadesHotelsService } from './comodidades_hoteis.service';
+import { CreateComodidadesHotelDto } from './dto/create-comodidades_hotei.dto';
+import { UpdateComodidadesHotelDto } from './dto/update-comodidades_hotei.dto';
 
 @Controller('comodidades-hoteis')
 export class ComodidadesHoteisController {
   constructor(
-    private readonly comodidadesHoteisService: ComodidadesHoteisService,
+    private readonly comodidadesHotelsService: comodidadesHotelsService,
   ) {}
 
   @Post()
-  create(@Body() createComodidadesHoteiDto: CreateComodidadesHoteiDto) {
-    return this.comodidadesHoteisService.create(createComodidadesHoteiDto);
+  create(@Body() createComodidadesHoteiDto: CreateComodidadesHotelDto) {
+    return this.comodidadesHotelsService.create(createComodidadesHoteiDto);
   }
 
   @Get()
   findAll(@Body() findAllComodidadesHoteiDto: any) {
-    return this.comodidadesHoteisService.findAll(findAllComodidadesHoteiDto);
+    return this.comodidadesHotelsService.findAll(findAllComodidadesHoteiDto);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.comodidadesHoteisService.findOne(+id);
+    return this.comodidadesHotelsService.findOne(+id);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateComodidadesHoteiDto: UpdateComodidadesHoteiDto,
+    @Body() UpdateComodidadesHotelDto: UpdateComodidadesHotelDto,
   ) {
-    return this.comodidadesHoteisService.update(+id, updateComodidadesHoteiDto);
+    return this.comodidadesHotelsService.update(+id, UpdateComodidadesHotelDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.comodidadesHoteisService.remove(+id);
+    return this.comodidadesHotelsService.remove(+id);
   }
 }
