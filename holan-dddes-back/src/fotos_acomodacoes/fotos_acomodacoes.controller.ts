@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FotosAcomodacoesService } from './fotos_acomodacoes.service';
-import { CreateFotosAcomodacoeDto } from './dto/create-fotos_acomodacoe.dto';
-import { UpdateFotosAcomodacoeDto } from './dto/update-fotos_acomodacoe.dto';
+import { CreateFotosAcomodacaoDto } from './dto/create-fotos_acomodacoe.dto';
+import { UpdateFotosAcomodacaoDto } from './dto/update-fotos_acomodacoe.dto';
 
 @Controller('fotos-acomodacoes')
 export class FotosAcomodacoesController {
@@ -18,8 +18,8 @@ export class FotosAcomodacoesController {
   ) {}
 
   @Post()
-  create(@Body() createFotosAcomodacoeDto: CreateFotosAcomodacoeDto) {
-    return this.fotosAcomodacoesService.create(createFotosAcomodacoeDto);
+  create(@Body() CreateFotosAcomodacaoDto: CreateFotosAcomodacaoDto) {
+    return this.fotosAcomodacoesService.create(CreateFotosAcomodacaoDto);
   }
 
   @Get()
@@ -35,9 +35,9 @@ export class FotosAcomodacoesController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateFotosAcomodacoeDto: UpdateFotosAcomodacoeDto,
+    @Body() UpdateFotosAcomodacaoDto: UpdateFotosAcomodacaoDto,
   ) {
-    return this.fotosAcomodacoesService.update(+id, updateFotosAcomodacoeDto);
+    return this.fotosAcomodacoesService.update(+id, UpdateFotosAcomodacaoDto);
   }
 
   @Delete(':id')

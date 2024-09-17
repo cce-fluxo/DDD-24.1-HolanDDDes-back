@@ -1,44 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFotosAcomodacoeDto } from './dto/create-fotos_acomodacoe.dto';
-import { UpdateFotosAcomodacoeDto } from './dto/update-fotos_acomodacoe.dto';
+import { CreateFotosAcomodacaoDto } from './dto/create-fotos_acomodacoe.dto';
+import { UpdateFotosAcomodacaoDto } from './dto/update-fotos_acomodacoe.dto';
 import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class FotosAcomodacoesService {
   constructor(private prisma: PrismaService) {}
-  create(createFotosAcomodacoeDto: CreateFotosAcomodacoeDto) {
-    const CriarFotosAcomodacoe = this.prisma.fotosAcomodacoe.create({
-      data: createFotosAcomodacoeDto,
+  create(CreateFotosAcomodacaoDto: CreateFotosAcomodacaoDto) {
+    const CriarfotosAcomodacao = this.prisma.foto_Acomodacao.create({
+      data: CreateFotosAcomodacaoDto,
     });
-    return CriarFotosAcomodacoe;
+    return CriarfotosAcomodacao;
   }
 
-  findAll(findAllFotosAcomodacoeDto: any) {
-    const AcharTodasFotosAcomodacoes = this.prisma.fotosAcomodacoe.findMany({
-      where: findAllFotosAcomodacoeDto,
+  findAll(findAllfotosAcomodacaoDto: any) {
+    const AcharTodasfotosAcomodacaos = this.prisma.foto_Acomodacao.findMany({
+      where: findAllfotosAcomodacaoDto,
     });
-    return AcharTodasFotosAcomodacoes;
+    return AcharTodasfotosAcomodacaos;
   }
 
-  findOne(findOneFotosAcomodacoeDto: any) {
-    const AcharUmaFotosAcomodacoe = this.prisma.fotosAcomodacoe.findUnique({
-      where: findOneFotosAcomodacoeDto,
+  findOne(findOnefotosAcomodacaoDto: any) {
+    const AcharUmafotosAcomodacao = this.prisma.foto_Acomodacao.findUnique({
+      where: findOnefotosAcomodacaoDto,
     });
-    return AcharUmaFotosAcomodacoe;
+    return AcharUmafotosAcomodacao;
   }
 
-  update(p0: number, updateFotosAcomodacoeDto: UpdateFotosAcomodacoeDto) {
-    const AtualizarFotosAcomodacoe = this.prisma.fotosAcomodacoe.update({
-      where: { id: updateFotosAcomodacoeDto.id },
-      data: updateFotosAcomodacoeDto,
-    });
-    return AtualizarFotosAcomodacoe;
+  update(id: number, UpdateFotosAcomodacaoDto: UpdateFotosAcomodacaoDto) {
+    const fotosAcomodacao = this.prisma.foto_Acomodacao.update({
+      where: {id},
+      data: UpdateFotosAcomodacaoDto,
+    })
+    return fotosAcomodacao
   }
 
-  remove(deleteFotosAcomodacoeDto: any) {
-    const DeletarFotosAcomodacoe = this.prisma.fotosAcomodacoe.delete({
-      where: deleteFotosAcomodacoeDto,
+  remove(deletefotosAcomodacaoDto: any) {
+    const DeletarfotosAcomodacao = this.prisma.foto_Acomodacao.delete({
+      where: deletefotosAcomodacaoDto,
     });
-    return DeletarFotosAcomodacoe;
+    return DeletarfotosAcomodacao;
   }
 }

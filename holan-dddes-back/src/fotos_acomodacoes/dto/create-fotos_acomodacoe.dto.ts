@@ -1,5 +1,4 @@
-export class CreateFotosAcomodacoeDto {
-  id: number;
-  urlFoto: string;
+export class CreateFotosAcomodacaoDto {
+  url_foto: string;
   acomodacaoId: number;
 }
