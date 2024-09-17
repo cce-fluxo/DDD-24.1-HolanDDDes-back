@@ -27,12 +27,12 @@ export class CobrancaService {
     return AcharUmaCobranca;
   }
 
-  update(p0: number, updateCobrancaDto: UpdateCobrancaDto) {
-    const AtualizarCobranca = this.prisma.cobranca.update({
-      where: { id: updateCobrancaDto.id },
-      data: updateCobrancaDto,
-    });
-    return AtualizarCobranca;
+  update(id: number, UpdateCobrancaDto: UpdateCobrancaDto) {
+    const cobranca = this.prisma.cobranca.update({
+      where: {id},
+      data: UpdateCobrancaDto,
+    })
+    return cobranca
   }
 
   remove(deleteCobrancaDto: any) {

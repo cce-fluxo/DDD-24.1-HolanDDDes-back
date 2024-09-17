@@ -32,16 +32,12 @@ export class GerenciamentoGanhoAcomodacaoService {
     return acharUmaGerenciamentoGanhoAcomodacao;
   }
 
-  update(
-    p0: number,
-    updateGerenciamentoGanhoAcomodacaoDto: UpdateGerenciamentoGanhoAcomodacaoDto,
-  ) {
-    const atualizarGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamento_ganhos_acomodacao.update({
-        where: { id: updateGerenciamentoGanhoAcomodacaoDto.id },
-        data: updateGerenciamentoGanhoAcomodacaoDto,
-      });
-    return atualizarGerenciamentoGanhoAcomodacao;
+  update(id: number, UpdateGerenciamentoGanhoAcomodacaoDto: UpdateGerenciamentoGanhoAcomodacaoDto) {
+    const gerenciamento = this.prisma.gerenciamento_ganhos_acomodacao.update({
+      where: {id},
+      data: UpdateGerenciamentoGanhoAcomodacaoDto,
+    })
+    return gerenciamento
   }
 
   remove(deleteGerenciamentoGanhoAcomodacaoDto: any) {

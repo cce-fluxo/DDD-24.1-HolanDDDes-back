@@ -27,12 +27,12 @@ export class ProprietarioService {
     return AcharUmProprietario;
   }
 
-  update(p0: number, updateProprietarioDto: UpdateProprietarioDto) {
-    const AtualizarProprietario = this.prisma.proprietario.update({
-      where: { id: updateProprietarioDto.id },
-      data: updateProprietarioDto,
-    });
-    return AtualizarProprietario;
+  update(id: number, UpdateProprietarioDto: UpdateProprietarioDto) {
+    const proprietario = this.prisma.proprietario.update({
+      where: {id},
+      data: UpdateProprietarioDto,
+    })
+    return proprietario
   }
 
   remove(deleteProprietarioDto: any) {

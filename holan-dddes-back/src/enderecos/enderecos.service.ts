@@ -27,12 +27,12 @@ export class EnderecosService {
     return AcharUmEndereco;
   }
 
-  update(p0: number, updateEnderecoDto: UpdateEnderecoDto) {
-    const AtualizarEndereco = this.prisma.endereco.update({
-      where: { id: updateEnderecoDto.id },
-      data: updateEnderecoDto,
-    });
-    return AtualizarEndereco;
+  update(id: number, UpdateEnderecoDto: UpdateEnderecoDto) {
+    const endereco = this.prisma.endereco.update({
+      where: {id},
+      data: UpdateEnderecoDto,
+    })
+    return endereco
   }
 
   remove(deleteEnderecoDto: any) {

@@ -27,12 +27,12 @@ export class FavoritoService {
     return AcharUmFavorito;
   }
 
-  update(p0: number, updateFavoritoDto: UpdateFavoritoDto) {
-    const AtualizarFavorito = this.prisma.favorito.update({
-      where: { id: updateFavoritoDto.id },
-      data: updateFavoritoDto,
-    });
-    return AtualizarFavorito;
+  update(id: number, UpdateFavoritoDto: UpdateFavoritoDto) {
+    const favorito = this.prisma.favorito.update({
+      where: {id},
+      data: UpdateFavoritoDto,
+    })
+    return favorito
   }
 
   remove(deleteFavoritoDto: any) {
