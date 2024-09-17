@@ -20,11 +20,8 @@ export class FotoUsuarioService {
     return AcharTodasFotoUsuarios;
   }
 
-  findOne(findOneFotoUsuarioDto: any) {
-    const AcharUmaFotoUsuario = this.prisma.fotoUsuario.findUnique({
-      where: findOneFotoUsuarioDto,
-    });
-    return AcharUmaFotoUsuario;
+  async findOne(id: number) {
+    return await this.prisma.fotoUsuario.findUnique({where: {id}});
   }
 
   update(id: number, UpdateFotoUsuarioDto: UpdateFotoUsuarioDto) {
@@ -35,10 +32,8 @@ export class FotoUsuarioService {
     return fotoUsuario
   }
 
-  remove(deleteFotoUsuarioDto: any) {
-    const DeletarFotoUsuario = this.prisma.fotoUsuario.delete({
-      where: deleteFotoUsuarioDto,
-    });
-    return DeletarFotoUsuario;
+  async remove(id: number) {
+    
+    return await this.prisma.fotoUsuario.delete({where: {id}});
   }
 }
