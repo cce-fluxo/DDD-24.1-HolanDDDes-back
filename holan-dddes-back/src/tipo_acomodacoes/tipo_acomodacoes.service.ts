@@ -1,44 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTipoAcomodacoeDto } from './dto/create-tipo_acomodacoe.dto';
-import { UpdateTipoAcomodacoeDto } from './dto/update-tipo_acomodacoe.dto';
+import { CreatetipoAcomodacaoDto } from './dto/create-tipo_acomodacoe.dto';
+import { UpdatetipoAcomodacaoDto } from './dto/update-tipo_acomodacoe.dto';
 import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
-export class TipoAcomodacoesService {
+export class tipoAcomodacaosService {
   constructor(private prisma: PrismaService) {}
-  create(createTipoAcomodacoeDto: CreateTipoAcomodacoeDto) {
-    const CriarTipoAcomodacoe = this.prisma.tipoAcomodacoe.create({
-      data: createTipoAcomodacoeDto,
+  create(createtipoAcomodacaoDto: CreatetipoAcomodacaoDto) {
+    const CriartipoAcomodacao = this.prisma.tipoAcomodacao.create({
+      data: createtipoAcomodacaoDto,
     });
-    return CriarTipoAcomodacoe;
+    return CriartipoAcomodacao;
   }
 
-  findAll(findAllTipoAcomodacoeDto: any) {
-    const AcharTodasTipoAcomodacoes = this.prisma.tipoAcomodacoe.findMany({
-      where: findAllTipoAcomodacoeDto,
+  findAll(findAlltipoAcomodacaoDto: any) {
+    const AcharTodastipoAcomodacaos = this.prisma.tipoAcomodacao.findMany({
+      where: findAlltipoAcomodacaoDto,
     });
-    return AcharTodasTipoAcomodacoes;
+    return AcharTodastipoAcomodacaos;
   }
 
-  findOne(findOneTipoAcomodacoeDto: any) {
-    const AcharUmTipoAcomodacoe = this.prisma.tipoAcomodacoe.findUnique({
-      where: findOneTipoAcomodacoeDto,
+  findOne(findOnetipoAcomodacaoDto: any) {
+    const AcharUmtipoAcomodacao = this.prisma.tipoAcomodacao.findUnique({
+      where: findOnetipoAcomodacaoDto,
     });
-    return AcharUmTipoAcomodacoe;
+    return AcharUmtipoAcomodacao;
   }
 
-  update(p0: number, updateTipoAcomodacoeDto: UpdateTipoAcomodacoeDto) {
-    const AtualizarTipoAcomodacoe = this.prisma.tipoAcomodacoe.update({
-      where: { id: updateTipoAcomodacoeDto.id },
-      data: updateTipoAcomodacoeDto,
-    });
-    return AtualizarTipoAcomodacoe;
+  update(id: number, updateTipoAcomodacaoDto: UpdatetipoAcomodacaoDto) {
+    const tipoAcomodacao = this.prisma.tipoAcomodacao.update({
+      where: {id},
+      data: updateTipoAcomodacaoDto,
+    })
+    return tipoAcomodacao
   }
 
-  remove(deleteTipoAcomodacoeDto: any) {
-    const DeletarTipoAcomodacoe = this.prisma.tipoAcomodacoe.delete({
-      where: deleteTipoAcomodacoeDto,
+  remove(deletetipoAcomodacaoDto: any) {
+    const DeletartipoAcomodacao = this.prisma.tipoAcomodacao.delete({
+      where: deletetipoAcomodacaoDto,
     });
-    return DeletarTipoAcomodacoe;
+    return DeletartipoAcomodacao;
   }
 }

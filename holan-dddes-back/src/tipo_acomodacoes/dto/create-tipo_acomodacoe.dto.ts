@@ -1,4 +1,3 @@
-export class CreateTipoAcomodacoeDto {
-  id: string;
+export class CreatetipoAcomodacaoDto {
   nome: string;
 }

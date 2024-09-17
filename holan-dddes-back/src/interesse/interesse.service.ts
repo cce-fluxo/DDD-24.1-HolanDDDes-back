@@ -27,12 +27,12 @@ export class InteresseService {
     return acharUmInteresse;
   }
 
-  update(p0: number, updateInteresseDto: UpdateInteresseDto) {
-    const atualizarInteresse = this.prisma.interesse.update({
-      where: { id: updateInteresseDto.id },
-      data: updateInteresseDto,
-    });
-    return atualizarInteresse;
+  update(id: number, UpdateInteresseDto: UpdateInteresseDto) {
+    const interesse = this.prisma.interesse.update({
+      where: {id},
+      data: UpdateInteresseDto,
+    })
+    return interesse
   }
 
   remove(deleteInteresseDto: any) {

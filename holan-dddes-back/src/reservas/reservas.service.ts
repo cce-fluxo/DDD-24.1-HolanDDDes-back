@@ -27,12 +27,12 @@ export class ReservasService {
     return AcharUmaReserva;
   }
 
-  update(p0: number, updateReservaDto: UpdateReservaDto) {
-    const AtualizarReserva = this.prisma.reserva.update({
-      where: { id: updateReservaDto.id },
+  update(id: number, updateReservaDto: UpdateReservaDto) {
+    const reservaDto = this.prisma.reserva.update({
+      where: {id},
       data: updateReservaDto,
-    });
-    return AtualizarReserva;
+    })
+    return reservaDto
   }
 
   remove(deleteReservaDto: any) {

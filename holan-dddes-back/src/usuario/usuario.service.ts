@@ -28,12 +28,12 @@ export class UsuarioService {
     return AcharUmUsuario;
   }
 
-  update(p0: number, updateUsuarioDto: UpdateUsuarioDto) {
-    const AtualizarUsuario = this.prisma.usuario.update({
-      where: { id: updateUsuarioDto.id },
+  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+    const usuario = this.prisma.usuario.update({
+      where: {id},
       data: updateUsuarioDto,
-    });
-    return AtualizarUsuario;
+    })
+    return usuario
   }
 
   remove(deleteUsuarioDto: any) {

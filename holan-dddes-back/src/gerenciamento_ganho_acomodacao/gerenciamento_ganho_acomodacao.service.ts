@@ -10,7 +10,7 @@ export class GerenciamentoGanhoAcomodacaoService {
     createGerenciamentoGanhoAcomodacaoDto: CreateGerenciamentoGanhoAcomodacaoDto,
   ) {
     const criarGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamentoGanhoAcomodacao.create({
+      this.prisma.gerenciamento_ganhos_acomodacao.create({
         data: createGerenciamentoGanhoAcomodacaoDto,
       });
     return criarGerenciamentoGanhoAcomodacao;
@@ -18,7 +18,7 @@ export class GerenciamentoGanhoAcomodacaoService {
 
   findAll(findAllGerenciamentoGanhoAcomodacaoDto: any) {
     const acharTodasGerenciamentoGanhoAcomodacoes =
-      this.prisma.gerenciamentoGanhoAcomodacao.findMany({
+      this.prisma.gerenciamento_ganhos_acomodacao.findMany({
         where: findAllGerenciamentoGanhoAcomodacaoDto,
       });
     return acharTodasGerenciamentoGanhoAcomodacoes;
@@ -26,7 +26,7 @@ export class GerenciamentoGanhoAcomodacaoService {
 
   findOne(findOneGerenciamentoGanhoAcomodacaoDto: any) {
     const acharUmaGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamentoGanhoAcomodacao.findUnique({
+      this.prisma.gerenciamento_ganhos_acomodacao.findUnique({
         where: findOneGerenciamentoGanhoAcomodacaoDto,
       });
     return acharUmaGerenciamentoGanhoAcomodacao;
@@ -37,7 +37,7 @@ export class GerenciamentoGanhoAcomodacaoService {
     updateGerenciamentoGanhoAcomodacaoDto: UpdateGerenciamentoGanhoAcomodacaoDto,
   ) {
     const atualizarGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamentoGanhoAcomodacao.update({
+      this.prisma.gerenciamento_ganhos_acomodacao.update({
         where: { id: updateGerenciamentoGanhoAcomodacaoDto.id },
         data: updateGerenciamentoGanhoAcomodacaoDto,
       });
@@ -46,7 +46,7 @@ export class GerenciamentoGanhoAcomodacaoService {
 
   remove(deleteGerenciamentoGanhoAcomodacaoDto: any) {
     const deletarGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamentoGanhoAcomodacao.delete({
+      this.prisma.gerenciamento_ganhos_acomodacao.delete({
         where: deleteGerenciamentoGanhoAcomodacaoDto,
       });
     return deletarGerenciamentoGanhoAcomodacao;

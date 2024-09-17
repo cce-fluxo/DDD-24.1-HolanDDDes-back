@@ -1,44 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateHoteiDto } from './dto/create-hotei.dto';
-import { UpdateHoteiDto } from './dto/update-hotei.dto';
+import { CreatehotelDto } from './dto/create-hotei.dto';
+import { UpdatehotelDto } from './dto/update-hotei.dto';
 import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
-export class HoteisService {
+export class hotelsService {
   constructor(private prisma: PrismaService) {}
-  create(createHoteiDto: CreateHoteiDto) {
-    const CriarHotei = this.prisma.hotei.create({
-      data: createHoteiDto,
+  create(createhotelDto: CreatehotelDto) {
+    const Criarhotel = this.prisma.hotel.create({
+      data: createhotelDto,
     });
-    return CriarHotei;
+    return Criarhotel;
   }
 
-  findAll(findAllHoteiDto: any) {
-    const AcharTodosHoteis = this.prisma.hotei.findMany({
-      where: findAllHoteiDto,
+  findAll(findAllhotelDto: any) {
+    const AcharTodoshotels = this.prisma.hotel.findMany({
+      where: findAllhotelDto,
     });
-    return AcharTodosHoteis;
+    return AcharTodoshotels;
   }
 
-  findOne(findOneHoteiDto: any) {
-    const AcharUmHotei = this.prisma.hotei.findUnique({
-      where: findOneHoteiDto,
+  findOne(findOnehotelDto: any) {
+    const AcharUmhotel = this.prisma.hotel.findUnique({
+      where: findOnehotelDto,
     });
-    return AcharUmHotei;
+    return AcharUmhotel;
   }
 
-  update(p0: number, updateHoteiDto: UpdateHoteiDto) {
-    const AtualizarHotei = this.prisma.hotei.update({
-      where: { id: updateHoteiDto.id },
-      data: updateHoteiDto,
-    });
-    return AtualizarHotei;
+  update(id: number, UpdatehotelDto: UpdatehotelDto) {
+    const hotel = this.prisma.hotel.update({
+      where: {id},
+      data: UpdatehotelDto,
+    })
+    return hotel
   }
 
-  remove(deleteHoteiDto: any) {
-    const DeletarHotei = this.prisma.hotei.delete({
-      where: deleteHoteiDto,
+  remove(deletehotelDto: any) {
+    const Deletarhotel = this.prisma.hotel.delete({
+      where: deletehotelDto,
     });
-    return DeletarHotei;
+    return Deletarhotel;
   }
 }

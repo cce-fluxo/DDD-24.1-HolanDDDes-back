@@ -27,12 +27,12 @@ export class NotificacaoService {
     return AcharUmaNotificacao;
   }
 
-  update(p0: number, updateNotificacaoDto: UpdateNotificacaoDto) {
-    const AtualizarNotificacao = this.prisma.notificacao.update({
-      where: { id: updateNotificacaoDto.id },
-      data: updateNotificacaoDto,
-    });
-    return AtualizarNotificacao;
+  update(id: number, UpdateNotificacaoDto: UpdateNotificacaoDto) {
+    const notificacao = this.prisma.notificacao.update({
+      where: {id},
+      data: UpdateNotificacaoDto,
+    })
+    return notificacao
   }
 
   remove(deleteNotificacaoDto: any) {

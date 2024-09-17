@@ -7,41 +7,41 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { TipoAcomodacoesService } from './tipo_acomodacoes.service';
-import { CreateTipoAcomodacoeDto } from './dto/create-tipo_acomodacoe.dto';
-import { UpdateTipoAcomodacoeDto } from './dto/update-tipo_acomodacoe.dto';
+import { tipoAcomodacaosService } from './tipo_acomodacoes.service';
+import { CreatetipoAcomodacaoDto } from './dto/create-tipo_acomodacoe.dto';
+import { UpdatetipoAcomodacaoDto } from './dto/update-tipo_acomodacoe.dto';
 
 @Controller('tipo-acomodacoes')
-export class TipoAcomodacoesController {
+export class tipoAcomodacaosController {
   constructor(
-    private readonly tipoAcomodacoesService: TipoAcomodacoesService,
+    private readonly tipoAcomodacaosService: tipoAcomodacaosService,
   ) {}
 
   @Post()
-  create(@Body() createTipoAcomodacoeDto: CreateTipoAcomodacoeDto) {
-    return this.tipoAcomodacoesService.create(createTipoAcomodacoeDto);
+  create(@Body() createtipoAcomodacaoDto: CreatetipoAcomodacaoDto) {
+    return this.tipoAcomodacaosService.create(createtipoAcomodacaoDto);
   }
 
   @Get()
-  findAll(@Body() findAllTipoAcomodacoeDto: any) {
-    return this.tipoAcomodacoesService.findAll(findAllTipoAcomodacoeDto);
+  findAll(@Body() findAlltipoAcomodacaoDto: any) {
+    return this.tipoAcomodacaosService.findAll(findAlltipoAcomodacaoDto);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tipoAcomodacoesService.findOne(+id);
+    return this.tipoAcomodacaosService.findOne(+id);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTipoAcomodacoeDto: UpdateTipoAcomodacoeDto,
+    @Body() updatetipoAcomodacaoDto: UpdatetipoAcomodacaoDto,
   ) {
-    return this.tipoAcomodacoesService.update(+id, updateTipoAcomodacoeDto);
+    return this.tipoAcomodacaosService.update(+id, updatetipoAcomodacaoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tipoAcomodacoesService.remove(+id);
+    return this.tipoAcomodacaosService.remove(+id);
   }
 }

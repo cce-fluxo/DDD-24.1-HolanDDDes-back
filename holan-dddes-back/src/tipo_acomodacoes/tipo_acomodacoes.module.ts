@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TipoAcomodacoesService } from './tipo_acomodacoes.service';
-import { TipoAcomodacoesController } from './tipo_acomodacoes.controller';
+import { tipoAcomodacaosService } from './tipo_acomodacoes.service';
+import { tipoAcomodacaosController } from './tipo_acomodacoes.controller';
 import { PrismaService } from '../database/prisma.service';
 
 @Module({
-  controllers: [TipoAcomodacoesController],
-  providers: [TipoAcomodacoesService, PrismaService],
+  controllers: [tipoAcomodacaosController],
+  providers: [tipoAcomodacaosService, PrismaService],
 })
-export class TipoAcomodacoesModule {}
+export class tipoAcomodacaosModule {}
