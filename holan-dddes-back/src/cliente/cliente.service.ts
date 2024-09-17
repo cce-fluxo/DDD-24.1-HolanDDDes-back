@@ -7,36 +7,36 @@ import { PrismaService } from '../database/prisma.service';
 export class ClienteService {
   constructor(private prisma: PrismaService) {}
   create(createClienteDto: CreateClienteDto) {
-    const criarCliente = this.prisma.cliente.create({
+    const criarCliente = this.prisma.client.create({
       data: createClienteDto,
     });
     return criarCliente;
   }
 
   findAll(findAllClienteDto: any) {
-    const acharTodosClientes = this.prisma.cliente.findMany({
+    const acharTodosClientes = this.prisma.client.findMany({
       where: findAllClienteDto,
     });
     return acharTodosClientes;
   }
 
   findOne(findOneClienteDto: any) {
-    const acharUmCliente = this.prisma.cliente.findUnique({
+    const acharUmCliente = this.prisma.client.findUnique({
       where: findOneClienteDto,
     });
     return acharUmCliente;
   }
 
-  update(p0: number, updateClienteDto: UpdateClienteDto) {
-    const atualizarCliente = this.prisma.cliente.update({
-      where: { id: updateClienteDto.id },
-      data: updateClienteDto,
-    });
-    return atualizarCliente;
+  update(id: number, UpdateClienteDto: UpdateClienteDto) {
+    const cliente = this.prisma.client.update({
+      where: {id},
+      data: UpdateClienteDto,
+    })
+    return cliente;
   }
 
   remove(deleteClienteDto: any) {
-    const deletarCliente = this.prisma.cliente.delete({
+    const deletarCliente = this.prisma.client.delete({
       where: deleteClienteDto,
     });
     return deletarCliente;
