@@ -1,5 +1,4 @@
 export class CreateFotoUsuarioDto {
-  id: number;
-  urlFoto: string;
+  url_foto: string;
   usuarioId: number;
 }

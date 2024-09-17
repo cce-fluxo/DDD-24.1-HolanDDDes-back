@@ -27,12 +27,12 @@ export class FotoUsuarioService {
     return AcharUmaFotoUsuario;
   }
 
-  update(p0: number, updateFotoUsuarioDto: UpdateFotoUsuarioDto) {
-    const AtualizarFotoUsuario = this.prisma.fotoUsuario.update({
-      where: { id: updateFotoUsuarioDto.id },
-      data: updateFotoUsuarioDto,
-    });
-    return AtualizarFotoUsuario;
+  update(id: number, UpdateFotoUsuarioDto: UpdateFotoUsuarioDto) {
+    const fotoUsuario = this.prisma.fotoUsuario.update({
+      where: {id},
+      data: UpdateFotoUsuarioDto,
+    })
+    return fotoUsuario
   }
 
   remove(deleteFotoUsuarioDto: any) {
