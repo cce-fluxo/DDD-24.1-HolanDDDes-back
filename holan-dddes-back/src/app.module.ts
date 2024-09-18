@@ -25,6 +25,7 @@ import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ga
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { AvaliacaoModule } from './avaliacao/avaliacao.module';
 import { PrismaService } from './database/prisma.service';
+import { ComodidadeNoHotelModule } from './comodidade-no-hotel/comodidade-no-hotel.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { PrismaService } from './database/prisma.service';
     GerenciamentoGanhoModule,
     GerenciamentoGanhoAcomodacaoModule,
     AvaliacaoModule,
+    ComodidadeNoHotelModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
