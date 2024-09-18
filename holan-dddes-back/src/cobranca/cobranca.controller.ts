@@ -10,7 +10,9 @@ import {
 import { CobrancaService } from './cobranca.service';
 import { CreateCobrancaDto } from './dto/create-cobranca.dto';
 import { UpdateCobrancaDto } from './dto/update-cobranca.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cobranca')
 @Controller('cobranca')
 export class CobrancaController {
   constructor(private readonly cobrancaService: CobrancaService) {}

@@ -10,7 +10,9 @@ import {
 import { AvaliacaoService } from './avaliacao.service';
 import { CreateAvaliacaoDto } from './dto/create-avaliacao.dto';
 import { UpdateAvaliacaoDto } from './dto/update-avaliacao.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('avaliacao')
 @Controller('avaliacao')
 export class AvaliacaoController {
   constructor(private readonly avaliacaoService: AvaliacaoService) {}

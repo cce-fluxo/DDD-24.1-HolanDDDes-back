@@ -10,7 +10,9 @@ import {
 import { GerenciamentoGanhoAcomodacaoService } from './gerenciamento_ganho_acomodacao.service';
 import { CreateGerenciamentoGanhoAcomodacaoDto } from './dto/create-gerenciamento_ganho_acomodacao.dto';
 import { UpdateGerenciamentoGanhoAcomodacaoDto } from './dto/update-gerenciamento_ganho_acomodacao.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('gerenciamento_ganho_acomodacao')
 @Controller('gerenciamento-ganho-acomodacao')
 export class GerenciamentoGanhoAcomodacaoController {
   constructor(

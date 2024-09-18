@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AssociacaoProprietarioInteresseService } from './associacao_proprietario_interesse.service';
 import { CreateAssociacaoProprietarioInteresseDto } from './dto/create-associacao_proprietario_interesse.dto';
 import { UpdateAssociacaoProprietarioInteresseDto } from './dto/update-associacao_proprietario_interesse.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('associacao_proprietario_interesse')
 @Controller('associacao-proprietario-interesse')
 export class AssociacaoProprietarioInteresseController {
   constructor(private readonly associacaoProprietarioInteresseService: AssociacaoProprietarioInteresseService) {}

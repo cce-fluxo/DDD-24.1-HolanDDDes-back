@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AssociacaoCupomClienteService } from './associacao_cupom_cliente.service';
 import { CreateAssociacaoCupomClienteDto } from './dto/create-associacao_cupom_cliente.dto';
 import { UpdateAssociacaoCupomClienteDto } from './dto/update-associacao_cupom_cliente.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('associacao_cupom_cliente')
 @Controller('associacao-cupom-cliente')
 export class AssociacaoCupomClienteController {
   constructor(private readonly associacaoCupomClienteService: AssociacaoCupomClienteService) {}

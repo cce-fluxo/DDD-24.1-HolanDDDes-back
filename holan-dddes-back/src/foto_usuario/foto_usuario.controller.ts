@@ -10,7 +10,9 @@ import {
 import { FotoUsuarioService } from './foto_usuario.service';
 import { CreateFotoUsuarioDto } from './dto/create-foto_usuario.dto';
 import { UpdateFotoUsuarioDto } from './dto/update-foto_usuario.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("foto_usuario")
 @Controller('foto-usuario')
 export class FotoUsuarioController {
   constructor(private readonly fotoUsuarioService: FotoUsuarioService) {}

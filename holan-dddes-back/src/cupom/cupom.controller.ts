@@ -10,7 +10,9 @@ import {
 import { CupomService } from './cupom.service';
 import { CreateCupomDto } from './dto/create-cupom.dto';
 import { UpdateCupomDto } from './dto/update-cupom.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cupom')
 @Controller('cupom')
 export class CupomController {
   constructor(private readonly cupomService: CupomService) {}

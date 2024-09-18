@@ -10,7 +10,9 @@ import {
 import { tipoAcomodacaosService } from './tipo_acomodacoes.service';
 import { CreatetipoAcomodacaoDto } from './dto/create-tipo_acomodacoe.dto';
 import { UpdatetipoAcomodacaoDto } from './dto/update-tipo_acomodacoe.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('tipo_acomodacoes')
 @Controller('tipo-acomodacoes')
 export class tipoAcomodacaosController {
   constructor(
