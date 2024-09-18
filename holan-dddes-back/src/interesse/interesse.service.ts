@@ -32,10 +32,7 @@ export class InteresseService {
     return interesse
   }
 
-  remove(deleteInteresseDto: any) {
-    const deletarInteresse = this.prisma.interesse.delete({
-      where: deleteInteresseDto,
-    });
-    return deletarInteresse;
+  async remove(id: number) {
+    return await this.prisma.interesse.delete({where: {id}});
   }
 }

@@ -32,10 +32,7 @@ export class FavoritoService {
     return favorito
   }
 
-  remove(deleteFavoritoDto: any) {
-    const DeletarFavorito = this.prisma.favorito.delete({
-      where: deleteFavoritoDto,
-    });
-    return DeletarFavorito;
+  async remove(id: number) {
+    return await this.prisma.favorito.delete({where: {id}});
   }
 }

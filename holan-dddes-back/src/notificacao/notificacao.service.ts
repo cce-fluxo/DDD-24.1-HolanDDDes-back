@@ -32,10 +32,7 @@ export class NotificacaoService {
     return notificacao
   }
 
-  remove(deleteNotificacaoDto: any) {
-    const DeletarNotificacao = this.prisma.notificacao.delete({
-      where: deleteNotificacaoDto,
-    });
-    return DeletarNotificacao;
+  async remove(id: number) {
+    return await this.prisma.notificacao.delete({where: {id}});
   }
 }

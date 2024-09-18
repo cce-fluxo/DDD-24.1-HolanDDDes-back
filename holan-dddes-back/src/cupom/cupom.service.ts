@@ -32,10 +32,7 @@ export class CupomService {
     return cupom;
   }
 
-  remove(deleteCupomDto: any) {
-    const DeletarCupom = this.prisma.cupom.delete({
-      where: deleteCupomDto,
-    });
-    return DeletarCupom;
+  async remove(id: number) {
+    return await this.prisma.cupom.delete({where: {id}});
   }
 }
