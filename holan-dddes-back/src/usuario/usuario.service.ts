@@ -21,25 +21,23 @@ export class UsuarioService {
     return AcharTodosUsuarios;
   }
 
-  findOne(findOneUsuarioDto: any) {
-    const AcharUmUsuario = this.prisma.usuario.findUnique({
-      where: findOneUsuarioDto,
+  async findOne(id: number) {
+    return await this.prisma.usuario.findUnique({
+      where: { id },
     });
-    return AcharUmUsuario;
   }
 
   update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = this.prisma.usuario.update({
-      where: {id},
+      where: { id },
       data: updateUsuarioDto,
-    })
-    return usuario
+    });
+    return usuario;
   }
 
-  remove(deleteUsuarioDto: any) {
-    const DeletarUsuario = this.prisma.usuario.delete({
-      where: deleteUsuarioDto,
+  async remove(id: number) {
+    return await this.prisma.usuario.delete({
+      where: { id },
     });
-    return DeletarUsuario;
   }
 }
