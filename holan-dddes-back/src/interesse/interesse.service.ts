@@ -20,11 +20,8 @@ export class InteresseService {
     return acharTodosInteresses;
   }
 
-  findOne(findOneInteresseDto: any) {
-    const acharUmInteresse = this.prisma.interesse.findUnique({
-      where: findOneInteresseDto,
-    });
-    return acharUmInteresse;
+  async findOne(id: number) {
+    return await this.prisma.interesse.findUnique({where: {id}});
   }
 
   update(id: number, UpdateInteresseDto: UpdateInteresseDto) {
