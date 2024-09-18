@@ -21,7 +21,9 @@ export class AvaliacaoService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.avaliacao.findUnique({where: {id}});
+    return await this.prisma.avaliacao.findUnique({
+      where: {id}
+    });
   }
 
 
@@ -33,10 +35,7 @@ export class AvaliacaoService {
     return avaliacao;
   }
 
-  remove(DeleteAvaliacaoDto: any) {
-    const DeletarAvaliacao = this.prisma.avaliacao.delete({
-      where: DeleteAvaliacaoDto,
-    });
-    return DeletarAvaliacao;
+  async remove(id: number) {
+    return await this.prisma.avaliacao.delete({where: {id}});
   }
 }

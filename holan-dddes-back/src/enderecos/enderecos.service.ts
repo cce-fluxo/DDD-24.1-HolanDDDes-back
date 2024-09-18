@@ -32,10 +32,7 @@ export class EnderecosService {
     return endereco
   }
 
-  remove(deleteEnderecoDto: any) {
-    const DeletarEndereco = this.prisma.endereco.delete({
-      where: deleteEnderecoDto,
-    });
-    return DeletarEndereco;
+  async remove(id: number) {
+    return await this.prisma.endereco.delete({where: {id}});
   }
 }

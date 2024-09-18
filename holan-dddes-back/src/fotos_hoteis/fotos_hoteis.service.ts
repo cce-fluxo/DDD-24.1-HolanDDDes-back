@@ -32,10 +32,7 @@ export class fotosHotelsService {
     return fotosHotel
   }
 
-  remove(deletefotosHotelDto: any) {
-    const deletarfotosHotel = this.prisma.fotosHotel.delete({
-      where: deletefotosHotelDto,
-    });
-    return deletarfotosHotel;
+  async remove(id: number) {
+    return await this.prisma.fotosHotel.delete({where: {id}});
   }
 }

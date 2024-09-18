@@ -10,7 +10,9 @@ import {
 import { AvaliacaoAcomodacoesService } from './avaliacao_acomodacoes.service';
 import { CreateAvaliacaoAcomodacoeDto } from './dto/create-avaliacao_acomodacoe.dto';
 import { UpdateAvaliacaoAcomodacoeDto } from './dto/update-avaliacao_acomodacoe.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('avaliacao_acomodacoes')
 @Controller('avaliacao-acomodacoes')
 export class AvaliacaoAcomodacoesController {
   constructor(

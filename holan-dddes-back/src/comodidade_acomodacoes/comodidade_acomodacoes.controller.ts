@@ -10,7 +10,9 @@ import {
 import { ComodidadeAcomodacoesService } from './comodidade_acomodacoes.service';
 import { CreateComodidadeAcomodacoeDto } from './dto/create-comodidade_acomodacoe.dto';
 import { UpdateComodidadeAcomodacoeDto } from './dto/update-comodidade_acomodacoe.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comodidade_acomodacoes')
 @Controller('comodidade-acomodacoes')
 export class ComodidadeAcomodacoesController {
   constructor(

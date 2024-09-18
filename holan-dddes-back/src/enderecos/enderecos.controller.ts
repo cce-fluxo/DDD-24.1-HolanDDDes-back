@@ -10,7 +10,9 @@ import {
 import { EnderecosService } from './enderecos.service';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("enderecos")
 @Controller('enderecos')
 export class EnderecosController {
   constructor(private readonly enderecosService: EnderecosService) {}

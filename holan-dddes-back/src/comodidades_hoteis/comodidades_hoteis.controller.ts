@@ -10,7 +10,9 @@ import {
 import { comodidadesHotelsService } from './comodidades_hoteis.service';
 import { CreateComodidadesHotelDto } from './dto/create-comodidades_hotei.dto';
 import { UpdateComodidadesHotelDto } from './dto/update-comodidades_hotei.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comodidade_hoteis')
 @Controller('comodidades-hoteis')
 export class ComodidadesHoteisController {
   constructor(

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateComodidadeAcomodacoeDto } from './dto/create-comodidade_acomodacoe.dto';
 import { UpdateComodidadeAcomodacoeDto } from './dto/update-comodidade_acomodacoe.dto';
@@ -21,12 +22,8 @@ export class ComodidadeAcomodacoesService {
     return AcharTodasComodidadesAcomodacoes;
   }
 
-  findOne(findOneComodidadeAcomodacoeDto: any) {
-    const AcharUmaComodidadeAcomodacoe =
-      this.prisma.comodidadeAcomodacao.findUnique({
-        where: findOneComodidadeAcomodacoeDto,
-      });
-    return AcharUmaComodidadeAcomodacoe;
+  async findOne(id: number) {
+    return await this.prisma.comodidadeAcomodacao.findUnique({where: {id}});
   }
 
   update(id: number, UpdateComodidadeAcomodacoeDto: UpdateComodidadeAcomodacoeDto) {

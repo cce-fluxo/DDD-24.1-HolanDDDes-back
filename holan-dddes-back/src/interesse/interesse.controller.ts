@@ -10,7 +10,9 @@ import {
 import { InteresseService } from './interesse.service';
 import { CreateInteresseDto } from './dto/create-interesse.dto';
 import { UpdateInteresseDto } from './dto/update-interesse.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('interesse')
 @Controller('interesse')
 export class InteresseController {
   constructor(private readonly interesseService: InteresseService) {}

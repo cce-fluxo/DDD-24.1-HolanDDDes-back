@@ -10,7 +10,9 @@ import {
 import { AcomodacoesService } from './acomodacoes.service';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('acomodacoes')
 @Controller('acomodacoes')
 export class AcomodacoesController {
   constructor(private readonly acomodacoesService: AcomodacoesService) {}
