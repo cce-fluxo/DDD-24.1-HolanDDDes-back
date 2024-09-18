@@ -33,7 +33,6 @@ export class FotoUsuarioService {
   }
 
   async remove(id: number) {
-    
     return await this.prisma.fotoUsuario.delete({where: {id}});
   }
 }

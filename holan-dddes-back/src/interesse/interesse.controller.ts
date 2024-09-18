@@ -26,13 +26,13 @@ export class InteresseController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.interesseService.findOne(+id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateInteresseDto: UpdateInteresseDto,
   ) {
     return this.interesseService.update(+id, updateInteresseDto);
