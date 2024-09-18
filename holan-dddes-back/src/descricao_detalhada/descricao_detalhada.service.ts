@@ -33,10 +33,7 @@ export class DescricaoDetalhadaService {
     return descricaoDetalhada
   }
 
-  remove(deleteDescricaoDetalhadaDto: any) {
-    const DeletarDescricaoDetalhada = this.prisma.descricao_detalhada.delete({
-      where: deleteDescricaoDetalhadaDto,
-    });
-    return DeletarDescricaoDetalhada;
+  async remove(id: number) {
+    return await this.prisma.descricao_detalhada.delete({where: {id}});
   }
 }

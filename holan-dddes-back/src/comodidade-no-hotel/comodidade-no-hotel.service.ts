@@ -34,12 +34,7 @@ export class ComodidadeNoHotelService {
     return comodidadeNoHotel;
   }
 
-  remove(deleteComodidadeNoHotelDto: any) {
-    const DeletarComodidadeNoHotel = this.prisma.comodidadeNoHotel.delete(
-      {
-      where: deleteComodidadeNoHotelDto,
-      },
-    );
-    return DeletarComodidadeNoHotel;
+  async remove(id: number) {
+    return await this.prisma.comodidadeNoHotel.delete({where: {id}});
   }
 }

@@ -32,10 +32,7 @@ export class hotelsService {
     return hotel
   }
 
-  remove(deletehotelDto: any) {
-    const Deletarhotel = this.prisma.hotel.delete({
-      where: deletehotelDto,
-    });
-    return Deletarhotel;
+  async remove(id: number) {
+    return await this.prisma.hotel.delete({where: {id}});
   }
 }
