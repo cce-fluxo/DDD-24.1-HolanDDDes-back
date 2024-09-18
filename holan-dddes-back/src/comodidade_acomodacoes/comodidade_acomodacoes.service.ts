@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateComodidadeAcomodacoeDto } from './dto/create-comodidade_acomodacoe.dto';
 import { UpdateComodidadeAcomodacoeDto } from './dto/update-comodidade_acomodacoe.dto';

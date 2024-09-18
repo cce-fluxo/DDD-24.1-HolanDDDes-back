@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateComodidadeNoHotelDto } from './dto/create-comodidade_no_hotel.dto';
 import { UpdateComodidadeNoHotelDto } from './dto/update-comodidade_no_hotel.dto';
@@ -29,7 +30,7 @@ export class ComodidadeNoHotelService {
 
   update(id: number, updateComodidadeNoHotelDto: UpdateComodidadeNoHotelDto) {
     const comodidadeNoHotel = this.prisma.comodidadeNoHotel.update({
-      where: {id},
+      where: { id },
       data: updateComodidadeNoHotelDto,
     })
     return comodidadeNoHotel;
