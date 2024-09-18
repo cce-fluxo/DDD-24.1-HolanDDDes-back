@@ -13,8 +13,8 @@ export class AssociacaoProprietarioInteresseController {
   }
 
   @Get()
-  findAll() {
-    return this.associacaoProprietarioInteresseService.findAll();
+  findAll(findAllAssociacaoDto?: any) {
+    return this.associacaoProprietarioInteresseService.findAll(findAllAssociacaoDto);
   }
 
   @Get(':id')

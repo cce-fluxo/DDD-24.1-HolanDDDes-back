@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssociacaoProprietarioInteresseDto } from './dto/create-associacao_proprietario_interesse.dto';
 import { UpdateAssociacaoProprietarioInteresseDto } from './dto/update-associacao_proprietario_interesse.dto';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class AssociacaoProprietarioInteresseService {
+  constructor(private prisma: PrismaService) {}
   create(createAssociacaoProprietarioInteresseDto: CreateAssociacaoProprietarioInteresseDto) {
-    return 'This action adds a new associacaoProprietarioInteresse';
+    return this.prisma.proprietarioNoInteresse.create({
+        data: createAssociacaoProprietarioInteresseDto,
+      });
   }
 
-  findAll() {
-    return `This action returns all associacaoProprietarioInteresse`;
+  findAll(findAllAssociacaoDto: any) {
+    return this.prisma.proprietarioNoInteresse.findMany({
+        where: findAllAssociacaoDto,
+      });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} associacaoProprietarioInteresse`;
+    return this.prisma.proprietarioNoInteresse.findUnique({
+      where: {id},
+    });
   }
 
   update(id: number, updateAssociacaoProprietarioInteresseDto: UpdateAssociacaoProprietarioInteresseDto) {
-    return `This action updates a #${id} associacaoProprietarioInteresse`;
+    return this.prisma.proprietarioNoInteresse.update({
+      where: {id},
+      data: updateAssociacaoProprietarioInteresseDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} associacaoProprietarioInteresse`;
+    return this.prisma.proprietarioNoInteresse.delete({
+      where: {id},
+    });
   }
 }
+
