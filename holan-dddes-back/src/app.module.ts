@@ -25,6 +25,9 @@ import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ga
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { AvaliacaoModule } from './avaliacao/avaliacao.module';
 import { PrismaService } from './database/prisma.service';
+import { AssociacaoCupomClienteModule } from './associacao_cupom_cliente/associacao_cupom_cliente.module';
+import { AssociacaoCupomHotelModule } from './associacao_cupom_hotel/associacao_cupom_hotel.module';
+import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario_interesse/associacao_proprietario_interesse.module';
 
 @Module({
   imports: [
@@ -51,6 +54,9 @@ import { PrismaService } from './database/prisma.service';
     GerenciamentoGanhoModule,
     GerenciamentoGanhoAcomodacaoModule,
     AvaliacaoModule,
+    AssociacaoCupomClienteModule,
+    AssociacaoCupomHotelModule,
+    AssociacaoProprietarioInteresseModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
