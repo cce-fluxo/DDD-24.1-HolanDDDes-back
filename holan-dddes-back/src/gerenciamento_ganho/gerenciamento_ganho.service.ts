@@ -21,27 +21,22 @@ export class GerenciamentoGanhoService {
     return acharTodasGerenciamentoGanhos;
   }
 
-  findOne(findOneGerenciamentoGanhoDto: any) {
-    const acharUmGerenciamentoGanho = this.prisma.gerenciamento_ganhos.findUnique(
-      {
-        where: findOneGerenciamentoGanhoDto,
-      },
-    );
-    return acharUmGerenciamentoGanho;
+  async findOne(id: number) {
+    return await this.prisma.gerenciamento_ganhos.findUnique({
+      where: { id },
+    });
   }
-
   update(id: number, UpdateGerenciamentoGanhoDto: UpdateGerenciamentoGanhoDto) {
     const gerenciamentoGanho = this.prisma.gerenciamento_ganhos.update({
-      where: {id},
+      where: { id },
       data: UpdateGerenciamentoGanhoDto,
-    })
-    return gerenciamentoGanho
+    });
+    return gerenciamentoGanho;
   }
 
-  remove(deleteGerenciamentoGanhoDto: any) {
-    const deletarGerenciamentoGanho = this.prisma.gerenciamento_ganhos.delete({
-      where: deleteGerenciamentoGanhoDto,
+  async remove(id: number) {
+    return await this.prisma.gerenciamento_ganhos.delete({
+      where: { id },
     });
-    return deletarGerenciamentoGanho;
   }
 }

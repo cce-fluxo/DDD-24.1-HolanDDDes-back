@@ -24,27 +24,26 @@ export class GerenciamentoGanhoAcomodacaoService {
     return acharTodasGerenciamentoGanhoAcomodacoes;
   }
 
-  findOne(findOneGerenciamentoGanhoAcomodacaoDto: any) {
-    const acharUmaGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamento_ganhos_acomodacao.findUnique({
-        where: findOneGerenciamentoGanhoAcomodacaoDto,
-      });
-    return acharUmaGerenciamentoGanhoAcomodacao;
+  async findOne(id: number) {
+    return await this.prisma.gerenciamento_ganhos_acomodacao.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, UpdateGerenciamentoGanhoAcomodacaoDto: UpdateGerenciamentoGanhoAcomodacaoDto) {
+  update(
+    id: number,
+    UpdateGerenciamentoGanhoAcomodacaoDto: UpdateGerenciamentoGanhoAcomodacaoDto,
+  ) {
     const gerenciamento = this.prisma.gerenciamento_ganhos_acomodacao.update({
-      where: {id},
+      where: { id },
       data: UpdateGerenciamentoGanhoAcomodacaoDto,
-    })
-    return gerenciamento
+    });
+    return gerenciamento;
   }
 
-  remove(deleteGerenciamentoGanhoAcomodacaoDto: any) {
-    const deletarGerenciamentoGanhoAcomodacao =
-      this.prisma.gerenciamento_ganhos_acomodacao.delete({
-        where: deleteGerenciamentoGanhoAcomodacaoDto,
-      });
-    return deletarGerenciamentoGanhoAcomodacao;
+  async remove(id: number) {
+    return await this.prisma.gerenciamento_ganhos_acomodacao.delete({
+      where: { id },
+    });
   }
 }

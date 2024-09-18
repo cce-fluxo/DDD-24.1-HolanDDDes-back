@@ -20,25 +20,23 @@ export class CobrancaService {
     return AcharTodasCobrancas;
   }
 
-  findOne(findOneCobrancaDto: any) {
-    const AcharUmaCobranca = this.prisma.cobranca.findUnique({
-      where: findOneCobrancaDto,
+  async findOne(id: number) {
+    return await this.prisma.cobranca.findUnique({
+      where: { id },
     });
-    return AcharUmaCobranca;
   }
 
   update(id: number, UpdateCobrancaDto: UpdateCobrancaDto) {
     const cobranca = this.prisma.cobranca.update({
-      where: {id},
+      where: { id },
       data: UpdateCobrancaDto,
-    })
-    return cobranca
+    });
+    return cobranca;
   }
 
-  remove(deleteCobrancaDto: any) {
-    const DeletarCobranca = this.prisma.cobranca.delete({
-      where: deleteCobrancaDto,
+  async remove(id: number) {
+    return await this.prisma.client.delete({
+      where: { id },
     });
-    return DeletarCobranca;
   }
 }

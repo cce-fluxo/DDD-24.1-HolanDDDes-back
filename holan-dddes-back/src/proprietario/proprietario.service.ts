@@ -20,25 +20,23 @@ export class ProprietarioService {
     return AcharTodasProprietarios;
   }
 
-  findOne(findOneProprietarioDto: any) {
-    const AcharUmProprietario = this.prisma.proprietario.findUnique({
-      where: findOneProprietarioDto,
+  async findOne(id: number) {
+    return await this.prisma.client.findUnique({
+      where: { id },
     });
-    return AcharUmProprietario;
   }
 
   update(id: number, UpdateProprietarioDto: UpdateProprietarioDto) {
     const proprietario = this.prisma.proprietario.update({
-      where: {id},
+      where: { id },
       data: UpdateProprietarioDto,
-    })
-    return proprietario
+    });
+    return proprietario;
   }
 
-  remove(deleteProprietarioDto: any) {
-    const DeletarProprietario = this.prisma.proprietario.delete({
-      where: deleteProprietarioDto,
+  async remove(id: number) {
+    return await this.prisma.proprietario.delete({
+      where: { id },
     });
-    return DeletarProprietario;
   }
 }
