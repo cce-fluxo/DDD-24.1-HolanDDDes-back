@@ -20,11 +20,8 @@ export class NotificacaoService {
     return AcharTodasNotificacoes;
   }
 
-  findOne(findOneNotificacaoDto: any) {
-    const AcharUmaNotificacao = this.prisma.notificacao.findUnique({
-      where: findOneNotificacaoDto,
-    });
-    return AcharUmaNotificacao;
+  async findOne(id: number) {
+    return await this.prisma.notificacao.findUnique({where: {id}});
   }
 
   update(id: number, UpdateNotificacaoDto: UpdateNotificacaoDto) {
