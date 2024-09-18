@@ -22,15 +22,13 @@ export class ComodidadeNoHotelService {
     return AcharTodasComodidadesNoHotel;
   }
 
-  findOne(findOneComodidadeNoHotelDto: any) {
-    const AcharUmaComodidadeNoHotel = this.prisma.comodidadeNoHotel.findUnique({
-      where: findOneComodidadeNoHotelDto,});
-    return AcharUmaComodidadeNoHotel;
+  async findOne(id: number) {
+    return await this.prisma.comodidadeHotel.findUnique({where: {id}});
   }
 
   update(id: number, updateComodidadeNoHotelDto: UpdateComodidadeNoHotelDto) {
     const comodidadeNoHotel = this.prisma.comodidadeNoHotel.update({
-      where: { id },
+      where: { id: id },
       data: updateComodidadeNoHotelDto,
     })
     return comodidadeNoHotel;
