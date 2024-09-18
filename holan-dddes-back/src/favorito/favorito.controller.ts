@@ -26,20 +26,20 @@ export class FavoritoController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.favoritoService.findOne(+id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateFavoritoDto: UpdateFavoritoDto,
   ) {
     return this.favoritoService.update(+id, updateFavoritoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.favoritoService.remove(+id);
   }
 }

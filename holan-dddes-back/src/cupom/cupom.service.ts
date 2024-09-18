@@ -20,11 +20,8 @@ export class CupomService {
     return AcharTodosCupons;
   }
 
-  findOne(findOneCupomDto: any) {
-    const AcharUmCupom = this.prisma.cupom.findUnique({
-      where: findOneCupomDto,
-    });
-    return AcharUmCupom;
+  async findOne(id: number) {
+    return await this.prisma.cupom.findUnique({where: {id}});
   }
 
   update(id: number, UpdateCupomDto: UpdateCupomDto) {

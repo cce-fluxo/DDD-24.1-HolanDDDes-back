@@ -20,11 +20,8 @@ export class FavoritoService {
     return AcharTodosFavoritos;
   }
 
-  findOne(findOneFavoritoDto: any) {
-    const AcharUmFavorito = this.prisma.favorito.findUnique({
-      where: findOneFavoritoDto,
-    });
-    return AcharUmFavorito;
+  async findOne(id: number) {
+    return await this.prisma.favorito.findUnique({where: {id}});
   }
 
   update(id: number, UpdateFavoritoDto: UpdateFavoritoDto) {

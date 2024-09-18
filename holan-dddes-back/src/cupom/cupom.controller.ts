@@ -26,17 +26,17 @@ export class CupomController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.cupomService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCupomDto: UpdateCupomDto) {
+  update(@Param('id') id: number, @Body() updateCupomDto: UpdateCupomDto) {
     return this.cupomService.update(+id, updateCupomDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.cupomService.remove(+id);
   }
 }
