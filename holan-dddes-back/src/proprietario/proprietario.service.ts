@@ -21,7 +21,7 @@ export class ProprietarioService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.client.findUnique({
+    return await this.prisma.proprietario.findUnique({
       where: { id },
     });
   }
