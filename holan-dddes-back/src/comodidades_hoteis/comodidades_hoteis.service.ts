@@ -20,11 +20,8 @@ export class comodidadesHotelsService {
     return acharTodascomodidadesHotels;
   }
 
-  findOne(findOnecomodidadesHotelDto: any) {
-    const acharUmacomodidadesHotel = this.prisma.comodidadeHotel.findUnique({
-      where: findOnecomodidadesHotelDto,
-    });
-    return acharUmacomodidadesHotel;
+  async findOne(id: number) {
+    return await this.prisma.comodidadeHotel.findUnique({where: {id}});
   }
 
   update(id: number, UpdateComodidadesHotelDto: UpdateComodidadesHotelDto) {

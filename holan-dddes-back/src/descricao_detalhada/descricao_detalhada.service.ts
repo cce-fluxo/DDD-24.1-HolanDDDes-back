@@ -21,12 +21,8 @@ export class DescricaoDetalhadaService {
     return AcharTodasDescricaoDetalhadas;
   }
 
-  findOne(findOneDescricaoDetalhadaDto: any) {
-    const AcharUmaDescricaoDetalhada =
-      this.prisma.descricao_detalhada.findUnique({
-        where: findOneDescricaoDetalhadaDto,
-      });
-    return AcharUmaDescricaoDetalhada;
+  async findOne(id: number) {
+    return await this.prisma.descricao_detalhada.findUnique({where: {id}});
   }
 
   update(id: number, UpdateDescricaoDetalhadaDto: UpdateDescricaoDetalhadaDto) {

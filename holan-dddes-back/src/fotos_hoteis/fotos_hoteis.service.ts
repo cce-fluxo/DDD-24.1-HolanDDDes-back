@@ -20,11 +20,8 @@ export class fotosHotelsService {
     return acharTodasfotosHotels;
   }
 
-  findOne(findOnefotosHotelDto: any) {
-    const acharUmafotosHotel = this.prisma.fotosHotel.findUnique({
-      where: findOnefotosHotelDto,
-    });
-    return acharUmafotosHotel;
+  async findOne(id: number) {
+    return await this.prisma.fotosHotel.findUnique({where: {id}});
   }
 
   update(id: number, UpdatefotosHotelDto: UpdatefotosHotelDto) {

@@ -20,12 +20,10 @@ export class AvaliacaoService {
     return BuscarAvaliacao;
   }
 
-  findOne(findOneAvaliacaoDto: any) {
-    const BuscarAvaliacao = this.prisma.avaliacao.findUnique({
-      where: findOneAvaliacaoDto,
-    });
-    return BuscarAvaliacao;
+  async findOne(id: number) {
+    return await this.prisma.avaliacao.findUnique({where: {id}});
   }
+
 
   update(id: number, UpdateAvaliacaoDto: UpdateAvaliacaoDto) {
     const avaliacao = this.prisma.avaliacao.update({

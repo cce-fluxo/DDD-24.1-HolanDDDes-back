@@ -20,11 +20,8 @@ export class EnderecosService {
     return AcharTodosEnderecos;
   }
 
-  findOne(findOneEnderecoDto: any) {
-    const AcharUmEndereco = this.prisma.endereco.findUnique({
-      where: findOneEnderecoDto,
-    });
-    return AcharUmEndereco;
+  async findOne(id: number) {
+    return await this.prisma.endereco.findUnique({where: {id}});
   }
 
   update(id: number, UpdateEnderecoDto: UpdateEnderecoDto) {
