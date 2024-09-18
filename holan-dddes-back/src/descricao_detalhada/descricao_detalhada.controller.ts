@@ -10,7 +10,9 @@ import {
 import { DescricaoDetalhadaService } from './descricao_detalhada.service';
 import { CreateDescricaoDetalhadaDto } from './dto/create-descricao_detalhada.dto';
 import { UpdateDescricaoDetalhadaDto } from './dto/update-descricao_detalhada.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('descricao_detalhada')
 @Controller('descricao-detalhada')
 export class DescricaoDetalhadaController {
   constructor(

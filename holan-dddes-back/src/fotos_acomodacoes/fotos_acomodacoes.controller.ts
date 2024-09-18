@@ -10,7 +10,9 @@ import {
 import { FotosAcomodacoesService } from './fotos_acomodacoes.service';
 import { CreateFotosAcomodacaoDto } from './dto/create-fotos_acomodacoe.dto';
 import { UpdateFotosAcomodacaoDto } from './dto/update-fotos_acomodacoe.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('fotos_acomodacoes')
 @Controller('fotos-acomodacoes')
 export class FotosAcomodacoesController {
   constructor(

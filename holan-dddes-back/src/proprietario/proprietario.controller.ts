@@ -10,7 +10,9 @@ import {
 import { ProprietarioService } from './proprietario.service';
 import { CreateProprietarioDto } from './dto/create-proprietario.dto';
 import { UpdateProprietarioDto } from './dto/update-proprietario.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('proprietario')
 @Controller('proprietario')
 export class ProprietarioController {
   constructor(private readonly proprietarioService: ProprietarioService) {}

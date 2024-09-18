@@ -10,7 +10,9 @@ import {
 import { fotosHotelsService } from './fotos_hoteis.service';
 import { CreatefotosHotelDto } from './dto/create-fotos_hotei.dto';
 import { UpdatefotosHotelDto } from './dto/update-fotos_hotei.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('fotos_hoteis')
 @Controller('fotos-hoteis')
 export class fotosHotelsController {
   constructor(private readonly fotosHotelsService: fotosHotelsService) {}

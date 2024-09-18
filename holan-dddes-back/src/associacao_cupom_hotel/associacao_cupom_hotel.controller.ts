@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AssociacaoCupomHotelService } from './associacao_cupom_hotel.service';
 import { CreateAssociacaoCupomHotelDto } from './dto/create-associacao_cupom_hotel.dto';
 import { UpdateAssociacaoCupomHotelDto } from './dto/update-associacao_cupom_hotel.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('associacao_cupom_hotel')
 @Controller('associacao-cupom-hotel')
 export class AssociacaoCupomHotelController {
   constructor(private readonly associacaoCupomHotelService: AssociacaoCupomHotelService) {}
