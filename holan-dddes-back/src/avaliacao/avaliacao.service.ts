@@ -21,7 +21,9 @@ export class AvaliacaoService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.avaliacao.findUnique({where: {id}});
+    return await this.prisma.avaliacao.findUnique({
+      where: {id}
+    });
   }
 
 

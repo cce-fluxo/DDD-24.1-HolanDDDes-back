@@ -18,17 +18,17 @@ export class AssociacaoCupomHotelController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.associacaoCupomHotelService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssociacaoCupomHotelDto: UpdateAssociacaoCupomHotelDto) {
+  update(@Param('id') id: number, @Body() updateAssociacaoCupomHotelDto: UpdateAssociacaoCupomHotelDto) {
     return this.associacaoCupomHotelService.update(+id, updateAssociacaoCupomHotelDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.associacaoCupomHotelService.remove(+id);
   }
 }

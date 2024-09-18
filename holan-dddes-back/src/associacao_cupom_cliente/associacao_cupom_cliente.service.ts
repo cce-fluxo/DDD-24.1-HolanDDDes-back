@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAssociacaoCupomClienteDto } from './dto/create-associacao_cupom_cliente.dto';
 import { UpdateAssociacaoCupomClienteDto } from './dto/update-associacao_cupom_cliente.dto';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class AssociacaoCupomClienteService {
-  create(createAssociacaoCupomClienteDto: CreateAssociacaoCupomClienteDto) {
-    return 'This action adds a new associacaoCupomCliente';
+  constructor(private prisma: PrismaService) {}
+  create(ceateAssociacaoCupomClienteDto: CreateAssociacaoCupomClienteDto) {
+    return this.prisma.clienteNoCupom.create({
+        data: ceateAssociacaoCupomClienteDto,
+      });
   }
 
-  findAll() {
-    return `This action returns all associacaoCupomCliente`;
+  findAll(findAllAssociacaoDto: any) {
+    return this.prisma.clienteNoCupom.findMany({
+        where: findAllAssociacaoDto,
+      });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} associacaoCupomCliente`;
+    return this.prisma.clienteNoCupom.findUnique({
+      where: {id},
+    });
   }
 
   update(id: number, updateAssociacaoCupomClienteDto: UpdateAssociacaoCupomClienteDto) {
-    return `This action updates a #${id} associacaoCupomCliente`;
+    return this.prisma.clienteNoCupom.update({
+      where: {id},
+      data: updateAssociacaoCupomClienteDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} associacaoCupomCliente`;
+    return this.prisma.clienteNoCupom.delete({
+      where: {id},
+    });
   }
 }

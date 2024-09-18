@@ -13,22 +13,22 @@ export class AssociacaoCupomClienteController {
   }
 
   @Get()
-  findAll() {
-    return this.associacaoCupomClienteService.findAll();
+  findAll(findAllAssociacaoDto?: any) {
+    return this.associacaoCupomClienteService.findAll(findAllAssociacaoDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.associacaoCupomClienteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssociacaoCupomClienteDto: UpdateAssociacaoCupomClienteDto) {
+  update(@Param('id') id: number, @Body() updateAssociacaoCupomClienteDto: UpdateAssociacaoCupomClienteDto) {
     return this.associacaoCupomClienteService.update(+id, updateAssociacaoCupomClienteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.associacaoCupomClienteService.remove(+id);
   }
 }
