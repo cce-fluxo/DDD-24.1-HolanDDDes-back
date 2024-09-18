@@ -1,1 +1,4 @@
-export class CreateAssociacaoProprietarioInteresseDto {}
+export class CreateAssociacaoProprietarioInteresseDto {
+    proprietarioId: number;
+    interesseId: number;
+}

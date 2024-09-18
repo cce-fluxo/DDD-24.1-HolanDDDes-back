@@ -1,1 +1,4 @@
-export class CreateAssociacaoCupomClienteDto {}
+export class CreateAssociacaoCupomClienteDto {
+    clienteId: number;
+    cupomId: number;
+}
