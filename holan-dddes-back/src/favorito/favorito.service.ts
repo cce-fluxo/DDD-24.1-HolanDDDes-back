@@ -20,11 +20,8 @@ export class FavoritoService {
     return AcharTodosFavoritos;
   }
 
-  findOne(findOneFavoritoDto: any) {
-    const AcharUmFavorito = this.prisma.favorito.findUnique({
-      where: findOneFavoritoDto,
-    });
-    return AcharUmFavorito;
+  async findOne(id: number) {
+    return await this.prisma.favorito.findUnique({where: {id}});
   }
 
   update(id: number, UpdateFavoritoDto: UpdateFavoritoDto) {
@@ -35,10 +32,7 @@ export class FavoritoService {
     return favorito
   }
 
-  remove(deleteFavoritoDto: any) {
-    const DeletarFavorito = this.prisma.favorito.delete({
-      where: deleteFavoritoDto,
-    });
-    return DeletarFavorito;
+  async remove(id: number) {
+    return await this.prisma.favorito.delete({where: {id}});
   }
 }

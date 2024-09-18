@@ -20,11 +20,8 @@ export class NotificacaoService {
     return AcharTodasNotificacoes;
   }
 
-  findOne(findOneNotificacaoDto: any) {
-    const AcharUmaNotificacao = this.prisma.notificacao.findUnique({
-      where: findOneNotificacaoDto,
-    });
-    return AcharUmaNotificacao;
+  async findOne(id: number) {
+    return await this.prisma.notificacao.findUnique({where: {id}});
   }
 
   update(id: number, UpdateNotificacaoDto: UpdateNotificacaoDto) {
@@ -35,10 +32,7 @@ export class NotificacaoService {
     return notificacao
   }
 
-  remove(deleteNotificacaoDto: any) {
-    const DeletarNotificacao = this.prisma.notificacao.delete({
-      where: deleteNotificacaoDto,
-    });
-    return DeletarNotificacao;
+  async remove(id: number) {
+    return await this.prisma.notificacao.delete({where: {id}});
   }
 }

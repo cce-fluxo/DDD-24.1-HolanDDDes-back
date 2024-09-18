@@ -226,12 +226,11 @@ model Interesse {
 }
 
 model ProprietarioNoInteresse {
+  id             Int          @id @default(autoincrement())
   proprietarioId Int
   interesseId    Int
   interesse      Interesse    @relation(fields: [interesseId], references: [id])
   proprietario   Proprietario @relation(fields: [proprietarioId], references: [id])
-
-  @@id([proprietarioId, interesseId])
 }
 
 model Cupom {
@@ -248,12 +247,11 @@ model Cupom {
 }
 
 model ClienteNoCupom {
+  id        Int    @id @default(autoincrement())
   clienteId Int
   cupomId   Int
   cliente   Client @relation(fields: [clienteId], references: [id])
   cupom     Cupom  @relation(fields: [cupomId], references: [id])
-
-  @@id([clienteId, cupomId])
 }
 
 model Favorito {
@@ -271,12 +269,11 @@ model ComodidadeAcomodacao {
 }
 
 model ComodidadeNaAcomodacao {
+  id           Int                  @id @default(autoincrement())
   acomodacaoId Int
   comodidadeId Int
   acomodacao   Acomodacao           @relation(fields: [acomodacaoId], references: [id])
   comodidade   ComodidadeAcomodacao @relation(fields: [comodidadeId], references: [id])
-
-  @@id([acomodacaoId, comodidadeId])
 }
 
 model ComodidadeHotel {
@@ -286,19 +283,17 @@ model ComodidadeHotel {
 }
 
 model ComodidadeNoHotel {
+  id           Int             @id @default(autoincrement())
   hotelId      Int
   comodidadeId Int
   comodidade   ComodidadeHotel @relation(fields: [comodidadeId], references: [id])
   hotel        Hotel           @relation(fields: [hotelId], references: [id])
-
-  @@id([hotelId, comodidadeId])
 }
 
 model CupomNoHotel {
+  id      Int   @id @default(autoincrement())
   hotelId Int
   cupomId Int
   hotel   Hotel @relation(fields: [hotelId], references: [id])
   cupom   Cupom @relation(fields: [cupomId], references: [id])
-
-  @@id([hotelId, cupomId])
 }
