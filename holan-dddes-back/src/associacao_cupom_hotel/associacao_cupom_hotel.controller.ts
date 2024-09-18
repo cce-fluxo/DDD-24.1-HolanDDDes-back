@@ -13,8 +13,8 @@ export class AssociacaoCupomHotelController {
   }
 
   @Get()
-  findAll() {
-    return this.associacaoCupomHotelService.findAll();
+  findAll(findAllAssociacaoDto?: any) {
+    return this.associacaoCupomHotelService.findAll(findAllAssociacaoDto);
   }
 
   @Get(':id')
