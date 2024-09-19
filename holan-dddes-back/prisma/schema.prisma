@@ -37,7 +37,7 @@ model Hotel {
   enderecoId          Int
   Acomodacao          Acomodacao[]
   Avaliacao           Avaliacao[]
-  ComodidadeNoHotel   ComodidadeNoHotel[]
+  Comodidade          ComodidadeHotel[]   @relation("_HotelToComodidade")
   Descricao_detalhada Descricao_detalhada?
   Favorito            Favorito[]
   FotosHotel          FotosHotel[]
@@ -278,15 +278,7 @@ model ComodidadeNaAcomodacao {
 model ComodidadeHotel {
   id    Int                 @id @default(autoincrement())
   nome  String
-  Hotel ComodidadeNoHotel[]
-}
-
-model ComodidadeNoHotel {
-  id           Int             @id @default(autoincrement())
-  hotelId      Int
-  comodidadeId Int
-  comodidade   ComodidadeHotel @relation(fields: [comodidadeId], references: [id])
-  hotel        Hotel           @relation(fields: [hotelId], references: [id])
+  Hotel Hotel[]             @relation("_HotelToComodidade")
 }
 
 model CupomNoHotel {

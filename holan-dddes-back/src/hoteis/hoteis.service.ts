@@ -44,11 +44,25 @@ export class hotelsService {
     })
   }
 
-  findComodidade(id:number) {
-    return this.prisma.hotel.findMany({
-      where: {id},
-      select: {ComodidadeNoHotel: true},
-    })
+  // Método para buscar comodidades de um hotel
+  async getComodidadesByHotel(hotelId: number) {
+    return await this.prisma.hotel.findUnique({
+      where: {id: hotelId},
+      select: { Comodidade: true },
+    });
+  }
+
+  //Método para criar uma comodidade em um hotel
+  async createComodidadeHotel(hotelId: number, createComodidadeDto: any) {
+    const { comodidadeId } = createComodidadeDto;
+    return await this.prisma.hotel.update({
+      where: { id: hotelId },
+      data: {
+        Comodidade: {
+          connect: { id: comodidadeId },
+        },
+      },
+    });
   }
 
   findFoto(id:number) {

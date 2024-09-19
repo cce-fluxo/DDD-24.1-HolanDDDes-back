@@ -79,8 +79,18 @@ export class HoteisController {
     summary: 'Busca as comodidades de um hotel',
     description: 'Busca as comodidades de um hotel já especificado com base no id fornecido',
   })
-  findComodidades(@Param('id') id: string) {
-    return this.hotelsService.findComodidade(+id);
+  getComodidades(@Param('id') id: number) {
+    return this.hotelsService.getComodidadesByHotel(+id);
+  }
+
+  //Rota específica para associar uma comodidade a um hotel
+  @Post(':id/comodidade')
+  @ApiOperation({
+    summary: 'Cria uma comodidade para um hotel',
+    description: 'Cria uma comodidade e associa a um hotel já especificado com base no id fornecido',
+  })
+  createComodidade(@Param('id') id: number, @Body() createComodidadeDto: any) {
+    return this.hotelsService.createComodidadeHotel(+id, createComodidadeDto);
   }
 
   //Rota específica para buscar as fotos de um hotel já especificado

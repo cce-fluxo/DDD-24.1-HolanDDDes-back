@@ -26,7 +26,6 @@ import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ga
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { AvaliacaoModule } from './avaliacao/avaliacao.module';
 import { PrismaService } from './database/prisma.service';
-import { ComodidadeNoHotelModule } from './comodidade-no-hotel/comodidade-no-hotel.module';
 import { AssociacaoCupomClienteModule } from './associacao_cupom_cliente/associacao_cupom_cliente.module';
 import { AssociacaoCupomHotelModule } from './associacao_cupom_hotel/associacao_cupom_hotel.module';
 import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario_interesse/associacao_proprietario_interesse.module';
@@ -61,7 +60,6 @@ import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario
     AssociacaoCupomClienteModule,
     AssociacaoCupomHotelModule,
     AssociacaoProprietarioInteresseModule,
-    ComodidadeNoHotelModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
