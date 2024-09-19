@@ -37,5 +37,31 @@ export class hotelsService {
     return await this.prisma.hotel.delete({where: {id}});
   }
 
-  
+  findAcomodacoes(id: number) {
+    return this.prisma.hotel.findMany({
+      where: {id},
+      select: {Acomodacao: true},
+    })
+  }
+
+  findComodidade(id:number) {
+    return this.prisma.hotel.findMany({
+      where: {id},
+      select: {ComodidadeNoHotel: true},
+    })
+  }
+
+  findFoto(id:number) {
+    return this.prisma.hotel.findMany({
+      where: {id},
+      select: {FotosHotel: true},
+    })
+  }
+
+  findAvaliacoes(id:number) {
+    return this.prisma.hotel.findMany({
+      where: {id},
+      select: {Avaliacao: true},
+    })
+  }
 }

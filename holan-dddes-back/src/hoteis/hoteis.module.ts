@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { hotelsService } from './hoteis.service';
 import { HoteisController } from './hoteis.controller';
