@@ -86,11 +86,11 @@ export class HoteisController {
   //Rota específica para associar uma comodidade a um hotel
   @Post(':id/comodidade')
   @ApiOperation({
-    summary: 'Cria uma comodidade para um hotel',
-    description: 'Cria uma comodidade e associa a um hotel já especificado com base no id fornecido',
+    summary: 'Conecta uma comodidade a um hotel',
+    description: 'Associa a um hotel já especificado com base no id fornecido',
   })
-  createComodidade(@Param('id') id: number, @Body() createComodidadeDto: any) {
-    return this.hotelsService.createComodidadeHotel(+id, createComodidadeDto);
+  createComodidade(@Param('id') id: string, @Body('comodidadeId') comodidadeId: string) {
+    return this.hotelsService.createComodidadeHotel(+id, +comodidadeId);
   }
 
   //Rota específica para buscar as fotos de um hotel já especificado
