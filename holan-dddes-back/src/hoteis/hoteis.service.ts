@@ -64,6 +64,30 @@ export class hotelsService {
     });
   }
 
+  //Método para resgatar uma comodidade específica de um hotel
+  async findComodidade(hotelId: number, comodidadeId: number) {
+    return await this.prisma.hotel.findUnique({
+      where: { id: hotelId },
+      select: {
+        Comodidade: {
+          where: { id: comodidadeId },
+        },
+      },
+    });
+  }
+
+  //Método para remover uma comodidade de um hotel
+  async removeComodidade(hotelId: number, comodidadeId: number) {
+    return await this.prisma.hotel.update({
+      where: { id: hotelId },
+      data: {
+        Comodidade: {
+          disconnect: { id: comodidadeId },
+        },
+      },
+    });
+  }
+
   findFoto(id:number) {
     return this.prisma.hotel.findMany({
       where: {id},
