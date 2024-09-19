@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
+  //https://docs.nestjs.com/security/cors
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
@@ -10,6 +12,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
 
+  //https://docs.nestjs.com/openapi/introduction
   const config = new DocumentBuilder()
     .setTitle('Documentação com Swagger - Fábrica de Sinapse')
     .setDescription(
