@@ -31,7 +31,6 @@ model Hotel {
   nome                String
   telefone            String
   sobre               String?
-  descricao           String?
   visualizacoes       Int                  @default(0)
   informacoes_extras  String?
   pet                 Boolean

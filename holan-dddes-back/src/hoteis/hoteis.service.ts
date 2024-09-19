@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreatehotelDto } from './dto/create-hotei.dto';
 import { UpdatehotelDto } from './dto/update-hotei.dto';
@@ -35,4 +36,6 @@ export class hotelsService {
   async remove(id: number) {
     return await this.prisma.hotel.delete({where: {id}});
   }
+
+  
 }
