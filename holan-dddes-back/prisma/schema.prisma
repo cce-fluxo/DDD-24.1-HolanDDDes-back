@@ -37,7 +37,7 @@ model Hotel {
   enderecoId          Int
   Acomodacao          Acomodacao[]
   Avaliacao           Avaliacao[]
-  Comodidade          ComodidadeHotel[]   @relation("_HotelToComodidade")
+  Comodidade          ComodidadeHotel[]    @relation("_HotelToComodidade")
   Descricao_detalhada Descricao_detalhada?
   Favorito            Favorito[]
   FotosHotel          FotosHotel[]
@@ -76,10 +76,10 @@ model Usuario {
   id              Int           @id @default(autoincrement())
   nome            String
   sobrenome       String
-  email           String
+  email           String        @unique
   hash_senha      String
   telefone        String?
-  data_nascimento DateTime?     @default(now()) @db.Date
+  data_nascimento DateTime?
   vip             Boolean
   Client          Client?
   FotoUsuario     FotoUsuario[]

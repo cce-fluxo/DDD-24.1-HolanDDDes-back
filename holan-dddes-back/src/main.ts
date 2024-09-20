@@ -2,6 +2,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   //https://docs.nestjs.com/security/cors
@@ -11,6 +12,15 @@ async function bootstrap() {
     origin: 'localhost:3300',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
+
+  // Ativação do class-validator
+  app.useGlobalPipes(
+    new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }),
+  );
 
   //https://docs.nestjs.com/openapi/introduction
   const config = new DocumentBuilder()

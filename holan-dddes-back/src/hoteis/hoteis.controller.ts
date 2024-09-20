@@ -110,7 +110,6 @@ export class HoteisController {
   removeComodidade(@Param('id') id: string, @Param('comodidadeId') comodidadeId: string) {
     return this.hotelsService.removeComodidade(+id, +comodidadeId);
   }
-
   //Rota específica para buscar as fotos de um hotel já especificado
   @Get(':id/fotos')
   @ApiOperation({

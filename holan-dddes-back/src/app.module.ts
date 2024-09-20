@@ -29,8 +29,13 @@ import { PrismaService } from './database/prisma.service';
 import { AssociacaoCupomClienteModule } from './associacao_cupom_cliente/associacao_cupom_cliente.module';
 import { AssociacaoCupomHotelModule } from './associacao_cupom_hotel/associacao_cupom_hotel.module';
 import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario_interesse/associacao_proprietario_interesse.module';
-
-
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { UsuarioService } from './usuario/usuario.service';
+import { localStrategy } from './auth/strategies/local-strategy';
+import { JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './auth/strategies/jwt-strategy';
 
 @Module({
   imports: [
@@ -60,8 +65,9 @@ import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario
     AssociacaoCupomClienteModule,
     AssociacaoCupomHotelModule,
     AssociacaoProprietarioInteresseModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, PrismaService, AuthService, UsuarioService, localStrategy, JwtService, JwtStrategy],
 })
 export class AppModule {}
