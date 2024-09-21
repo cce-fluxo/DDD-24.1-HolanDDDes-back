@@ -62,7 +62,7 @@ export class CupomController {
     return this.cupomService.remove(+id);
   }
 
-  //Rota específica para buscar as acomodações de um hotel já especificado
+  //Rotas especificas do cupom
   @Get(':id/clientes')
   @ApiOperation({
     summary: 'Busca os clientes que podem usar o cupom',
