@@ -71,7 +71,7 @@ export class InteresseController {
     summary: 'Busca os proprietarios que possuem um interesse',
     description: 'Busca os proprietarios que possuem um interesse já especificado com base no id fornecido',
   })
-  findProprietarios(@Param('id') id: number) {
-    return this.interesseService.findProprietario(+id);
+  getProprietarios(@Param('id') id: number) {
+    return this.interesseService.getProprietariosByInteresse(+id);
   }
 }

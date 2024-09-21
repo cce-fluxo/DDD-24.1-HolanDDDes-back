@@ -36,9 +36,9 @@ export class InteresseService {
     return await this.prisma.interesse.delete({where: {id}});
   }
 
-  findProprietario(id:number) {
-    return this.prisma.interesse.findMany({
-      where: {id},
+  getProprietariosByInteresse(interesseId:number) {
+    return this.prisma.interesse.findUnique({
+      where: {id: interesseId},
       select: {Proprietario: true},
     })
   }
