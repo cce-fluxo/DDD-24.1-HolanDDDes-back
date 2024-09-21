@@ -68,8 +68,36 @@ export class CupomController {
     summary: 'Busca os clientes que podem usar o cupom',
     description: 'Busca os clientes que podem usar um cupom já especificado com base no id fornecido',
   })
-  findClientes(@Param('id') id: number) {
-    return this.cupomService.findClientes(+id);
+  getClientes(@Param('id') id: number) {
+    return this.cupomService.getClientesByCupom(+id);
+  }
+
+  //Rota específica para associar uma cliente a um cupom
+  @Post(':id/clientes')
+  @ApiOperation({
+    summary: 'Conecta uma cliente a um cupom',
+    description: 'Associa a um cupom já especificado com base no id fornecido',
+  })
+  createCliente(@Param('id') id: number, @Body('clienteId') clienteId: number) {
+    return this.cupomService.createClienteCupom(+id, +clienteId);
+  }
+
+  @Get(':id/clientes/:clienteId')
+  @ApiOperation({
+    summary: 'Busca uma cliente relacionado a um cupom',
+    description: 'Busca um cliente que pode usar um cupom já especificado com base no id fornecido',
+  })
+  findCliente(@Param('id') id: number, @Param('clienteId') clienteId: number) {
+    return this.cupomService.findCliente(+id, +clienteId);
+  }
+
+  @Delete(':id/clientes/:clienteId')
+  @ApiOperation({
+    summary: 'Remove uma relação cliente e cupom',
+    description: 'Remove uma cliente de um cupom já especificado com base no id fornecido',
+  })
+  removecliente(@Param('id') id: string, @Param('clienteId') clienteId: string) {
+    return this.cupomService.removeCliente(+id, +clienteId);
   }
 
   @Get(':id/hoteis')
@@ -77,7 +105,37 @@ export class CupomController {
     summary: 'Busca os hoteis que podem usar o cupom',
     description: 'Busca os hoteis que podem usar um cupom já especificado com base no id fornecido',
   })
-  findHoteis(@Param('id') id: number) {
-    return this.cupomService.findHoteis(+id);
+  getHoteis(@Param('id') id: number) {
+    return this.cupomService.getHoteisByCupom(+id);
+  }
+
+  //Rota específica para associar um hotel a um cupom
+  @Post(':id/hotel')
+  @ApiOperation({
+    summary: 'Conecta uma hotel a um cupom',
+    description: 'Associa a um cupom já especificado com base no id fornecido',
+  })
+  createHotel(@Param('id') id: number, @Body('hotelId') hotelId: number) {
+    return this.cupomService.createHotelCupom(+id, +hotelId);
+  }
+
+  @Get(':id/hoteis/:hotelId')
+  @ApiOperation({
+    summary: 'Busca um hotel relacionado a um cupom',
+    description: 'Busca um hotel que pode usar um cupom já especificado com base no id fornecido',
+  })
+  findHotel(@Param('id') id: number, @Param('hotelId') hotelId: number) {
+    return this.cupomService.findHotel(+id, +hotelId);
+  }
+
+  @Delete(':id/hoteis/:hotelId')
+  @ApiOperation({
+    summary: 'Remove uma relação hotel e cupom',
+    description: 'Remove uma hotel de um cupom já especificado com base no id fornecido',
+  })
+  removeHotel(@Param('id') id: string, @Param('hotelId') hotelId: string) {
+    return this.cupomService.removeHotel(+id, +hotelId);
   }
 }
+
+
