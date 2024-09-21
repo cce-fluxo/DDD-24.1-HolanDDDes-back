@@ -35,4 +35,11 @@ export class InteresseService {
   async remove(id: number) {
     return await this.prisma.interesse.delete({where: {id}});
   }
+
+  findProprietario(id:number) {
+    return this.prisma.interesse.findMany({
+      where: {id},
+      select: {Proprietario: true},
+    })
+  }
 }
