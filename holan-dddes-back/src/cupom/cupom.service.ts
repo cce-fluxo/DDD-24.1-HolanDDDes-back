@@ -35,4 +35,18 @@ export class CupomService {
   async remove(id: number) {
     return await this.prisma.cupom.delete({where: {id}});
   }
+
+  findClientes(id:number) {
+    return this.prisma.cupom.findMany({
+      where: {id},
+      select: {Cliente: true},
+    })
+  }
+
+  findHoteis(id:number) {
+    return this.prisma.cupom.findMany({
+      where: {id},
+      select: {Hotel: true},
+    })
+  }
 }
