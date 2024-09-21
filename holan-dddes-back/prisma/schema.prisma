@@ -39,7 +39,7 @@ model Hotel {
   Avaliacao           Avaliacao[]
   Comodidade          ComodidadeHotel[]    @relation("_HotelToComodidade")
   Descricao_detalhada Descricao_detalhada?
-  Favorito            Favorito[]
+  Favorito            Client[]             @relation("_ClienteToHotel")
   FotosHotel          FotosHotel[]
   endereco            Endereco             @relation(fields: [enderecoId], references: [id])
   proprietarioId      Int                  @unique
@@ -94,7 +94,7 @@ model Client {
   Avaliacao_acomodacao Avaliacao_acomodacao[]
   usuario              Usuario                @relation(fields: [usuarioId], references: [id])
   Cupom                Cupom[]             @relation("_CupomToCliente")
-  Favorito             Favorito[]
+  Favorito             Hotel[]             @relation("_ClienteToHotel")
   Reserva              Reserva[]
 }
 
@@ -235,14 +235,6 @@ model Cupom {
   Cliente       Client[]             @relation("_CupomToCliente")
   Reserva       Reserva?
   Hotel         Hotel[]             @relation("_CupomToHotel")
-}
-
-model Favorito {
-  id        Int    @id @default(autoincrement())
-  clienteId Int
-  hotelId   Int
-  cliente   Client @relation(fields: [clienteId], references: [id])
-  hotel     Hotel  @relation(fields: [hotelId], references: [id])
 }
 
 model ComodidadeAcomodacao {

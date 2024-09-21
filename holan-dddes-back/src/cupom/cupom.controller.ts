@@ -75,7 +75,7 @@ export class CupomController {
   //Rota específica para associar uma cliente a um cupom
   @Post(':id/clientes')
   @ApiOperation({
-    summary: 'Conecta uma cliente a um cupom',
+    summary: 'Conecta um cliente a um cupom',
     description: 'Associa a um cupom já especificado com base no id fornecido',
   })
   createCliente(@Param('id') id: number, @Body('clienteId') clienteId: number) {
