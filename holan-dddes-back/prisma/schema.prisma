@@ -39,12 +39,12 @@ model Hotel {
   Avaliacao           Avaliacao[]
   Comodidade          ComodidadeHotel[]    @relation("_HotelToComodidade")
   Descricao_detalhada Descricao_detalhada?
-  Favorito            Favorito[]
+  Favorito            Client[]             @relation("_ClienteToHotel")
   FotosHotel          FotosHotel[]
   endereco            Endereco             @relation(fields: [enderecoId], references: [id])
   proprietarioId      Int                  @unique
   Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id])
-  Cupom               CupomNoHotel[]
+  Cupom               Cupom[]              @relation("_CupomToHotel")
 }
 
 model Avaliacao {
@@ -93,8 +93,8 @@ model Client {
   Avaliacao            Avaliacao[]
   Avaliacao_acomodacao Avaliacao_acomodacao[]
   usuario              Usuario                @relation(fields: [usuarioId], references: [id])
-  Cupom                ClienteNoCupom[]
-  Favorito             Favorito[]
+  Cupom                Cupom[]             @relation("_CupomToCliente")
+  Favorito             Hotel[]             @relation("_ClienteToHotel")
   Reserva              Reserva[]
 }
 
@@ -106,7 +106,7 @@ model Proprietario {
   sobre                String?
   Gerenciamento_ganhos Gerenciamento_ganhos[]
   usuario              Usuario                   @relation(fields: [usuarioId], references: [id])
-  Interesse            ProprietarioNoInteresse[]
+  Interesse            Interesse[]             @relation("ProprietarioToInteresse")
   Hotel                Hotel?
 }
 
@@ -221,15 +221,7 @@ model Gerenciamento_ganhos {
 model Interesse {
   id           Int                       @id @default(autoincrement())
   Nome         String
-  Proprietario ProprietarioNoInteresse[]
-}
-
-model ProprietarioNoInteresse {
-  id             Int          @id @default(autoincrement())
-  proprietarioId Int
-  interesseId    Int
-  interesse      Interesse    @relation(fields: [interesseId], references: [id])
-  proprietario   Proprietario @relation(fields: [proprietarioId], references: [id])
+  Proprietario Proprietario[]            @relation("ProprietarioToInteresse")
 }
 
 model Cupom {
@@ -240,25 +232,9 @@ model Cupom {
   desconto      Float
   data_validade DateTime
   descricao     String
-  Cliente       ClienteNoCupom[]
+  Cliente       Client[]             @relation("_CupomToCliente")
   Reserva       Reserva?
-  Hotel         CupomNoHotel[] 
-}
-
-model ClienteNoCupom {
-  id        Int    @id @default(autoincrement())
-  clienteId Int
-  cupomId   Int
-  cliente   Client @relation(fields: [clienteId], references: [id])
-  cupom     Cupom  @relation(fields: [cupomId], references: [id])
-}
-
-model Favorito {
-  id        Int    @id @default(autoincrement())
-  clienteId Int
-  hotelId   Int
-  cliente   Client @relation(fields: [clienteId], references: [id])
-  hotel     Hotel  @relation(fields: [hotelId], references: [id])
+  Hotel         Hotel[]             @relation("_CupomToHotel")
 }
 
 model ComodidadeAcomodacao {
@@ -279,12 +255,4 @@ model ComodidadeHotel {
   id    Int                 @id @default(autoincrement())
   nome  String
   Hotel Hotel[]             @relation("_HotelToComodidade")
-}
-
-model CupomNoHotel {
-  id      Int   @id @default(autoincrement())
-  hotelId Int
-  cupomId Int
-  hotel   Hotel @relation(fields: [hotelId], references: [id])
-  cupom   Cupom @relation(fields: [cupomId], references: [id])
 }
