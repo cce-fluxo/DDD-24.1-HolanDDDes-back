@@ -48,7 +48,7 @@ export class hotelsService {
   async getComodidadesByHotel(hotelId: number) {
     return await this.prisma.hotel.findUnique({
       where: {id: hotelId},
-      select: { Comodidade: true },
+      select: { Comodidade: true }
     });
   }
 

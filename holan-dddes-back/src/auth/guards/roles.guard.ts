@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -9,13 +8,18 @@ export class RolesGuard implements CanActivate {
   // reflector para acessar metadados (papéis requeridos na rota)
   // jwtservice (para decodificar o token e pegar o usuário)
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable <boolean> {
+  canActivate(context: ExecutionContext): boolean {
     // Extrair os roles necessários da rota (decorador @Roles)
-    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    const [req] = context.getArgs();
+    const userPermissions = req?.user?.permission || [];
+    const requiredPermissions = this.reflector.get('permissions', context.getHandler());
+    const hasAllRequiredPermissions = requiredPermissions.every((permission) => userPermissions.includes(permission));
 
-    const usuario = context.switchToHttp().getRequest().user;
+    if (requiredPermissions.ength === 0 || hasAllRequiredPermissions) {
+      return true;
+    }
 
-    // Verifica se o usuário possui os papéis exigidos
-    return roles.some((role) => usuario.role?.includes(role));
+    throw new ForbiddenException('Você não tem permissão para acessar este recurso');
+
   }
 }

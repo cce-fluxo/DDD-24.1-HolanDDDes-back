@@ -3,35 +3,58 @@
 import {
     ExecutionContext,
     Injectable,
+    UnauthorizedException,
   } from '@nestjs/common';
   import { Reflector } from '@nestjs/core';
   // Password
   import { AuthGuard } from '@nestjs/passport';
-  // Decorators
-  import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
-  // Error Handling
+  // Roles
+  import { ROLES_KEY } from '../decorators/roles.decorator';
+  // JWT
+  import { JwtService } from '@nestjs/jwt';
+
   
   @Injectable()
   export class JwtAuthGuard extends AuthGuard('jwt') {
-    constructor(private reflector: Reflector) {
+    constructor(private reflector: Reflector, 
+      private readonly jwtService: JwtService,
+    ) {
       super();
     }
   
-    canActivate(context: ExecutionContext): Promise<boolean> | boolean {
-      const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    async canActivate(context: ExecutionContext) {
+      const canActivate = await super.canActivate(context);
+  
+      if (!canActivate) {
+        return false;
+      }
+
+      const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
         context.getHandler(),
         context.getClass(),
       ]);
-  
-      if (isPublic) {
+
+      if (!requiredRoles) {
         return true;
       }
-  
-      const canActivate = super.canActivate(context);
-  
-      if (typeof canActivate === 'boolean') {
-        return canActivate;
+
+      const request = context.switchToHttp().getRequest();
+
+      // Autorização
+      const token = request.headers.authorization.split(' ')[1];
+      if (!token) {
+        throw new Error('Token não encontrado');
       }
+
+      const payload = this.jwtService.verify(token);
+
+      const userRoles = payload.roles || [];
+      const hasRole = () => userRoles.some((role) => requiredRoles.includes(role));
+      if (!hasRole()) {
+        throw new UnauthorizedException('Você não tem permissão para acessar este recurso');
+      }
+
+     return true;
   
     }
   }
