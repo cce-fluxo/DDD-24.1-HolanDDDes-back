@@ -256,3 +256,9 @@ model ComodidadeHotel {
   nome  String
   Hotel Hotel[]             @relation("_HotelToComodidade")
 }
+
+model Admin {
+  id      Int     @id @default(autoincrement())
+  email   String
+  senha   String
+}

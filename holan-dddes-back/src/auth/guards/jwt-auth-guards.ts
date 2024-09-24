@@ -3,7 +3,6 @@
 import {
     ExecutionContext,
     Injectable,
-    UnauthorizedException,
   } from '@nestjs/common';
   import { Reflector } from '@nestjs/core';
   // Password
@@ -11,7 +10,6 @@ import {
   // Decorators
   import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
   // Error Handling
-  import { UnauthorizedError } from '../errors/unauthorized.errors';
   
   @Injectable()
   export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -35,15 +33,6 @@ import {
         return canActivate;
       }
   
-      const canActivatePromise = canActivate as Promise<boolean>;
-  
-      return canActivatePromise.catch((error) => {
-        if (error instanceof UnauthorizedError) {
-          throw new UnauthorizedException(error.message);
-        }
-  
-        throw new UnauthorizedException();
-      });
     }
   }
 

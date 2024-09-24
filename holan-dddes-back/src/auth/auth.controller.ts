@@ -2,6 +2,7 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth-guard';
+import { IsPublic } from './decorators/is-public.decorator';
 
 // Responsável por guardar as rotas
 @Controller('auth')
@@ -14,6 +15,7 @@ export class AuthController {
     // Precisamos de um GUARD que pegue essas informações e verifique se o usuário colocado no login existe no sistema
     @UseGuards(LocalAuthGuard) // Guard responsável por verificar a existência do usuário, a senha e a adição do usuário no objeto-request
     @Post('login')
+    @IsPublic()
     login(@Request() req){
         return this.authService.login(req.user);
     }

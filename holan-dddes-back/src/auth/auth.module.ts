@@ -10,12 +10,11 @@ import { JwtStrategy } from './strategies/jwt-strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { UsuarioModule } from '../usuario/usuario.module';
-import { MiddlewareConsumer, NestModule } from '@nestjs/common';
-import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   // Disponibilizamos o prismaservice para importa-lo em qualquer outro arquivo
-  providers: [AuthService, PrismaService, UsuarioService, localStrategy, JwtService, JwtStrategy],
+  providers: [AuthService, PrismaService, UsuarioService, localStrategy, JwtService, JwtStrategy, RolesGuard],
   controllers: [AuthController],
   imports: [
     UsuarioModule,
@@ -26,8 +25,4 @@ import { LoginValidationMiddleware } from './middlewares/login-validation.middle
     }),
   ]
 })
-export class AuthModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoginValidationMiddleware).forRoutes('login');
-  }
-}
+export class AuthModule {}
