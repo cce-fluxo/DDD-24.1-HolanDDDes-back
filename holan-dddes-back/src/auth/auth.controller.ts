@@ -14,8 +14,8 @@ export class AuthController {
     // Nosso email e nossa senha são colocados no login para acessar
     // Precisamos de um GUARD que pegue essas informações e verifique se o usuário colocado no login existe no sistema
     @UseGuards(LocalAuthGuard) // Guard responsável por verificar a existência do usuário, a senha e a adição do usuário no objeto-request
-    @Post('login')
     @IsPublic()
+    @Post('login')
     login(@Request() req){
         return this.authService.login(req.user);
     }

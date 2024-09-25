@@ -12,6 +12,8 @@ import {
   import { ROLES_KEY } from '../decorators/roles.decorator';
   // JWT
   import { JwtService } from '@nestjs/jwt';
+  // IsPublic
+  import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
 
   
   @Injectable()
@@ -23,11 +25,15 @@ import {
     }
   
     async canActivate(context: ExecutionContext) {
-      const canActivate = await super.canActivate(context);
+      const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ]);
   
-      if (!canActivate) {
-        return false;
+      if (isPublic) {
+        return true;
       }
+      
 
       const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
         context.getHandler(),

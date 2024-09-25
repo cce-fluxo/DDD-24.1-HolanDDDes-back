@@ -106,7 +106,7 @@ model Proprietario {
   sobre                String?
   Gerenciamento_ganhos Gerenciamento_ganhos[]
   usuario              Usuario                   @relation(fields: [usuarioId], references: [id])
-  Interesse            Interesse[]             @relation("ProprietarioToInteresse")
+  Interesse            Interesse[]               @relation("ProprietarioToInteresse")
   Hotel                Hotel?
 }
 

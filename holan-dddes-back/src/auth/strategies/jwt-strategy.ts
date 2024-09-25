@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Função que verifica se o token é válido
     validate(payload){
         // Retorna o payload do token
-        return {id: payload.id, email: payload.email, role: payload.role};
+        return {id: payload.id, email: payload.email};
     }
 
 }

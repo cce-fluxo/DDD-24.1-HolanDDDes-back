@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, UseGuards, Request, SetMetadata } from '@nestjs/common';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './auth/guards/jwt-auth-guards';
 import { RolesGuard } from './auth/guards/roles.guard';
+import { IsPublic } from './auth/decorators/is-public.decorator';
 
 @Controller()
 export class AppController {
@@ -12,6 +12,7 @@ export class AppController {
   @SetMetadata('permissões', ['admin'])
   @UseGuards(RolesGuard, RolesGuard)
   @Get()
+  @IsPublic()
   // Me dá o usuário que acessa a rota
   getHello( @Request() req ) {
     console.log(req.user);

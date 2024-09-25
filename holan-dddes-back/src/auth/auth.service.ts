@@ -27,7 +27,7 @@ export class AuthService {
     }
 
     // Função Login: com base no usuário, gera o JWT
-    login(user){
+    async login(user){
         // Payload do JWT (tem o user.id e o user.email como atributos)
         const payload = { id: user.id, email: user.email};
 
