@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CupomService } from './cupom.service';
 import { CreateCupomDto } from './dto/create-cupom.dto';
 import { UpdateCupomDto } from './dto/update-cupom.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('cupom')
 @Controller('cupom')
@@ -18,6 +22,8 @@ export class CupomController {
   constructor(private readonly cupomService: CupomService) {}
 
   @Post()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Cria um novo cupom',
     description: 'Cria um novo cupom com base nos dados fornecidos',
@@ -27,6 +33,8 @@ export class CupomController {
   }
 
   @Get()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Busca todos os cupons',
     description: 'Busca todos os cupons com base nos filtros fornecidos',
@@ -36,6 +44,8 @@ export class CupomController {
   }
 
   @Get(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Busca um cupom específico',
     description: 'Busca um cupom específico com base no id fornecido',
@@ -44,7 +54,7 @@ export class CupomController {
     return this.cupomService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(':id') // todos podem acessar (alterar o status de uso do cupom)
   @ApiOperation({
     summary: 'Atualiza um cupom',
     description: 'Atualiza um cupom com base no id fornecido e nos dados fornecidos',
@@ -63,7 +73,9 @@ export class CupomController {
   }
 
   //Rotas especificas do cupom
-  @Get(':id/clientes')
+  @Get(':id/clientes') 
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'cliente')
   @ApiOperation({
     summary: 'Busca os clientes que podem usar o cupom',
     description: 'Busca os clientes que podem usar um cupom já especificado com base no id fornecido',
@@ -74,6 +86,8 @@ export class CupomController {
 
   //Rota específica para associar uma cliente a um cupom
   @Post(':id/clientes')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Conecta um cliente a um cupom',
     description: 'Associa a um cupom já especificado com base no id fornecido',
@@ -83,8 +97,10 @@ export class CupomController {
   }
 
   @Get(':id/clientes/:clienteId')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'cliente')
   @ApiOperation({
-    summary: 'Busca uma cliente relacionado a um cupom',
+    summary: 'Busca um cliente relacionado a um cupom',
     description: 'Busca um cliente que pode usar um cupom já especificado com base no id fornecido',
   })
   findCliente(@Param('id') id: number, @Param('clienteId') clienteId: number) {
@@ -92,6 +108,8 @@ export class CupomController {
   }
 
   @Delete(':id/clientes/:clienteId')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Remove uma relação cliente e cupom',
     description: 'Remove uma cliente de um cupom já especificado com base no id fornecido',
@@ -101,6 +119,8 @@ export class CupomController {
   }
 
   @Get(':id/hoteis')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'cliente')
   @ApiOperation({
     summary: 'Busca os hoteis que podem usar o cupom',
     description: 'Busca os hoteis que podem usar um cupom já especificado com base no id fornecido',
@@ -111,6 +131,8 @@ export class CupomController {
 
   //Rota específica para associar um hotel a um cupom
   @Post(':id/hotel')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Conecta uma hotel a um cupom',
     description: 'Associa a um cupom já especificado com base no id fornecido',
@@ -120,6 +142,8 @@ export class CupomController {
   }
 
   @Get(':id/hoteis/:hotelId')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'cliente')
   @ApiOperation({
     summary: 'Busca um hotel relacionado a um cupom',
     description: 'Busca um hotel que pode usar um cupom já especificado com base no id fornecido',
@@ -129,6 +153,8 @@ export class CupomController {
   }
 
   @Delete(':id/hoteis/:hotelId')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Remove uma relação hotel e cupom',
     description: 'Remove uma hotel de um cupom já especificado com base no id fornecido',

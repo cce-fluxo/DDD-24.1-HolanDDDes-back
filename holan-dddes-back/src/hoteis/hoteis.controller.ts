@@ -44,9 +44,7 @@ export class HoteisController {
     return this.hotelsService.findAll(findAllhotelDto);
   }
 
-  @Get(':id')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin')
+  @Get(':id') // todos podem acessar
   @ApiOperation({
     summary: 'Busca um hotel específico',
     description: 'Busca um hotel específico com base no id fornecido',
@@ -78,9 +76,7 @@ export class HoteisController {
   }
 
   //Rota específica para buscar as acomodações de um hotel já especificado
-  @Get(':id/acomodacoes')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Get(':id/acomodacoes') // todos podem acessar
   @ApiOperation({
     summary: 'Busca as acomodações de um hotel',
     description: 'Busca as acomodações de um hotel já especificado com base no id fornecido',
@@ -90,9 +86,7 @@ export class HoteisController {
   }
 
   //Rota específica para buscar as comodidades de um hotel já especificado
-  @Get(':id/comodidade')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Get(':id/comodidade') // todos podem acessar
   @ApiOperation({
     summary: 'Busca as comodidades de um hotel',
     description: 'Busca as comodidades de um hotel já especificado com base no id fornecido',
@@ -113,9 +107,7 @@ export class HoteisController {
     return this.hotelsService.createComodidadeHotel(+id, +comodidadeId);
   }
 
-  @Get(':id/comodidade/:comodidadeId')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Get(':id/comodidade/:comodidadeId') // todos logados podem acessar
   @ApiOperation({
     summary: 'Busca uma comodidade de um hotel',
     description: 'Busca uma comodidade de um hotel já especificado com base no id fornecido',
@@ -135,9 +127,7 @@ export class HoteisController {
     return this.hotelsService.removeComodidade(+id, +comodidadeId);
   }
   //Rota específica para buscar as fotos de um hotel já especificado
-  @Get(':id/fotos')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Get(':id/fotos') // todos podem acessar
   @ApiOperation({
     summary: 'Busca as fotos de um hotel',
     description: 'Busca as fotos de um hotel já especificado com base no id fornecido',
@@ -147,9 +137,7 @@ export class HoteisController {
   }
 
   //Rota específica para buscar as avaliações de um hotel já especificado
-  @Get(':id/avaliacoes')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Get(':id/avaliacoes') // todos podem acessar
   @ApiOperation({
     summary: 'Busca as avaliações de um hotel',
     description: 'Busca as avaliações de um hotel já especificado com base no id fornecido',

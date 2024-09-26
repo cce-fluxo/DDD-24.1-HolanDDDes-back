@@ -17,7 +17,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class FotoUsuarioController {
   constructor(private readonly fotoUsuarioService: FotoUsuarioService) {}
 
-  @Post()
+  @Post() // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Cria uma nova foto',
     description: 'Cria uma nova foto com base nos dados fornecidos',
@@ -26,7 +26,7 @@ export class FotoUsuarioController {
     return this.fotoUsuarioService.create(createFotoUsuarioDto);
   }
 
-  @Get()
+  @Get() // todos logados podem acessar
   @ApiOperation({
     summary: 'Busca todas as fotos',
     description: 'Busca todas as fotos com base nos filtros fornecidos',
@@ -35,7 +35,7 @@ export class FotoUsuarioController {
     return this.fotoUsuarioService.findAll(findAllFotoUsuarioDto);
   }
 
-  @Get(':id')
+  @Get(':id') // todos logados podem acessar
   @ApiOperation({
     summary: 'Busca uma foto específica',
     description: 'Busca uma foto específica com base no id fornecido',
@@ -44,7 +44,7 @@ export class FotoUsuarioController {
     return this.fotoUsuarioService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(':id') // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Atualiza uma foto',
     description: 'Atualiza uma foto com base no id fornecido e nos dados fornecidos',
@@ -56,7 +56,7 @@ export class FotoUsuarioController {
     return this.fotoUsuarioService.update(+id, updateFotoUsuarioDto);
   }
 
-  @Delete(':id')
+  @Delete(':id') // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Remove uma foto',
     description: 'Remove uma foto com base no id fornecido',

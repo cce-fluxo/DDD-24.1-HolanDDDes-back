@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { DescricaoDetalhadaService } from './descricao_detalhada.service';
 import { CreateDescricaoDetalhadaDto } from './dto/create-descricao_detalhada.dto';
 import { UpdateDescricaoDetalhadaDto } from './dto/update-descricao_detalhada.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('descricao_detalhada')
 @Controller('descricao-detalhada')
@@ -20,6 +24,8 @@ export class DescricaoDetalhadaController {
   ) {}
 
   @Post()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Cria uma nova descrição detalhada',
     description: 'Cria uma nova descrição detalhada com base nos dados fornecidos',
@@ -28,7 +34,7 @@ export class DescricaoDetalhadaController {
     return this.descricaoDetalhadaService.create(createDescricaoDetalhadaDto);
   }
 
-  @Get()
+  @Get() // todos podem acessar
   @ApiOperation({
     summary: 'Busca todas as descrições detalhadas',
     description: 'Busca todas as descrições detalhadas com base nos filtros fornecidos',
@@ -37,7 +43,7 @@ export class DescricaoDetalhadaController {
     return this.descricaoDetalhadaService.findAll(findAllDescricaoDetalhadaDto);
   }
 
-  @Get(':id')
+  @Get(':id') // todos podem acessar
   @ApiOperation({
     summary: 'Busca uma descrição detalhada específica',
     description: 'Busca uma descrição detalhada específica com base no id fornecido',
@@ -47,6 +53,8 @@ export class DescricaoDetalhadaController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Atualiza uma descrição detalhada',
     description: 'Atualiza uma descrição detalhada com base no id fornecido e nos dados fornecidos',
@@ -62,6 +70,8 @@ export class DescricaoDetalhadaController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Remove uma descrição detalhada',
     description: 'Remove uma descrição detalhada com base no id fornecido',

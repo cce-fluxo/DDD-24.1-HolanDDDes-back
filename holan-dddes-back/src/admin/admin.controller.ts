@@ -7,6 +7,7 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -14,6 +15,8 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
 
 @ApiTags('admin')
 @Controller('admin')
@@ -33,6 +36,7 @@ create(@Body() createAdminDto: CreateAdminDto) {
 }
 
 @Get()
+@UseGuards(RolesGuard, JwtAuthGuard)
 @Roles('admin')
 @ApiOperation({
     summary: 'Busca todos os administradores',
@@ -43,6 +47,7 @@ findAll(@Body() findAllAdminDto: any) {
 }
 
 @Get(':id')
+@UseGuards(RolesGuard, JwtAuthGuard)
 @Roles('admin')
 @ApiOperation({
     summary: 'Busca um administrador específico',
@@ -53,6 +58,7 @@ findOne(@Param('id') id: string) {
 }
 
 @Patch(':id')
+@UseGuards(RolesGuard, JwtAuthGuard)
 @Roles('admin')
 @ApiOperation({
     summary: 'Atualiza um administrador',
@@ -66,6 +72,7 @@ update(
 }
 
 @Delete(':id')
+@UseGuards(RolesGuard, JwtAuthGuard)
 @Roles('admin')
 @ApiOperation({
     summary: 'Remove um administrador',
