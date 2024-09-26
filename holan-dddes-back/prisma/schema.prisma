@@ -84,7 +84,9 @@ model Usuario {
   Client          Client?
   FotoUsuario     FotoUsuario[]
   Notificacao     Notificacao[]
+  Admin           Admin?
   Proprietario    Proprietario?
+  role            String?
 }
 
 model Client {
@@ -258,7 +260,7 @@ model ComodidadeHotel {
 }
 
 model Admin {
-  id      Int     @id @default(autoincrement())
-  email   String
-  senha   String
+  id        Int     @id @default(autoincrement())
+  usuarioId Int     @unique
+  usuario           Usuario                   @relation(fields: [usuarioId], references: [id])
 }

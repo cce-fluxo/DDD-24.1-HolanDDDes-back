@@ -26,6 +26,7 @@ export class UsuarioController {
   }
 
   @Get()
+  @IsPublic()
   findAll(@Body() findAllUsuarioDto: any) {
     return this.usuarioService.findAll(findAllUsuarioDto);
   }

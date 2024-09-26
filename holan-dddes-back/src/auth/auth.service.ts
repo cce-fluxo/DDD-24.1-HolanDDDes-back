@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
@@ -28,8 +28,12 @@ export class AuthService {
 
     // Função Login: com base no usuário, gera o JWT
     async login(user){
+        if (!user) {
+            throw new UnauthorizedException('Usuário não encontrado');
+        }
+    
         // Payload do JWT (tem o user.id e o user.email como atributos)
-        const payload = { id: user.id, email: user.email};
+        const payload = { id: user.id, email: user.email, role: user.role};
 
         // Gerar o JWT (recebe o payload) (assinatura (variável de ambiente) e data de validade)
         const jwtToken = this.jwtService.sign(payload, {secret: process.env.JWT_SECRET, expiresIn: '1d'})

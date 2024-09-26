@@ -34,6 +34,8 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/strategies/jwt-strategy';
 import { DatabaseModule } from './database/database.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth-guards';
+import { AdminService } from './admin/admin.service';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -61,11 +63,12 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth-guards';
     AvaliacaoModule,
     DatabaseModule,
     AuthModule,
+    AdminModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, {
     provide: 'APP_GUARD',
     useClass: JwtAuthGuard,
-  }, PrismaService, AuthService, UsuarioService, localStrategy, JwtService, JwtStrategy],
+  }, PrismaService, AuthService, UsuarioService, localStrategy, JwtService, JwtStrategy, AdminService],
 })
 export class AppModule {}

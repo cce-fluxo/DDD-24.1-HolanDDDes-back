@@ -11,6 +11,7 @@ import { ClienteService } from './cliente.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @ApiTags('cliente')
 @Controller('cliente')
@@ -18,6 +19,7 @@ export class ClienteController {
   constructor(private readonly clienteService: ClienteService) {}
 
   @Post()
+  @IsPublic()
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clienteService.create(createClienteDto);
   }

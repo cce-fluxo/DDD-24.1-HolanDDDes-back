@@ -23,6 +23,7 @@ import { RolesGuard } from './guards/roles.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '30d' },
     }),
-  ]
+  ],
+  exports: [AuthService],
 })
 export class AuthModule {}

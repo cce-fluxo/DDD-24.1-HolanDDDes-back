@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -8,18 +9,17 @@ export class RolesGuard implements CanActivate {
   // reflector para acessar metadados (papéis requeridos na rota)
   // jwtservice (para decodificar o token e pegar o usuário)
 
-  canActivate(context: ExecutionContext): boolean {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     // Extrair os roles necessários da rota (decorador @Roles)
-    const [req] = context.getArgs();
-    const userPermissions = req?.user?.permission || [];
-    const requiredPermissions = this.reflector.get('permissions', context.getHandler());
-    const hasAllRequiredPermissions = requiredPermissions.every((permission) => userPermissions.includes(permission));
+    const requiredRole = this.reflector.get<string[]>('role', context.getHandler());
+    const user = context.switchToHttp().getRequest().user;
 
-    if (requiredPermissions.ength === 0 || hasAllRequiredPermissions) {
-      return true;
+    /// Checa se o usuário tem a permissão necessária
+    if (!requiredRole) {
+      return true; // Se não houver role requerida, permite acesso
     }
 
-    throw new ForbiddenException('Você não tem permissão para acessar este recurso');
-
+    const userRole = user?.userType; // Acessa a role do usuário diretamente
+    return userRole === requiredRole; // Compara diretamente
   }
 }
