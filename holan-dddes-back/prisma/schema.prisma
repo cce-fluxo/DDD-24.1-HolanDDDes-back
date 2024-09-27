@@ -94,7 +94,7 @@ model Client {
   usuarioId            Int                    @unique
   Avaliacao            Avaliacao[]
   Avaliacao_acomodacao Avaliacao_acomodacao[]
-  usuario              Usuario                @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuario              Usuario             @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   Cupom                Cupom[]             @relation("_CupomToCliente")
   Favorito             Hotel[]             @relation("_ClienteToHotel")
   Reserva              Reserva[]
@@ -126,7 +126,7 @@ model Notificacao {
   usuarioId    Int
   leitura      Boolean
   data_criacao DateTime
-  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
+  usuario      Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
 model Acomodacao {
@@ -141,10 +141,10 @@ model Acomodacao {
   complemento            String
   tipo_acomodacaoId      Int
   hotelId                Int
-  hotel                  Hotel                             @relation(fields: [hotelId], references: [id])
-  tipoAcomodacao         TipoAcomodacao                    @relation(fields: [tipo_acomodacaoId], references: [id])
+  hotel                  Hotel                             @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  tipoAcomodacao         TipoAcomodacao                    @relation(fields: [tipo_acomodacaoId], references: [id]) // tipo de acomodação não sai
   Avaliacao_acomodacao   Avaliacao_acomodacao[]
-  ComodidadeNaAcomodacao ComodidadeNaAcomodacao[]
+  ComodidadeAcomodacao   ComodidadeAcomodacao[]             @relation("_AcomodacaoToComodidade")
   FotoAcomodacao         Foto_Acomodacao[]
   Gerenciamento_ganhos   Gerenciamento_ganhos_acomodacao[]
   Reserva                Reserva[]
@@ -160,7 +160,7 @@ model Foto_Acomodacao {
   id           Int        @id @default(autoincrement())
   url_foto     String
   acomodacaoId Int
-  acomodacao   Acomodacao @relation(fields: [acomodacaoId], references: [id])
+  acomodacao   Acomodacao @relation(fields: [acomodacaoId], references: [id], onDelete: Cascade)
 }
 
 model Reserva {
@@ -173,8 +173,8 @@ model Reserva {
   clienteId          Int
   acomodacaoId       Int
   Cobranca           Cobranca?
-  acomodacao         Acomodacao @relation(fields: [acomodacaoId], references: [id])
-  cliente            Client     @relation(fields: [clienteId], references: [id])
+  acomodacao         Acomodacao @relation(fields: [acomodacaoId], references: [id], onDelete: Cascade)
+  cliente            Client     @relation(fields: [clienteId], references: [id], onDelete: Cascade)
   cupomId            Int?       @unique
   cupom              Cupom?     @relation(fields: [cupomId], references: [id])
 }
@@ -184,7 +184,7 @@ model Gerenciamento_ganhos_acomodacao {
   data         DateTime?
   valor_lucro  Float?
   acomodacaoId Int
-  acomodacao   Acomodacao @relation(fields: [acomodacaoId], references: [id])
+  acomodacao   Acomodacao @relation(fields: [acomodacaoId], references: [id], onDelete: Cascade)
 }
 
 model Avaliacao_acomodacao {
@@ -198,8 +198,8 @@ model Avaliacao_acomodacao {
   comentario      String?
   acomodacaoId    Int
   clienteId       Int
-  acomodacao      Acomodacao @relation(fields: [acomodacaoId], references: [id])
-  cliente         Client     @relation(fields: [clienteId], references: [id])
+  acomodacao      Acomodacao @relation(fields: [acomodacaoId], references: [id], onDelete: Cascade)
+  cliente         Client     @relation(fields: [clienteId], references: [id], onDelete: Cascade)
 }
 
 model Cobranca {
@@ -209,7 +209,7 @@ model Cobranca {
   valor           Float?
   status          String?
   reservaId       Int       @unique
-  reserva         Reserva   @relation(fields: [reservaId], references: [id])
+  reserva         Reserva   @relation(fields: [reservaId], references: [id], onDelete: Cascade)
 }
 
 model Gerenciamento_ganhos {
@@ -217,7 +217,7 @@ model Gerenciamento_ganhos {
   data           DateTime?
   valor_lucro    Float?
   proprietarioId Int
-  proprietario   Proprietario @relation(fields: [proprietarioId], references: [id])
+  proprietario   Proprietario @relation(fields: [proprietarioId], references: [id], onDelete: Cascade)
 }
 
 model Interesse {
@@ -242,15 +242,7 @@ model Cupom {
 model ComodidadeAcomodacao {
   id         Int                      @id @default(autoincrement())
   nome       String
-  Acomodacao ComodidadeNaAcomodacao[]
-}
-
-model ComodidadeNaAcomodacao {
-  id           Int                  @id @default(autoincrement())
-  acomodacaoId Int
-  comodidadeId Int
-  acomodacao   Acomodacao           @relation(fields: [acomodacaoId], references: [id])
-  comodidade   ComodidadeAcomodacao @relation(fields: [comodidadeId], references: [id])
+  Acomodacao Acomodacao[]             @relation("_AcomodacaoToComodidade")
 }
 
 model ComodidadeHotel {
