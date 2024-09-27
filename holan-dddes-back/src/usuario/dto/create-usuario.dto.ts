@@ -29,6 +29,7 @@ export class CreateUsuarioDto {
   dataNascimento?: Date;
 
   @IsBoolean()
+  @IsOptional()
   vip: boolean;
 
   @IsNotEmpty()

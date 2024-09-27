@@ -10,12 +10,57 @@ export class UsuarioService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
-    const CriarUsuario = this.prisma.usuario.create({
-      data: {...createUsuarioDto, //encriptação da senha
-        hash_senha: await bcrypt.hash(createUsuarioDto.hash_senha, 10) //unidade de medida do quanto vai estar sendo encriptado
-      }
-    });
-    return CriarUsuario;
+    if (createUsuarioDto.role === 'admin') {
+      const CriarUsuario = this.prisma.usuario.create({
+        data: {...createUsuarioDto, //encriptação da senha
+          hash_senha: await bcrypt.hash(createUsuarioDto.hash_senha, 10) //unidade de medida do quanto vai estar sendo encriptado
+        }
+      });
+      const criarAdmin = this.prisma.Admin.create({
+        data: {
+          usuario: {
+            connect: {
+              id: (await CriarUsuario).id,
+            },
+          },
+        },
+      });
+      return CriarUsuario && criarAdmin;
+    } else if (createUsuarioDto.role === 'cliente') {
+      const CriarUsuario = this.prisma.usuario.create({
+        data: {...createUsuarioDto, //encriptação da senha
+          hash_senha: await bcrypt.hash(createUsuarioDto.hash_senha, 10) //unidade de medida do quanto vai estar sendo encriptado
+        }
+      });
+      const criarCliente = this.prisma.client.create({
+        data: {
+          usuario: {
+            connect: {
+              id: (await CriarUsuario).id,
+            },
+          },
+        },
+      });
+      return CriarUsuario && criarCliente;
+    } else if (createUsuarioDto.role === 'proprietario') {
+      const CriarUsuario = this.prisma.usuario.create({
+        data: {...createUsuarioDto, //encriptação da senha
+          hash_senha: await bcrypt.hash(createUsuarioDto.hash_senha, 10) //unidade de medida do quanto vai estar sendo encriptado
+        }
+      });
+      const criarProprietario = this.prisma.proprietario.create({
+        data: {
+          usuario: {
+            connect: {
+              id: (await CriarUsuario).id,
+            },
+          },
+        },
+      });
+      return CriarUsuario && criarProprietario;
+    } else {
+      return 'Role inválida';
+    }
   }
 
   findAll(findAllUsuarioDto: any) {

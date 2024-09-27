@@ -23,7 +23,7 @@ model FotosHotel {
   id       Int    @id @default(autoincrement())
   url_foto String
   hotelId  Int
-  id_hotel Hotel  @relation(fields: [hotelId], references: [id])
+  id_hotel Hotel  @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 }
 
 model Hotel {
@@ -41,9 +41,9 @@ model Hotel {
   Descricao_detalhada Descricao_detalhada?
   Favorito            Client[]             @relation("_ClienteToHotel")
   FotosHotel          FotosHotel[]
-  endereco            Endereco             @relation(fields: [enderecoId], references: [id])
+  endereco            Endereco             @relation(fields: [enderecoId], references: [id]) // teremos que implementar a exclusão hotel-endereço no endpoint
   proprietarioId      Int                  @unique
-  Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id])
+  Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id], onDelete: Cascade)
   Cupom               Cupom[]              @relation("_CupomToHotel")
 }
 
@@ -58,8 +58,8 @@ model Avaliacao {
   comentario      String?
   hotelId         Int
   clientId        Int
-  cliente         Client @relation(fields: [clientId], references: [id])
-  hotel           Hotel  @relation(fields: [hotelId], references: [id])
+  cliente         Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  hotel           Hotel  @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 }
 
 model Descricao_detalhada {
@@ -69,7 +69,7 @@ model Descricao_detalhada {
   quarto    String?
   regiao    String?
   hotelId   Int     @unique
-  id_hotel  Hotel   @relation(fields: [hotelId], references: [id])
+  id_hotel  Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 }
 
 model Usuario {
@@ -94,7 +94,7 @@ model Client {
   usuarioId            Int                    @unique
   Avaliacao            Avaliacao[]
   Avaliacao_acomodacao Avaliacao_acomodacao[]
-  usuario              Usuario                @relation(fields: [usuarioId], references: [id])
+  usuario              Usuario                @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   Cupom                Cupom[]             @relation("_CupomToCliente")
   Favorito             Hotel[]             @relation("_ClienteToHotel")
   Reserva              Reserva[]
@@ -107,7 +107,7 @@ model Proprietario {
   avaliacao            String?
   sobre                String?
   Gerenciamento_ganhos Gerenciamento_ganhos[]
-  usuario              Usuario                   @relation(fields: [usuarioId], references: [id])
+  usuario              Usuario                   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   Interesse            Interesse[]               @relation("ProprietarioToInteresse")
   Hotel                Hotel?
 }
@@ -116,7 +116,7 @@ model FotoUsuario {
   id        Int     @id @default(autoincrement())
   url_foto  String
   usuarioId Int
-  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
 model Notificacao {
