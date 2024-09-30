@@ -41,7 +41,7 @@ model Hotel {
   Descricao_detalhada Descricao_detalhada?
   Favorito            Client[]             @relation("_ClienteToHotel")
   FotosHotel          FotosHotel[]
-  endereco            Endereco             @relation(fields: [enderecoId], references: [id]) // teremos que implementar a exclusão hotel-endereço no endpoint
+  endereco            Endereco             @relation(fields: [enderecoId], references: [id], onDelete: Cascade) // teremos que implementar a exclusão hotel-endereço no endpoint
   proprietarioId      Int                  @unique
   Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id], onDelete: Cascade)
   Cupom               Cupom[]              @relation("_CupomToHotel")
