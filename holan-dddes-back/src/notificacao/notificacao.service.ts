@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateNotificacaoDto } from './dto/create-notificacao.dto';
 import { UpdateNotificacaoDto } from './dto/update-notificacao.dto';
@@ -6,11 +7,18 @@ import { PrismaService } from '../database/prisma.service';
 @Injectable()
 export class NotificacaoService {
   constructor(private prisma: PrismaService) {}
-  create(createNotificacaoDto: CreateNotificacaoDto) {
-    const CriarNotificacao = this.prisma.notificacao.create({
-      data: createNotificacaoDto,
+  async create(createNotificacaoDto: CreateNotificacaoDto) {
+    return await this.prisma.notificacao.create({
+      data: {
+        mensagem: createNotificacaoDto.mensagem,
+        titulo: createNotificacaoDto.titulo,
+        leitura: createNotificacaoDto.leitura,
+        data_criacao: createNotificacaoDto.data_criacao,
+        usuario: {
+          connect: { id: createNotificacaoDto.usuarioId },
+        },
+      },
     });
-    return CriarNotificacao;
   }
 
   findAll(findAllNotificacaoDto: any) {
