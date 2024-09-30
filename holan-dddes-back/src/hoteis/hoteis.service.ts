@@ -44,11 +44,48 @@ export class hotelsService {
     })
   }
 
-  findComodidade(id:number) {
-    return this.prisma.hotel.findMany({
-      where: {id},
-      select: {ComodidadeNoHotel: true},
-    })
+  // Método para buscar comodidades de um hotel
+  async getComodidadesByHotel(hotelId: number) {
+    return await this.prisma.hotel.findUnique({
+      where: {id: hotelId},
+      select: { Comodidade: true }
+    });
+  }
+
+  // Método para atrelar uma comodidade em um hotel
+  async createComodidadeHotel(hotelId: number, comodidadeId: number) {
+    return await this.prisma.hotel.update({
+      where: { id: hotelId },
+      data: {
+        Comodidade: {
+          connect: { id: comodidadeId }, 
+        },
+      },
+    });
+  }
+
+  // Método para resgatar uma comodidade específica de um hotel
+  async findComodidade(hotelId: number, comodidadeId: number) {
+    return await this.prisma.hotel.findUnique({
+      where: { id: hotelId },
+      select: {
+        Comodidade: {
+          where: { id: comodidadeId },
+        },
+      },
+    });
+  }
+
+  //Método para remover uma comodidade de um hotel
+  async removeComodidade(hotelId: number, comodidadeId: number) {
+    return await this.prisma.hotel.update({
+      where: { id: hotelId },
+      data: {
+        Comodidade: {
+          disconnect: { id: comodidadeId },
+        },
+      },
+    });
   }
 
   findFoto(id:number) {

@@ -16,7 +16,6 @@ import { DescricaoDetalhadaModule } from './descricao_detalhada/descricao_detalh
 import { FotoUsuarioModule } from './foto_usuario/foto_usuario.module';
 import { NotificacaoModule } from './notificacao/notificacao.module';
 import { InteresseModule } from './interesse/interesse.module';
-import { FavoritoModule } from './favorito/favorito.module';
 import { CupomModule } from './cupom/cupom.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { ClienteModule } from './cliente/cliente.module';
@@ -26,12 +25,17 @@ import { GerenciamentoGanhoModule } from './gerenciamento_ganho/gerenciamento_ga
 import { GerenciamentoGanhoAcomodacaoModule } from './gerenciamento_ganho_acomodacao/gerenciamento_ganho_acomodacao.module';
 import { AvaliacaoModule } from './avaliacao/avaliacao.module';
 import { PrismaService } from './database/prisma.service';
-import { ComodidadeNoHotelModule } from './comodidade-no-hotel/comodidade-no-hotel.module';
-import { AssociacaoCupomClienteModule } from './associacao_cupom_cliente/associacao_cupom_cliente.module';
-import { AssociacaoCupomHotelModule } from './associacao_cupom_hotel/associacao_cupom_hotel.module';
-import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario_interesse/associacao_proprietario_interesse.module';
-
-
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { UsuarioService } from './usuario/usuario.service';
+import { localStrategy } from './auth/strategies/local-strategy';
+import { JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './auth/strategies/jwt-strategy';
+import { DatabaseModule } from './database/database.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth-guards';
+import { AdminService } from './admin/admin.service';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -49,7 +53,6 @@ import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario
     FotoUsuarioModule,
     NotificacaoModule,
     InteresseModule,
-    FavoritoModule,
     CupomModule,
     UsuarioModule,
     ClienteModule,
@@ -58,12 +61,14 @@ import { AssociacaoProprietarioInteresseModule } from './associacao_proprietario
     GerenciamentoGanhoModule,
     GerenciamentoGanhoAcomodacaoModule,
     AvaliacaoModule,
-    AssociacaoCupomClienteModule,
-    AssociacaoCupomHotelModule,
-    AssociacaoProprietarioInteresseModule,
-    ComodidadeNoHotelModule,
+    DatabaseModule,
+    AuthModule,
+    AdminModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, {
+    provide: 'APP_GUARD',
+    useClass: JwtAuthGuard,
+  }, PrismaService, AuthService, UsuarioService, localStrategy, JwtService, JwtStrategy, AdminService],
 })
 export class AppModule {}

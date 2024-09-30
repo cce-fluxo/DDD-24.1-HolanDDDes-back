@@ -1,8 +1,11 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  //https://docs.nestjs.com/security/cors
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
@@ -10,15 +13,25 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
 
+  // Ativação do class-validator
+  app.useGlobalPipes(
+    new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }),
+  );
+
+  //https://docs.nestjs.com/openapi/introduction
   const config = new DocumentBuilder()
     .setTitle('Documentação com Swagger - Fábrica de Sinapse')
     .setDescription(
       'O Swagger (aka OpenApi) é uma biblioteca muito conhecida no universo backend, estando disponível para diversas linguagens e frameworks. Ela gera um site interno no seu backend que descreve, com muitos detalhes, cada endpoint e estrutura de entidades presentes na sua aplicação.',
     )
     .setVersion('1.0')
-    .addTag('associacao_cupom_cliente')
-    .addTag('associacao_cupom_hotel')
-    .addTag('associacao_proprietario_interesse')
+    .addTag('acomodacoes')
+    .addTag('admin')
+    .addTag('auth')
     .addTag('avaliacao')
     .addTag('avaliacao_acomodacoes')
     .addTag('cliente')

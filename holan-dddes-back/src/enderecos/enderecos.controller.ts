@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { EnderecosService } from './enderecos.service';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags("enderecos")
 @Controller('enderecos')
@@ -18,6 +22,8 @@ export class EnderecosController {
   constructor(private readonly enderecosService: EnderecosService) {}
 
   @Post()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Cria um novo endereço',
     description: 'Cria um novo endereço com base nos dados fornecidos',
@@ -27,6 +33,8 @@ export class EnderecosController {
   }
 
   @Get()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Busca todos os endereços',
     description: 'Busca todos os endereços com base nos filtros fornecidos',
@@ -36,6 +44,8 @@ export class EnderecosController {
   }
 
   @Get(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin')
   @ApiOperation({
     summary: 'Busca um endereço específico',
     description: 'Busca um endereço específico com base no id fornecido',
@@ -45,6 +55,8 @@ export class EnderecosController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Atualiza um endereço',
     description: 'Atualiza um endereço com base no id fornecido e nos dados fornecidos',
@@ -57,6 +69,8 @@ export class EnderecosController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Remove um endereço',
     description: 'Remove um endereço com base no id fornecido',
