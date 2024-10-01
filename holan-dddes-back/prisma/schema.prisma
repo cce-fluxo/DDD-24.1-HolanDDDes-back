@@ -79,6 +79,7 @@ model Usuario {
   email           String        @unique
   hash_senha      String
   telefone        String?
+  token_resetar_senha String?
   data_nascimento DateTime?
   vip             Boolean       @default(false) // definindo como falso por padrão
   Client          Client?

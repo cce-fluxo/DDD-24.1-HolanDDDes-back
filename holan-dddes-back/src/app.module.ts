@@ -64,6 +64,7 @@ import { AdminModule } from './admin/admin.module';
     DatabaseModule,
     AuthModule,
     AdminModule,
+
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, {

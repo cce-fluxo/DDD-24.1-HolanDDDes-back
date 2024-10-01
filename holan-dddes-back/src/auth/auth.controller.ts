@@ -5,8 +5,6 @@ import { LocalAuthGuard } from './guards/local-auth-guard';
 import { IsPublic } from './decorators/is-public.decorator';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-// Responsável por guardar as rotas
-
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {

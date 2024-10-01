@@ -5,7 +5,6 @@ import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
-//Manipular o banco de dados
 @Injectable()
 export class AuthService {
     constructor(private readonly prisma:PrismaService,
@@ -43,3 +42,4 @@ export class AuthService {
         }
     }
 }
+

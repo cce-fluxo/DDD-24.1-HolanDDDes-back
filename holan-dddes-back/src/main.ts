@@ -6,11 +6,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   //https://docs.nestjs.com/security/cors
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.enableCors({
     origin: 'localhost:3300',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
   // Ativação do class-validator

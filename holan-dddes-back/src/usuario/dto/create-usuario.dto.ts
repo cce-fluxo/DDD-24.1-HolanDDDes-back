@@ -35,4 +35,8 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsString()
   role: string;
+
+  @IsOptional()
+  @IsString()
+  token_resetar_senha: string;
 }
