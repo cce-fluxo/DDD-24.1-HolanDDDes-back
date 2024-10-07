@@ -13,6 +13,17 @@ export class AcomodacoesService {
     return CriarAcomodacao;
   }
 
+  async findAvaliacao(acomodacaoId: any) {
+    // Faz uma consulta no banco de dados para encontrar uma acomodação com o ID especificado
+    const acomodacao = await this.prisma.acomodacao.findUnique({
+      where: { id: acomodacaoId }, // Busca a acomodação com base no ID fornecido
+      include: { Avaliacao_acomodacao: true }, // Inclui as avaliações associadas à acomodação
+    });
+
+    // Retorna a acomodação e todas as suas avaliações
+    return acomodacao;
+  }
+
   findAll(findAllAcomaodacoesDto: any) {
     const AcharTodasAcomodacoes = this.prisma.acomodacao.findMany({
       where: findAllAcomaodacoesDto,

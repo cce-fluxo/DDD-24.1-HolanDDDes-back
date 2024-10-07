@@ -28,6 +28,12 @@ export class AcomodacoesController {
     return this.acomodacoesService.create(createAcomodacoeDto);
   }
 
+  @Get(':id/avaliacoes')
+  async obterAvaliacoesAcomodacao(@Param('id') id: number) {
+    // Chama o serviço para obter a acomodação com as avaliações
+    return this.acomodacoesService.findAvaliacao(id);
+  }
+
   @Get() // todos podem acessar
   findAll() {
     const findAllAcomaodacoesDto = {};
