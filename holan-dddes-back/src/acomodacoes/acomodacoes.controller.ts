@@ -34,6 +34,18 @@ export class AcomodacoesController {
     return this.acomodacoesService.findAvaliacao(id);
   }
 
+  @Get(':id/fotos')
+  async obterAvaliacoesFotos(@Param('id') id: number) {
+    // Chama o serviço para obter a acomodação com as avaliações
+    return this.acomodacoesService.findFoto(id);
+  }
+
+  @Get(':id/comodidades')
+  async obterAvaliacoesComodidades(@Param('id') id: number) {
+    // Chama o serviço para obter a acomodação com as avaliações
+    return this.acomodacoesService.findComodidade(id);
+  }
+
   @Get() // todos podem acessar
   findAll() {
     const findAllAcomaodacoesDto = {};
