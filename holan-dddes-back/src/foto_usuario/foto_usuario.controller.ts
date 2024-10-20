@@ -1,67 +1,83 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
-  Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  Req,
+  BadRequestException,
+  UseGuards,
+  Param,
 } from '@nestjs/common';
+import { ApiOperation,  ApiResponse,  ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
 import { FotoUsuarioService } from './foto_usuario.service';
-import { CreateFotoUsuarioDto } from './dto/create-foto_usuario.dto';
-import { UpdateFotoUsuarioDto } from './dto/update-foto_usuario.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("foto_usuario")
 @Controller('foto-usuario')
 export class FotoUsuarioController {
   constructor(private readonly fotoUsuarioService: FotoUsuarioService) {}
 
+  @Get() // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id do usuário logado',
+  })
+  async getImage(@Req() req) {
+    return await this.fotoUsuarioService.getImage(+req.user.id);
+  }
+
+  @Get(':id') // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id fornecido',
+  })
+  async getImageById(@Param('id') idFoto: number, @Req() req) {
+    return await this.fotoUsuarioService.getFotoPerfilEspecifica(+req.user.id, idFoto);
+  }
+
   @Post() // todos logados podem fazer isso
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Cria uma nova foto',
     description: 'Cria uma nova foto com base nos dados fornecidos',
   })
-  create(@Body() createFotoUsuarioDto: CreateFotoUsuarioDto) {
-    return this.fotoUsuarioService.create(createFotoUsuarioDto);
+  @UseInterceptors(FileInterceptor('file')) // nome do arquivo no insomnia deve ser file
+  @ApiResponse({ status: 201, description: 'Imagem salva com sucesso' })
+  async createImage(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    console.log('Método createImage chamado'); // Log para verificar se o método está sendo chamado
+    console.log('Arquivo recebido:', file); // Log para verificar se o arquivo está sendo recebido
+    if (!file) {
+      throw new BadRequestException('Nenhum arquivo foi enviado.');
+    }
+    return await this.fotoUsuarioService.create(file, +req.user.id);
   }
 
-  @Get() // todos logados podem acessar
-  @ApiOperation({
-    summary: 'Busca todas as fotos',
-    description: 'Busca todas as fotos com base nos filtros fornecidos',
-  })
-  findAll(@Body() findAllFotoUsuarioDto: any) {
-    return this.fotoUsuarioService.findAll(findAllFotoUsuarioDto);
-  }
-
-  @Get(':id') // todos logados podem acessar
-  @ApiOperation({
-    summary: 'Busca uma foto específica',
-    description: 'Busca uma foto específica com base no id fornecido',
-  })
-  findOne(@Param('id') id: number) {
-    return this.fotoUsuarioService.findOne(+id);
-  }
-
-  @Patch(':id') // todos logados podem fazer isso
+  @Patch(":id") // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Atualiza uma foto',
     description: 'Atualiza uma foto com base no id fornecido e nos dados fornecidos',
   })
-  update(
-    @Param('id') id: number,
-    @Body() updateFotoUsuarioDto: UpdateFotoUsuarioDto,
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @UploadedFile() file: Express.Multer.File, 
+    @Req() req,
+    @Param('id') idFoto: number
   ) {
-    return this.fotoUsuarioService.update(+id, updateFotoUsuarioDto);
+    return await this.fotoUsuarioService.update(file, +req.user.id, idFoto);
   }
 
-  @Delete(':id') // todos logados podem fazer isso
+  @Delete(":id") // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Remove uma foto',
     description: 'Remove uma foto com base no id fornecido',
   })
-  remove(@Param('id') id: number) {
-    return this.fotoUsuarioService.remove(+id);
+  async remove(@Param('id') idFoto: number, @Req() req) {
+    const idUsuario = req.user.id;
+    return await this.fotoUsuarioService.remove(idUsuario, idFoto);
   }
 }

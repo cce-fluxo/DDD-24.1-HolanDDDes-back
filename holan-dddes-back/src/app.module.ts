@@ -10,7 +10,6 @@ import { TipoAcomodacoesModule } from './tipo_acomodacoes/tipo_acomodacoes.modul
 import { AvaliacaoAcomodacoesModule } from './avaliacao_acomodacoes/avaliacao_acomodacoes.module';
 import { HoteisModule } from './hoteis/hoteis.module';
 import { FotosHoteisModule } from './fotos_hoteis/fotos_hoteis.module';
-import { EnderecosModule } from './enderecos/enderecos.module';
 import { ComodidadesHoteisModule } from './comodidades_hoteis/comodidades_hoteis.module';
 import { DescricaoDetalhadaModule } from './descricao_detalhada/descricao_detalhada.module';
 import { FotoUsuarioModule } from './foto_usuario/foto_usuario.module';
@@ -36,6 +35,7 @@ import { DatabaseModule } from './database/database.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth-guards';
 import { AdminService } from './admin/admin.service';
 import { AdminModule } from './admin/admin.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -47,10 +47,8 @@ import { AdminModule } from './admin/admin.module';
     AvaliacaoAcomodacoesModule,
     HoteisModule,
     FotosHoteisModule,
-    EnderecosModule,
     ComodidadesHoteisModule,
     DescricaoDetalhadaModule,
-    FotoUsuarioModule,
     NotificacaoModule,
     InteresseModule,
     CupomModule,
@@ -64,7 +62,10 @@ import { AdminModule } from './admin/admin.module';
     DatabaseModule,
     AuthModule,
     AdminModule,
-
+    FotoUsuarioModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, {

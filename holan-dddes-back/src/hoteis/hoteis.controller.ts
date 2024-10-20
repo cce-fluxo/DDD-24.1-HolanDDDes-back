@@ -26,6 +26,7 @@ export class HoteisController {
   @Post()
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
+
   @ApiOperation({
     summary: 'Cria um novo hotel',
     description: 'Cria um novo hotel com base nos dados fornecidos',

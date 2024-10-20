@@ -8,10 +8,14 @@ import { PrismaService } from '../database/prisma.service';
 export class hotelsService {
   constructor(private prisma: PrismaService) {}
   create(createhotelDto: CreatehotelDto) {
-    const Criarhotel = this.prisma.hotel.create({
-      data: createhotelDto,
-    });
-    return Criarhotel;
+    try {
+      const Criarhotel = this.prisma.hotel.create({
+        data: createhotelDto,
+      });
+      return Criarhotel;
+    } catch (error) {
+      console.error('Erro ao enviar ao banco de dados:', error); 
+    }
   }
 
   findAll(findAllhotelDto: any) {

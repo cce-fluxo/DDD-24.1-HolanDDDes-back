@@ -65,9 +65,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     const payload = this.jwtService.decode(token);
 
+    if (!payload || !payload.id) {
+      throw new UnauthorizedException('Token inválido ou ID não encontrado no token');
+    }
+
     if (!payload) {
       throw new UnauthorizedException('Token inválido');
     }
+
+    request.user = payload;
 
     // Checagem dos papéis
     const userRole = payload.role; // Supondo que payload.role é uma string ou uma única role

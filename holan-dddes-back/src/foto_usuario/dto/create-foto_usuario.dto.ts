@@ -18,4 +18,12 @@ export class CreateFotoUsuarioDto {
   @IsNotEmpty()
   @IsNumber()
   usuarioId: number;
+
+  @ApiProperty({
+    description: "ID único da foto no Cloudinary",
+    example:"123456789",
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  cloudinary_id: number;
 }

@@ -39,25 +39,25 @@ export class CreatehotelDto {
     description: 'Algumas outras informações importantes sobre o hotel',
     example: "Hotel com piscina, café da manhã incluso e quartos com vista para o mar",
   })
-  @IsString()
   @IsOptional()
+  @IsString()
   informacoes_extras?: string;
 
   @ApiProperty({
     description: 'Informação sobre o hotel aceitar ou não animais de estimação',
     example: true,
   })
-  @IsBoolean()
   @IsNotEmpty()
+  @IsBoolean()
   pet: boolean;
 
   @ApiProperty({
-    description: 'Conexão do hotel ao seu endereço',
-    example: 1,
+    description: 'Endereço do hotel',
+    example: "Brasil, Rio de Janeiro, RJ, Bairro Tanqque, Rua dos Pobres, 27",
   })
   @IsNotEmpty()
-  @IsNumber()
-  enderecoId: number;
+  @IsString()
+  endereco: string;
 
   @ApiProperty({
     description: 'Conexão do hotel ao seu proprietário',
