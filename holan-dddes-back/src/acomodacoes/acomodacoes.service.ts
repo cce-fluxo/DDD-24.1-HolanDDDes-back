@@ -13,6 +13,39 @@ export class AcomodacoesService {
     return CriarAcomodacao;
   }
 
+  async findAvaliacao(acomodacaoId: any) {
+    // Faz uma consulta no banco de dados para encontrar uma acomodação com o ID especificado
+    const acomodacao = await this.prisma.acomodacao.findUnique({
+      where: { id: acomodacaoId }, // Busca a acomodação com base no ID fornecido
+      include: { Avaliacao_acomodacao: true }, // Inclui as avaliações associadas à acomodação
+    });
+
+    // Retorna a acomodação e todas as suas avaliações
+    return acomodacao;
+  }
+
+  async findFoto(acomodacaoId: any) {
+    // Faz uma consulta no banco de dados para encontrar uma acomodação com o ID especificado
+    const acomodacao = await this.prisma.acomodacao.findUnique({
+      where: { id: acomodacaoId }, // Busca a acomodação com base no ID fornecido
+      include: { FotoAcomodacao: true }, // Inclui as fotos associadas à acomodação
+    });
+
+    // Retorna a acomodação e todas as suas avaliações
+    return acomodacao;
+  }
+
+  async findComodidade(acomodacaoId: any) {
+    // Faz uma consulta no banco de dados para encontrar uma acomodação com o ID especificado
+    const acomodacao = await this.prisma.acomodacao.findUnique({
+      where: { id: acomodacaoId }, // Busca a acomodação com base no ID fornecido
+      include: { ComodidadeAcomodacao: true }, // Inclui as comodidades associadas à acomodação
+    });
+
+    // Retorna a acomodação e todas as suas avaliações
+    return acomodacao;
+  }
+
   findAll(findAllAcomaodacoesDto: any) {
     const AcharTodasAcomodacoes = this.prisma.acomodacao.findMany({
       where: findAllAcomaodacoesDto,
