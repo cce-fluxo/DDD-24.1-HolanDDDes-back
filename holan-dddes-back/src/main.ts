@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
   app.enableCors({
-    origin: 'localhost:3300',
+    origin: '*',                              // funcionar para todos
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -28,9 +28,9 @@ async function bootstrap() {
 
   //https://docs.nestjs.com/openapi/introduction
   const config = new DocumentBuilder()
-    .setTitle('Documentação com Swagger - Fábrica de Sinapse')
+    .setTitle('Documentação com Swagger - HolanDDDês')
     .setDescription(
-      'O Swagger (aka OpenApi) é uma biblioteca muito conhecida no universo backend, estando disponível para diversas linguagens e frameworks. Ela gera um site interno no seu backend que descreve, com muitos detalhes, cada endpoint e estrutura de entidades presentes na sua aplicação.',
+      'HolanDDDês'
     )
     .setVersion('1.0')
     .addTag('acomodacoes')
