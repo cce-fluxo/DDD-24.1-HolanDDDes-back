@@ -1,20 +1,23 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
   Param,
   Delete,
   UseGuards,
+  Req,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
 import { FotosAcomodacoesService } from './fotos_acomodacoes.service';
-import { CreateFotosAcomodacaoDto } from './dto/create-fotos_acomodacoe.dto';
-import { UpdateFotosAcomodacaoDto } from './dto/update-fotos_acomodacoe.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('fotos_acomodacoes')
 @Controller('fotos-acomodacoes')
@@ -22,40 +25,67 @@ export class FotosAcomodacoesController {
   constructor(
     private readonly fotosAcomodacoesService: FotosAcomodacoesService,
   ) {}
-
-  @Post()
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin', 'proprietario')
-  create(@Body() CreateFotosAcomodacaoDto: CreateFotosAcomodacaoDto) {
-    return this.fotosAcomodacoesService.create(CreateFotosAcomodacaoDto);
+  @Get() // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id do usuário logado',
+  })
+  async getImage(@Req() req) {
+    return await this.fotosAcomodacoesService.getImage(+req.user.id);
   }
 
-  @Get() // todos podem acessar
-  findAll(@Body() findAllFotosAcomodacoeDto: any) {
-    return this.fotosAcomodacoesService.findAll(findAllFotosAcomodacoeDto);
+  @Get(':id') // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id fornecido',
+  })
+  async getImageById(@Param('id') idFoto: number, @Req() req) {
+    return await this.fotosAcomodacoesService.getFotoAcomodacoeEspecifica(+req.user.id, idFoto);
   }
 
-  @Get(':id') // todos podem acessar
-  findOne(@Param('id') id: string) {
-    return this.fotosAcomodacoesService.findOne(+id);
+  @Post(":id") // todos logados podem fazer isso
+  // passando a id para identificar em que quarto é o POST
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: 'Cria uma nova foto',
+    description: 'Cria uma nova foto com base nos dados fornecidos',
+  })
+  @Roles('proprietario', 'admin')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file')) // nome do arquivo no insomnia deve ser file
+  @ApiResponse({ status: 201, description: 'Imagem salva com sucesso' })
+  async createImage(@UploadedFile() file: Express.Multer.File, @Param('id') idAcomodacao: number) {
+    console.log('Método createImage chamado'); // Log para verificar se o método está sendo chamado
+    console.log('Arquivo recebido:', file); // Log para verificar se o arquivo está sendo recebido
+    if (!file) {
+      throw new BadRequestException('Nenhum arquivo foi enviado.');
+    }
+    return await this.fotosAcomodacoesService.create(file, idAcomodacao);
   }
 
-  @Patch(':id')
+  @Patch(":id") // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Atualiza uma foto',
+    description: 'Atualiza uma foto com base no id fornecido e nos dados fornecidos',
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  @Roles('proprietario', 'admin')
   @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin', 'proprietario')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin', 'proprietario')
-  update(
-    @Param('id') id: string,
-    @Body() UpdateFotosAcomodacaoDto: UpdateFotosAcomodacaoDto,
+  async update(
+    @UploadedFile() file: Express.Multer.File, 
+    @Req() req,
+    @Param('id') idFoto: number
   ) {
-    return this.fotosAcomodacoesService.update(+id, UpdateFotosAcomodacaoDto);
+    return await this.fotosAcomodacoesService.update(file, +req.user.id, idFoto);
   }
 
-  @Delete(':id')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin', 'proprietario')
-  remove(@Param('id') id: string) {
-    return this.fotosAcomodacoesService.remove(+id);
+  @Delete(":id") // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Remove uma foto',
+    description: 'Remove uma foto com base no id fornecido',
+  })
+  async remove(@Param('id') idFoto: number, @Req() req) {
+    const idUsuario = req.user.id;
+    return await this.fotosAcomodacoesService.remove(idUsuario, idFoto);
   }
 }

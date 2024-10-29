@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsNumber} from "class-validator";
 
@@ -17,4 +18,13 @@ export class CreateFotosAcomodacaoDto {
   @IsNumber()
   @IsNotEmpty()
   acomodacaoId: number;
+
+  @ApiProperty({
+    description: "ID único da foto no Cloudinary",
+    example:"123456789",
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  cloudinary_id: number;
+
 }

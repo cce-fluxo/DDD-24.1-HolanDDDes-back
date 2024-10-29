@@ -131,11 +131,20 @@ export class fotosHotelsService {
     });
   }
 
-  async remove(hotelId: number, idFoto: number) {
+  async remove(userId: number, idFoto: number) {
     try {
       // Tenta encontrar a foto do usuário
-      const foto = await this.prisma.fotosHotel.findUnique({
-        where: { id: idFoto }, // Certifique-se de usar o campo id corretamente
+      const usuario = await this.prisma.usuario.findUnique({
+        where: { id: userId }
+      });
+
+      if (!usuario) {
+        throw new BadRequestException('Usuário não encontrado.');
+      }
+
+      // Tenta encontrar a foto do usuário
+      const foto = await this.prisma.fotosHotel.findFirst({
+        where: { id: idFoto, hotelId: userId },
       });
 
       if (!foto) {
@@ -147,7 +156,7 @@ export class fotosHotelsService {
 
       // Remove a foto do banco de dados
       await this.prisma.fotosHotel.delete({
-        where: { id: idFoto, hotelId: hotelId },
+        where: { id: idFoto },
       });
 
       console.log('Imagem deletada com sucesso');

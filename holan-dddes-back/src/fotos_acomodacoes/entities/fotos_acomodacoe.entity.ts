@@ -1,1 +1,4 @@
-export class FotosAcomodacoe {}
+/* eslint-disable prettier/prettier */
+export class FotosAcomodacoe {
+    static cloudinary_id: any;
+}

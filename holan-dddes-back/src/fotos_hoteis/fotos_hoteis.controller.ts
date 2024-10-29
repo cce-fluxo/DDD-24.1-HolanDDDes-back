@@ -91,7 +91,6 @@ export class fotosHotelsController {
     description: 'Remove uma foto com base no id fornecido',
   })
   async remove(@Param('id') idFoto: number, @Req() req) {
-    const idUsuario = req.user.id;
-    return await this.fotosHotelsService.remove(idUsuario, idFoto);
+    return await this.fotosHotelsService.remove(+req.user.id, idFoto);
   }
 }
