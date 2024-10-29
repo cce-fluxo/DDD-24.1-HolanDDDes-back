@@ -92,6 +92,19 @@ export class hotelsService {
     });
   }
 
+  async findHotelByUserId(userId: number) {
+    return await this.prisma.hotel.findFirst({
+      where: {
+        Proprietario: {
+          usuarioId: userId,
+        },
+      },
+      include: {
+        Proprietario: true,
+      },
+    });
+  }
+
   findFoto(id:number) {
     return this.prisma.hotel.findMany({
       where: {id},

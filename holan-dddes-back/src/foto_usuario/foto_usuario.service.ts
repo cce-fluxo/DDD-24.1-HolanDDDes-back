@@ -28,11 +28,11 @@ export class FotoUsuarioService {
     });
   }
 
-  async atualizarFoto(userId: number, imageUrl: string, idCloudinary: string) {
+  async atualizarFoto(userId: number, imageUrl: string, idCloudinary: string, idFoto: number) {
     try {
       // Verifica se já existe uma foto associada ao usuário
       const fotoExistente = await this.prisma.fotoUsuario.findFirst({
-        where: { usuarioId: userId },
+        where: { usuarioId: userId, id: idFoto }, 
       });
   
       if (fotoExistente) {
@@ -164,7 +164,7 @@ export class FotoUsuarioService {
       const idCloudinary = uploadResult.public_id;
 
       // Atualiza o perfil do usuário com a nova URL e idCloudinary
-      return await this.atualizarFoto(userId, imageUrl, idCloudinary);
+      return await this.atualizarFoto(userId, imageUrl, idCloudinary, idFoto);
     } catch (error) {
       throw new HttpException(`Erro ao atualizar a foto: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }

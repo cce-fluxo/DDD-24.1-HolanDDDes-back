@@ -9,10 +9,11 @@ datasource db {
 }
 
 model FotosHotel {
-  id       Int    @id @default(autoincrement())
+  id       Int          @id @default(autoincrement())
   url_foto String
   hotelId  Int
-  id_hotel Hotel  @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  cloudinary_id String  @default("")
+  id_hotel Hotel        @relation(fields: [hotelId], references: [id], onDelete: Cascade)
 }
 
 model Hotel {
@@ -22,7 +23,7 @@ model Hotel {
   sobre               String?
   visualizacoes       Int                  @default(0)
   informacoes_extras  String?
-  pet                 Boolean
+  pet                 Boolean              @default(false)
   endereco            String               @unique
   Acomodacao          Acomodacao[]
   Avaliacao           Avaliacao[]
@@ -150,6 +151,7 @@ model Foto_Acomodacao {
   id           Int        @id @default(autoincrement())
   url_foto     String
   acomodacaoId Int
+  cloudinary_id String    @default("")
   acomodacao   Acomodacao @relation(fields: [acomodacaoId], references: [id], onDelete: Cascade)
 }
 

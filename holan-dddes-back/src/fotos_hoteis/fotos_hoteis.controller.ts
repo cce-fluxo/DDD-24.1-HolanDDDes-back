@@ -1,77 +1,97 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
   Param,
   Delete,
   UseGuards,
+  Req,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
 import { fotosHotelsService } from './fotos_hoteis.service';
-import { CreatefotosHotelDto } from './dto/create-fotos_hotei.dto';
-import { UpdatefotosHotelDto } from './dto/update-fotos_hotei.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { hotelsService } from '../hoteis/hoteis.service';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('fotos_hoteis')
 @Controller('fotos-hoteis')
 export class fotosHotelsController {
-  constructor(private readonly fotosHotelsService: fotosHotelsService) {}
+  constructor(private readonly fotosHotelsService: fotosHotelsService, 
+    private readonly hotelsService: hotelsService) {}
 
-  @Post()
+  @Get() // todos logados podem fazer isso
   @ApiOperation({
-    summary: 'Cria uma nova foto de hotel',
-    description: 'Cria uma nova foto de hotel com base nos dados fornecidos',
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id do hotel',
   })
-  @UseGuards(RolesGuard, JwtAuthGuard)
+  async getImage(@Req() req) {
+    return await this.fotosHotelsService.getImage(+req.user.id);
+  }
+
+  @Get(':id') // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Busca uma foto',
+    description: 'Busca uma foto com base no id fornecido',
+  })
+  async getImageById(@Param('id') idFoto: number, @Req() req) {
+    return await this.fotosHotelsService.getFotoHotelespecifica(+req.user.id, idFoto);
+  }
+
+  @Post() // todos logados podem fazer isso
   @Roles('proprietario', 'admin')
-  create(@Body() createfotosHotelDto: CreatefotosHotelDto) {
-    return this.fotosHotelsService.create(createfotosHotelDto);
-  }
-
-  @Get() // todos podem acessar
-  @ApiOperation({
-    summary: 'Busca todas as fotos de hotel',
-    description: 'Busca todas as fotos de hotel com base nos filtros fornecidos',
-  })
-  findAll(@Body() findAllfotosHotelDto: any) {
-    return this.fotosHotelsService.findAll(findAllfotosHotelDto);
-  }
-
-  @Get(':id') // todos podem acessar
-  @ApiOperation({
-    summary: 'Busca uma foto de hotel específica',
-    description: 'Busca uma foto de hotel específica com base no id fornecido',
-  })
-  findOne(@Param('id') id: string) {
-    return this.fotosHotelsService.findOne(+id);
-  }
-
-  @Patch(':id')
   @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
   @ApiOperation({
-    summary: 'Atualiza uma foto de hotel',
-    description: 'Atualiza uma foto de hotel com base no id fornecido e nos dados fornecidos',
+    summary: 'Cria uma nova foto',
+    description: 'Cria uma nova foto com base nos dados fornecidos',
   })
-  update(
-    @Param('id') id: string,
-    @Body() updatefotosHotelDto: UpdatefotosHotelDto,
+  @UseInterceptors(FileInterceptor('file')) // nome do arquivo no insomnia deve ser file
+  @ApiResponse({ status: 201, description: 'Imagem salva com sucesso' })
+  async createImage(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    console.log('Método createImage chamado'); // Log para verificar se o método está sendo chamado
+    console.log('Arquivo recebido:', file); // Log para verificar se o arquivo está sendo recebido
+    if (!file) {
+      throw new BadRequestException('Nenhum arquivo foi enviado.');
+    }
+     // Obtenha o ID do hotel associado ao usuário
+     const userId = +req.user.id;
+     const hotel = await this.hotelsService.findHotelByUserId(userId);
+     if (!hotel) {
+       throw new BadRequestException('Usuário não está associado a nenhum hotel.');
+     }
+ 
+     // Adicione a foto ao hotel
+     return await this.fotosHotelsService.create(file, hotel.id);
+   }
+  
+
+  @Patch(":id") // todos logados podem fazer isso
+  @ApiOperation({
+    summary: 'Atualiza uma foto',
+    description: 'Atualiza uma foto com base no id fornecido e nos dados fornecidos',
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @UploadedFile() file: Express.Multer.File, 
+    @Req() req,
+    @Param('id') idFoto: number
   ) {
-    return this.fotosHotelsService.update(+id, updatefotosHotelDto);
+    return await this.fotosHotelsService.update(file, +req.user.id, idFoto);
   }
 
-  @Delete(':id')
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('proprietario', 'admin')
+  @Delete(":id") // todos logados podem fazer isso
   @ApiOperation({
-    summary: 'Remove uma foto de hotel',
-    description: 'Remove uma foto de hotel com base no id fornecido',
+    summary: 'Remove uma foto',
+    description: 'Remove uma foto com base no id fornecido',
   })
-  remove(@Param('id') id: string) {
-    return this.fotosHotelsService.remove(+id);
+  async remove(@Param('id') idFoto: number, @Req() req) {
+    const idUsuario = req.user.id;
+    return await this.fotosHotelsService.remove(idUsuario, idFoto);
   }
 }
