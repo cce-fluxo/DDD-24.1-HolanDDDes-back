@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { fotosHotelsService } from './fotos_hoteis.service';
 import { hotelsService } from '../hoteis/hoteis.service';
@@ -35,15 +36,6 @@ export class fotosHotelsController {
     return await this.fotosHotelsService.getImage(+req.user.id);
   }
 
-  @Get(':id') // todos logados podem fazer isso
-  @ApiOperation({
-    summary: 'Busca uma foto',
-    description: 'Busca uma foto com base no id fornecido',
-  })
-  async getImageById(@Param('id') idFoto: number, @Req() req) {
-    return await this.fotosHotelsService.getFotoHotelespecifica(+req.user.id, idFoto);
-  }
-
   @Post() // todos logados podem fazer isso
   @Roles('proprietario', 'admin')
   @UseGuards(RolesGuard, JwtAuthGuard)
@@ -59,15 +51,11 @@ export class fotosHotelsController {
     if (!file) {
       throw new BadRequestException('Nenhum arquivo foi enviado.');
     }
-     // Obtenha o ID do hotel associado ao usuário
+     // Obtenha o ID
      const userId = +req.user.id;
-     const hotel = await this.hotelsService.findHotelByUserId(userId);
-     if (!hotel) {
-       throw new BadRequestException('Usuário não está associado a nenhum hotel.');
-     }
- 
+
      // Adicione a foto ao hotel
-     return await this.fotosHotelsService.create(file, hotel.id);
+     return await this.fotosHotelsService.create(file, userId);
    }
   
 
@@ -82,6 +70,16 @@ export class fotosHotelsController {
     @Req() req,
     @Param('id') idFoto: number
   ) {
+     // Verifica se o usuário está logado
+    if (!req.user?.id) {
+      throw new UnauthorizedException('Usuário não autenticado.');
+    }
+
+    // Verifica se o arquivo foi fornecido
+    if (!file) {
+      throw new BadRequestException('Arquivo de imagem não foi enviado.');
+    }
+    
     return await this.fotosHotelsService.update(file, +req.user.id, idFoto);
   }
 
@@ -90,7 +88,7 @@ export class fotosHotelsController {
     summary: 'Remove uma foto',
     description: 'Remove uma foto com base no id fornecido',
   })
-  async remove(@Param('id') idFoto: number, @Req() req) {
-    return await this.fotosHotelsService.remove(+req.user.id, idFoto);
+  async remove(@Param('id') id: number) {
+    return await this.fotosHotelsService.remove(id);
   }
 }

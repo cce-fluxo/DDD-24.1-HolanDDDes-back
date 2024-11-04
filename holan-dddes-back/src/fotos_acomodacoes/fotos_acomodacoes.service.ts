@@ -5,6 +5,7 @@ import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 import toStream = require('buffer-to-stream'); //npm install buffer-to-stream @types/buffer-to-stream
 import { FotosAcomodacoe } from './entities/fotos_acomodacoe.entity';
+import { get } from 'http';
 
 @Injectable()
 export class FotosAcomodacoesService {
@@ -28,11 +29,11 @@ export class FotosAcomodacoesService {
     });
   }
 
-  async atualizarFoto(acomodacaoId: number, imageUrl: string, idCloudinary: string, idFoto: number) {
+  async atualizarFoto(imageUrl: string, acomodacaoId: number, idCloudinary: string, idFoto: number) {
     try {
       // Verifica se já existe uma foto associada ao usuário
       const fotoExistente = await this.prisma.foto_Acomodacao.findFirst({
-        where: { acomodacaoId: acomodacaoId, id: idFoto }, 
+        where: { id: idFoto }, 
       });
   
       if (fotoExistente) {
@@ -55,13 +56,13 @@ export class FotosAcomodacoesService {
         });
       }
   
-      return idCloudinary;
+      return { message: 'Imagem salva com sucesso' };
     } catch (error) {
       throw new HttpException(`Erro ao atualizar a foto do usuário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
-
+  // esse vai ser diferente do hotel, pois hotel só um/u
   async create(file: Express.Multer.File, acomodacaoId: number) {
     try {
       // Verifica o número de fotos existentes do usuário
@@ -69,8 +70,8 @@ export class FotosAcomodacoesService {
         where: { acomodacaoId: acomodacaoId },
       });
 
-      if (fotosExistentes >= 3) {
-        throw new BadRequestException('O usuário já possui 3 fotos de perfil.');
+      if (fotosExistentes >= 5) {
+        throw new BadRequestException('O usuário já possui 5 fotos na acomodação.');
       }
       const uploadResult = await this.upload(file);
       const imageUrl = uploadResult.secure_url;
@@ -93,35 +94,58 @@ export class FotosAcomodacoesService {
     }
   } 
 
-  async getImage(acomodacaoId: number) {
+  async getProprietarioId(userId: number) {
     try {
-      const image = await this.prisma.foto_Acomodacao.findFirst({
-        where: { acomodacaoId: acomodacaoId },
-        orderBy: { id: 'desc' }, // Pega a última foto do usuário
+      const proprietario = await this.prisma.proprietario.findFirst({
+        where: { usuarioId: userId },
       });
-      if (!image) {
-        throw new HttpException('Foto não encontrada', HttpStatus.NOT_FOUND);
+      if (!proprietario) {
+        throw new BadRequestException('Usuário não encontrado.');
       }
 
-      return image;
+      return proprietario.id;
     } catch (error) {
-      throw new HttpException(`Erro ao buscar a imagem: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }  
+  }
 
-  getFotoAcomodacoe(acomodacaoId: number) {
+  async getHotelId(userId: number) {
+    try {
+      const hotel = await this.prisma.hotel.findFirst({
+        where: { proprietarioId: await this.getProprietarioId(userId) },
+      });
+      if (!hotel) {
+        throw new BadRequestException('Usuário não está associado a nenhum hotel.');
+      }
+
+      return hotel.id;
+    } catch (error) {
+      throw new HttpException(`Erro ao buscar o hotel: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  getFotosAcomodacoe(acomodacaoId: number) {
     return this.prisma.foto_Acomodacao.findFirst({
       where: { acomodacaoId: acomodacaoId },
     });
   }
 
-  getFotoAcomodacoeEspecifica(acomodacaoId: number, idFoto: number) {
+    // se tenho a id foto do BD não preciso da id da acomodação
+  getFotoAcomodacoeEspecifica(idFoto: number) {
     return this.prisma.foto_Acomodacao.findFirst({
-      where: { acomodacaoId: acomodacaoId, id: idFoto },
+      where: { id: idFoto },
     });
   }
 
-  async remove(acomodacaoId: number, idFoto: number) {
+  async getAcomodacaoId(idFoto: number) {
+    const acomodacao = await this.prisma.foto_Acomodacao.findFirst({
+      where: { id: idFoto},
+    });
+
+    return acomodacao.id;
+  }
+
+  async remove(idFoto: number) {
     try {
       // Tenta encontrar a foto do usuário
       const foto = await this.prisma.foto_Acomodacao.findUnique({
@@ -148,14 +172,21 @@ export class FotosAcomodacoesService {
   }
   
 
-  async update(file: Express.Multer.File, acomodacaoId: number, idFoto: number) {
+  async update(file: Express.Multer.File, idFoto: number) {
     try {
-      // Primeiro, busca o usuário para obter o `cloudinary_id` da imagem antiga
-      const idCloudinaryAntigo = FotosAcomodacoe.cloudinary_id;
+      // Primeiro busca a acomodacaoId
+      const acomodacaoId = await this.getAcomodacaoId(idFoto);
+
+      // Busca a foto específica para obter o `cloudinary_id` da imagem antiga
+      const fotoExistente = await this.getFotoAcomodacoeEspecifica(idFoto);
+      
+      if (!fotoExistente) {
+        throw new BadRequestException('Foto não encontrada para o hotel especificado.');
+      }
 
       // Se houver uma imagem antiga no Cloudinary, deleta essa imagem
-      if (idCloudinaryAntigo) {
-        await v2.uploader.destroy(idCloudinaryAntigo);
+      if (fotoExistente.cloudinary_id) {
+        await v2.uploader.destroy(fotoExistente.cloudinary_id);
       }
 
       // Faz o upload da nova imagem para o Cloudinary
@@ -164,7 +195,8 @@ export class FotosAcomodacoesService {
       const idCloudinary = uploadResult.public_id;
 
       // Atualiza o perfil do usuário com a nova URL e idCloudinary
-      return await this.atualizarFoto(acomodacaoId, imageUrl, idCloudinary, idFoto);
+      return await this.atualizarFoto(imageUrl, acomodacaoId, idCloudinary, idFoto);
+
     } catch (error) {
       throw new HttpException(`Erro ao atualizar a foto: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }

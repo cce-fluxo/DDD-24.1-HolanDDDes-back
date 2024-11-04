@@ -25,22 +25,14 @@ export class FotosAcomodacoesController {
   constructor(
     private readonly fotosAcomodacoesService: FotosAcomodacoesService,
   ) {}
-  @Get() // todos logados podem fazer isso
-  @ApiOperation({
-    summary: 'Busca uma foto',
-    description: 'Busca uma foto com base no id do usuário logado',
-  })
-  async getImage(@Req() req) {
-    return await this.fotosAcomodacoesService.getImage(+req.user.id);
-  }
 
   @Get(':id') // todos logados podem fazer isso
   @ApiOperation({
     summary: 'Busca uma foto',
     description: 'Busca uma foto com base no id fornecido',
   })
-  async getImageById(@Param('id') idFoto: number, @Req() req) {
-    return await this.fotosAcomodacoesService.getFotoAcomodacoeEspecifica(+req.user.id, idFoto);
+  async getImageById(@Param('id') idFoto: number) {
+    return await this.fotosAcomodacoesService.getFotoAcomodacoeEspecifica(idFoto);
   }
 
   @Post(":id") // todos logados podem fazer isso
@@ -73,10 +65,9 @@ export class FotosAcomodacoesController {
   @UseGuards(RolesGuard, JwtAuthGuard)
   async update(
     @UploadedFile() file: Express.Multer.File, 
-    @Req() req,
     @Param('id') idFoto: number
   ) {
-    return await this.fotosAcomodacoesService.update(file, +req.user.id, idFoto);
+    return await this.fotosAcomodacoesService.update(file, idFoto);
   }
 
   @Delete(":id") // todos logados podem fazer isso
@@ -84,8 +75,7 @@ export class FotosAcomodacoesController {
     summary: 'Remove uma foto',
     description: 'Remove uma foto com base no id fornecido',
   })
-  async remove(@Param('id') idFoto: number, @Req() req) {
-    const idUsuario = req.user.id;
-    return await this.fotosAcomodacoesService.remove(idUsuario, idFoto);
+  async remove(@Param('id') idFoto: number) {
+    return await this.fotosAcomodacoesService.remove(idFoto);
   }
 }
