@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { fotosHotelsService } from './fotos_hoteis.service';
 import { fotosHotelsController } from './fotos_hoteis.controller';

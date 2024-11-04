@@ -31,7 +31,7 @@ export class fotosHotelsController {
     summary: 'Busca uma foto',
     description: 'Busca uma foto com base no id do hotel',
   })
-  async getImage(@Req() req) {
+  async getImage(@Req() req) { 
     return await this.fotosHotelsService.getImage(+req.user.id);
   }
 

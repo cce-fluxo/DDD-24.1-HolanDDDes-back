@@ -39,4 +39,10 @@ export class ProprietarioService {
       where: { id },
     });
   }
+
+  async findMe(userId: number) {
+    return await this.prisma.proprietario.findUnique({
+      where: { usuarioId: userId },
+    });
+  }
 }

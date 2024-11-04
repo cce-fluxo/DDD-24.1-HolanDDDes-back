@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -7,6 +8,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ProprietarioService } from './proprietario.service';
 import { CreateProprietarioDto } from './dto/create-proprietario.dto';
@@ -28,18 +30,19 @@ export class ProprietarioController {
     return this.proprietarioService.create(createProprietarioDto);
   }
 
-  @Get()
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin') // somente o administrador pode ver todos os proprietários
-  findAll(@Body() findAllProprietarioDto: any) {
-    return this.proprietarioService.findAll(findAllProprietarioDto);
-  }
 
   @Get(':id')
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('admin', 'proprietario') // somente o administrador e o proprietário podem ver suas informações
   findOne(@Param('id') id: string) {
     return this.proprietarioService.findOne(+id);
+  }
+
+  @Get()
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario') // somente o administrador e o proprietário podem ver suas informações  
+  async findMe(@Req() req) {
+    return await this.proprietarioService.findMe(+req.user.id);
   }
 
   @Patch(':id')
