@@ -79,7 +79,7 @@ export class fotosHotelsController {
     if (!file) {
       throw new BadRequestException('Arquivo de imagem não foi enviado.');
     }
-    
+    // o + é para ser um número
     return await this.fotosHotelsService.update(file, +req.user.id, idFoto);
   }
 

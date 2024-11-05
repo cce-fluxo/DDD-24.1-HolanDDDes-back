@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-  Req,
   UseInterceptors,
   UploadedFile,
   BadRequestException,
