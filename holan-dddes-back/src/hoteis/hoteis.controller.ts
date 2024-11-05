@@ -46,13 +46,13 @@ export class HoteisController {
     return this.hotelsService.findAll(findAllhotelDto);
   }
 
-  @Get(':id') // todos podem acessar
+  @Get('/usuarioId') // todos podem acessar o seu próprio
   @ApiOperation({
     summary: 'Busca um hotel específico',
     description: 'Busca um hotel específico com base no id fornecido',
   })
-  findOne(@Param('id') id: string) {
-    return this.hotelsService.findOne(+id);
+  findOne(@Req() req) { // não pede parâmetros, ele usa o token
+    return this.hotelsService.findOne(+req.user.id);
   }
 
   @Patch(':id')

@@ -41,6 +41,7 @@ export class hotelsService {
     }
   }
 
+  // Encontrando todos os hotéis (será útil para o APP)
   findAll(findAllhotelDto: any) {
     const AcharTodoshotels = this.prisma.hotel.findMany({
       where: findAllhotelDto,
@@ -48,8 +49,13 @@ export class hotelsService {
     return AcharTodoshotels;
   }
 
-  async findOne(id: number) {
-    return await this.prisma.hotel.findUnique({where: {id}});
+  // Encontrando um hotel específico (será útil para resgatar no APP e no SW)
+  async findOne(userId: number) {
+    // Achando a id do proprietário
+    const proprietarioId = await this.getProprietarioId(userId);
+
+    // Retornando o hotel do proprietário
+    return await this.prisma.hotel.findUnique({where: {proprietarioId: proprietarioId}});
   }
 
   update(id: number, UpdatehotelDto: UpdatehotelDto) {
