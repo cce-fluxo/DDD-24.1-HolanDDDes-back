@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatehotelDto } from './dto/create-hotei.dto';
 import { UpdatehotelDto } from './dto/update-hotei.dto';
 import { PrismaService } from '../database/prisma.service';
@@ -7,10 +7,33 @@ import { PrismaService } from '../database/prisma.service';
 @Injectable()
 export class hotelsService {
   constructor(private prisma: PrismaService) {}
-  create(createhotelDto: CreatehotelDto) {
+  
+  // Automatizando a adição de hotéis pelo FRONT
+  // com essa function não preciso fazer mais nada de adicional no FRONT
+  async getProprietarioId(userId: number) {
     try {
+      const proprietario = await this.prisma.proprietario.findFirst({
+        where: { usuarioId: userId },
+      });
+      if (!proprietario) {
+        throw new BadRequestException('Usuário não encontrado.');
+      }
+
+      return proprietario.id;
+    } catch (error) {
+      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  async create(createhotelDto: CreatehotelDto, userId: number) {
+    try {
+      const proprietarioId = await this.getProprietarioId(userId);
+
       const Criarhotel = this.prisma.hotel.create({
-        data: createhotelDto,
+        data: {
+          ...createhotelDto,
+          proprietarioId: proprietarioId // Adiciona o proprietário ao hotel pelo req.user.id
+        }
       });
       return Criarhotel;
     } catch (error) {

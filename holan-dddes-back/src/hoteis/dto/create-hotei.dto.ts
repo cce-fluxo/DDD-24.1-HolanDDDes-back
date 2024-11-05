@@ -63,7 +63,6 @@ export class CreatehotelDto {
     description: 'Conexão do hotel ao seu proprietário',
     example: 1,
   })
-  @IsNotEmpty()
-  @IsNumber()
+  @IsOptional() // estamos resgatando ela do req.user
   proprietarioId: number;
 }

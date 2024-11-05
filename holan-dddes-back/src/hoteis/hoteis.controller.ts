@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { hotelsService } from './hoteis.service';
@@ -31,8 +32,8 @@ export class HoteisController {
     summary: 'Cria um novo hotel',
     description: 'Cria um novo hotel com base nos dados fornecidos',
   })
-  create(@Body() createhotelDto: CreatehotelDto) {
-    return this.hotelsService.create(createhotelDto);
+  create(@Body() createhotelDto: CreatehotelDto, @Req() req) {
+    return this.hotelsService.create(createhotelDto, +req.user.id);
   }
 
   @Get()
