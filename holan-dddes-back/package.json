@@ -30,7 +30,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.4.4",
     "@nestjs/swagger": "^7.4.2",
-    "@prisma/client": "^5.20.0",
+    "@prisma/client": "^5.21.1",
     "@types/buffer-to-stream": "^1.0.3",
     "bcrypt": "^5.1.1",
     "buffer-to-stream": "^1.0.0",
