@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
 import { PrismaService } from '../database/prisma.service';
@@ -6,11 +7,53 @@ import { PrismaService } from '../database/prisma.service';
 @Injectable()
 export class AcomodacoesService {
   constructor(private prisma: PrismaService) {}
-  create(createAcomodacoeDto: CreateAcomodacoeDto) {
-    const CriarAcomodacao = this.prisma.acomodacao.create({
-      data: createAcomodacoeDto,
-    });
-    return CriarAcomodacao;
+
+    // Automatizando a adição de acomodações pelo FRONT
+  // com essa function não preciso fazer mais nada de adicional no FRONT
+  async getProprietarioId(userId: number) {
+    try {
+      const proprietario = await this.prisma.proprietario.findFirst({
+        where: { usuarioId: userId },
+      });
+      if (!proprietario) {
+        throw new BadRequestException('Usuário não encontrado.');
+      }
+
+      return proprietario.id;
+    } catch (error) {
+      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async getHotelId(userId: number) {
+    try {
+      const hotel = await this.prisma.hotel.findFirst({
+        where: { proprietarioId: await this.getProprietarioId(userId) },
+      });
+      if (!hotel) {
+        throw new BadRequestException('Usuário não está associado a nenhum hotel.');
+      }
+
+      return hotel.id;
+    } catch (error) {
+      throw new HttpException(`Erro ao buscar o hotel: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  // Atrelando a criação de acomodação ao hotelId 
+  async create(createAcomodacoeDto: CreateAcomodacoeDto, userId: number) {
+    try {
+      const hotelId = await this.getHotelId(userId);
+      const CriarAcomodacao = this.prisma.acomodacao.create({
+        data: {
+          ...createAcomodacoeDto, // dto requerido
+          hotelId: hotelId, // Adiciona o hotel ao acomodacao pelo req.user.id
+        }
+      });
+      return CriarAcomodacao;
+    } catch (error) {
+      console.error('Erro ao enviar ao banco de dados:', error); 
+    }
   }
 
   async findAvaliacao(acomodacaoId: any) {
@@ -46,9 +89,11 @@ export class AcomodacoesService {
     return acomodacao;
   }
 
-  findAll(findAllAcomaodacoesDto: any) {
+  // Encontrar todas as acomodações  
+  async findAll(userId: number) {
+    const hotelId = await this.getHotelId(userId);
     const AcharTodasAcomodacoes = this.prisma.acomodacao.findMany({
-      where: findAllAcomaodacoesDto,
+      where: { hotelId: hotelId }, // acha pela id do hotel
     });
     return AcharTodasAcomodacoes;
   }

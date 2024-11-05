@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
   Post,
   Body,
+  Req,
   Patch,
   Param,
   Delete,
@@ -11,7 +13,7 @@ import {
 import { AcomodacoesService } from './acomodacoes.service';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth-guards';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -24,35 +26,60 @@ export class AcomodacoesController {
   @Post()
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('admin', 'proprietario')
-  create(@Body() createAcomodacoeDto: CreateAcomodacoeDto) {
-    return this.acomodacoesService.create(createAcomodacoeDto);
+  @ApiOperation({
+    summary: 'Posta um quartos',
+    description: 'Posta um quarto com base nos dados fornecidos',
+  })
+  create(@Body() createAcomodacoeDto: CreateAcomodacoeDto, @Req() req) {
+    return this.acomodacoesService.create(createAcomodacoeDto, +req.user.id);
   }
 
   @Get(':id/avaliacoes')
+  //  todos podem fazer isso
+  @ApiOperation({
+    summary: 'Busca todas as avaliações',
+    description: 'Busca todas as avaliações com base nos filtros fornecidos',
+  })
   async obterAvaliacoesAcomodacao(@Param('id') id: number) {
     // Chama o serviço para obter a acomodação com as avaliações
     return this.acomodacoesService.findAvaliacao(id);
   }
 
   @Get(':id/fotos')
+  @ApiOperation({
+    summary: 'Busca todas as fotos',
+    description: 'Busca todas as fotos com base nos filtros fornecidos',
+  })
   async obterAvaliacoesFotos(@Param('id') id: number) {
     // Chama o serviço para obter a acomodação com as avaliações
     return this.acomodacoesService.findFoto(id);
   }
 
-  @Get(':id/comodidades')
+  @Get(':id/comodidades') // todos podem acessar
+  @ApiOperation({
+    summary: 'Busca todas as comodidades',
+    description: 'Busca todas as comodidades com base nos filtros fornecidos',
+  })
   async obterAvaliacoesComodidades(@Param('id') id: number) {
     // Chama o serviço para obter a acomodação com as avaliações
     return this.acomodacoesService.findComodidade(id);
   }
 
+  // esse depende de um hotelID, automatizei
   @Get() // todos podem acessar
-  findAll() {
-    const findAllAcomaodacoesDto = {};
-    return this.acomodacoesService.findAll(findAllAcomaodacoesDto);
+  @ApiOperation({
+    summary: 'Busca todas as acomodações',
+    description: 'Busca todas as acomodações com base nos filtros fornecidos',
+  })
+  findAll(@Req() req) {
+    return this.acomodacoesService.findAll(+req.user.id);
   }
 
-  @Get(':id') // todos podem acessar
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Busca uma acomodação específica',
+    description: 'Busca uma acomodação específica com base no id fornecido',
+  })
   findOne(@Param('id') id: string) {
     return this.acomodacoesService.findOne(+id);
   }
@@ -74,3 +101,4 @@ export class AcomodacoesController {
     return this.acomodacoesService.remove(+id);
   }
 }
+
