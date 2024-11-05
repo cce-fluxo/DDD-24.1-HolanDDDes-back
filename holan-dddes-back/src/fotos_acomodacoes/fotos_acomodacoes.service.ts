@@ -4,7 +4,6 @@ import { PrismaService } from '../database/prisma.service';
 import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 import toStream = require('buffer-to-stream'); //npm install buffer-to-stream @types/buffer-to-stream
-import { FotosAcomodacoe } from './entities/fotos_acomodacoe.entity';
 
 @Injectable()
 export class FotosAcomodacoesService {
