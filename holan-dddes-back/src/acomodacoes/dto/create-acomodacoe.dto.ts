@@ -79,7 +79,6 @@ export class CreateAcomodacoeDto {
     description: 'Id do hotel',
     example: 1,
   })
-  @IsNotEmpty()
-  @IsNumber()
+  @IsOptional()
   hotelId: number;
 }
