@@ -32,6 +32,7 @@ model Hotel {
   Favorito            Client[]             @relation("_ClienteToHotel")
   FotosHotel          FotosHotel[]
   proprietarioId      Int                  @unique
+  postado             Boolean              @default(false)
   Proprietario        Proprietario         @relation(fields: [proprietarioId], references: [id], onDelete: Cascade)
   Cupom               Cupom[]              @relation("_CupomToHotel")
 }
