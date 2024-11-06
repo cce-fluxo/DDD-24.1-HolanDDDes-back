@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { DescricaoDetalhadaService } from './descricao_detalhada.service';
 import { CreateDescricaoDetalhadaDto } from './dto/create-descricao_detalhada.dto';
@@ -28,16 +29,24 @@ export class DescricaoDetalhadaController {
   @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Cria uma nova descrição detalhada',
-    description: 'Cria uma nova descrição detalhada com base nos dados fornecidos',
+    description:
+      'Cria uma nova descrição detalhada com base nos dados fornecidos',
   })
-  create(@Body() createDescricaoDetalhadaDto: CreateDescricaoDetalhadaDto) {
-    return this.descricaoDetalhadaService.create(createDescricaoDetalhadaDto);
+  create(
+    @Body() createDescricaoDetalhadaDto: CreateDescricaoDetalhadaDto,
+    @Req() req,
+  ) {
+    return this.descricaoDetalhadaService.create(
+      createDescricaoDetalhadaDto,
+      +req.user.id,
+    );
   }
 
   @Get() // todos podem acessar
   @ApiOperation({
     summary: 'Busca todas as descrições detalhadas',
-    description: 'Busca todas as descrições detalhadas com base nos filtros fornecidos',
+    description:
+      'Busca todas as descrições detalhadas com base nos filtros fornecidos',
   })
   findAll(@Body() findAllDescricaoDetalhadaDto: any) {
     return this.descricaoDetalhadaService.findAll(findAllDescricaoDetalhadaDto);
@@ -46,7 +55,8 @@ export class DescricaoDetalhadaController {
   @Get(':id') // todos podem acessar
   @ApiOperation({
     summary: 'Busca uma descrição detalhada específica',
-    description: 'Busca uma descrição detalhada específica com base no id fornecido',
+    description:
+      'Busca uma descrição detalhada específica com base no id fornecido',
   })
   findOne(@Param('id') id: string) {
     return this.descricaoDetalhadaService.findOne(+id);
@@ -57,7 +67,8 @@ export class DescricaoDetalhadaController {
   @Roles('admin', 'proprietario')
   @ApiOperation({
     summary: 'Atualiza uma descrição detalhada',
-    description: 'Atualiza uma descrição detalhada com base no id fornecido e nos dados fornecidos',
+    description:
+      'Atualiza uma descrição detalhada com base no id fornecido e nos dados fornecidos',
   })
   update(
     @Param('id') id: string,
