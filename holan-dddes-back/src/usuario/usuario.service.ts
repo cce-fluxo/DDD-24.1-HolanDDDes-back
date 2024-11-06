@@ -70,9 +70,9 @@ export class UsuarioService {
     return AcharTodosUsuarios;
   }
 
-  async findOne(id: number) {
+  async findOne(userId: number) {
     return await this.prisma.usuario.findUnique({
-      where: { id },
+      where: { id: userId },
     });
   }
 

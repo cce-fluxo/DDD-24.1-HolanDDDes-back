@@ -6,6 +6,7 @@ import {
   Body,
   Patch,
   Param,
+  Req,
   Delete,
   UseGuards,
 } from '@nestjs/common';
@@ -36,9 +37,9 @@ export class UsuarioController {
     return this.usuarioService.findAll(findAllUsuarioDto);
   }
 
-  @Get(':id') // todos roles logados podem ver suas informações
-  findOne(@Param('id') id: string) {
-    return this.usuarioService.findOne(+id);
+  @Get('/idUsuario') // todos roles logados podem ver suas informações
+  findOne(@Req() req) {
+    return this.usuarioService.findOne(+req.user.id);
   }
 
   @Patch(':id') // todos roles logados podem alterar suas informações
@@ -51,3 +52,4 @@ export class UsuarioController {
     return this.usuarioService.remove(+id);
   }
 }
+
