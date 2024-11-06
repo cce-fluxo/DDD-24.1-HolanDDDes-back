@@ -55,15 +55,15 @@ export class HoteisController {
     return this.hotelsService.findOne(+req.user.id);
   }
 
-  @Patch(':id')
+  @Patch()
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
   @ApiOperation({
     summary: 'Atualiza um hotel',
     description: 'Atualiza um hotel com base no id fornecido e nos dados fornecidos',
   })
-  update(@Param('id') id: string, @Body() updatehotelDto: UpdatehotelDto) {
-    return this.hotelsService.update(+id, updatehotelDto);
+  update(@Req() req, @Body() updatehotelDto: UpdatehotelDto) {
+    return this.hotelsService.update(+req.user.id, updatehotelDto);
   }
 
   @Delete(':id')

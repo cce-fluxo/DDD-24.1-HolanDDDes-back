@@ -58,9 +58,9 @@ export class hotelsService {
     return await this.prisma.hotel.findUnique({where: {proprietarioId: proprietarioId}});
   }
 
-  update(id: number, UpdatehotelDto: UpdatehotelDto) {
+  async update(userId: number, UpdatehotelDto: UpdatehotelDto) {
     const hotel = this.prisma.hotel.update({
-      where: {id},
+      where: {id: userId},
       data: UpdatehotelDto,
     })
     return hotel
