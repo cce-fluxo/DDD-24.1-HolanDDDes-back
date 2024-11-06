@@ -33,13 +33,16 @@ export class AuthService {
         }
     
         // Payload do JWT (tem o user.id e o user.email como atributos)
+        console.log(user);
         const payload = { id: user.id, email: user.email, role: user.role};
+        const User = {id: user.id, name: user.nome, email: user.email, role: user.role};
 
         // Gerar o JWT (recebe o payload) (assinatura (variável de ambiente) e data de validade)
         const jwtToken = this.jwtService.sign(payload, {secret: process.env.JWT_SECRET, expiresIn: '1d'})
         return {
-            // Retorna o token gerado
+            // Retorna o token gerado e o usuário
             access_token: jwtToken,
+            user: User,
         }
     }
 }
