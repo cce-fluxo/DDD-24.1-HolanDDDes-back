@@ -65,4 +65,12 @@ export class CreatehotelDto {
   })
   @IsOptional() // estamos resgatando ela do req.user
   proprietarioId: number;
+
+  @ApiProperty({
+    description: 'Hotel postado?',
+    example: true,
+  })
+  @IsOptional() 
+  @IsBoolean()
+  postado?: boolean;
 }
