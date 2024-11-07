@@ -82,8 +82,9 @@ export class hotelsService {
   }
 
   async update(userId: number, UpdatehotelDto: UpdatehotelDto) {
+    const hotelId = await this.getHotelId(userId);
     const hotel = this.prisma.hotel.update({
-      where: {id: userId},
+      where: {id: hotelId},
       data: UpdatehotelDto,
     })
     return hotel
