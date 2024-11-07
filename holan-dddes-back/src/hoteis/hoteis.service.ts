@@ -103,7 +103,6 @@ export class hotelsService {
   // Método para buscar comodidades de um hotel
   async getComodidadesByHotel(userId: number) {
     const hotelId = await this.getHotelId(userId);
-
     return await this.prisma.hotel.findUnique({
       where: {id: hotelId},
       select: { Comodidade: true }
@@ -172,5 +171,39 @@ export class hotelsService {
       where: {id},
       select: {Avaliacao: true},
     })
+  }
+  
+  // Método para buscar as informações do hotel
+  async getHotelaria(userId: number) {
+    // Achando a id do proprietário e do hotel
+    const proprietarioId = await this.getProprietarioId(userId);
+    const hotelId = await this.getHotelId(userId);
+
+    // Achando as informações do hotel
+    const hotel = await this.prisma.hotel.findUnique({where: {proprietarioId: proprietarioId}});
+
+    // Encontrando todas as fotos do hotel
+    const foto_hotel = await this.prisma.fotosHotel.findMany({where: {hotelId: hotelId}})
+
+    // Encontrando todas as acomodações de um hotel
+    const acomodacoes = await this.prisma.hotel.findMany({
+      where: {id: hotelId},
+      select: {Acomodacao: true},
+    })
+
+    // Encontrando todas as comodidades do hotel
+    const comodidades = await this.prisma.hotel.findUnique({
+      where: {id: hotelId},
+      select: { Comodidade: true }
+    });
+
+    // Encontrando todas as avaliacoes do hotel
+    const avaliacoes  = await this.prisma.hotel.findMany({
+      where: {id: hotelId},
+      select: {Avaliacao: true},
+    })
+
+    // Retornando o hotel e das fotos do hotel do proprietário
+    return { hotel, foto_hotel, acomodacoes, comodidades, avaliacoes }
   }
 }

@@ -147,4 +147,13 @@ export class HoteisController {
   findAvaliacoes(@Param('id') id: string) {
     return this.hotelsService.findAvaliacoes(+id);
   }
+
+  @Get('/hotelaria')
+  @ApiOperation({
+    summary: "Resgata TODAS as informações do hotel: fotos, dados do hotel, comodidades, avaliações e acomodações",
+    description: 'Busca a hotelaria completa de um hotel já especificado com base no id fornecido',
+  })
+  getHotelaria(@Req() req) {
+    return this.hotelsService.getHotelaria(+req.user.id);
+  }
 }
