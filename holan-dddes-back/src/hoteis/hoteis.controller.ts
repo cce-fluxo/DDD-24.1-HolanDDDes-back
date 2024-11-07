@@ -88,13 +88,13 @@ export class HoteisController {
   }
 
   //Rota específica para buscar as comodidades de um hotel já especificado
-  @Get(':id/comodidade') // todos podem acessar
+  @Get('/comodidade') // todos podem acessar
   @ApiOperation({
     summary: 'Busca as comodidades de um hotel',
     description: 'Busca as comodidades de um hotel já especificado com base no id fornecido',
   })
-  getComodidades(@Param('id') id: number) {
-    return this.hotelsService.getComodidadesByHotel(+id);
+  getComodidades(@Req() req) {
+    return this.hotelsService.getComodidadesByHotel(+req.user.id);
   }
 
   //Rota específica para associar uma comodidade a um hotel
@@ -106,7 +106,7 @@ export class HoteisController {
     description: 'Associa a um hotel já especificado com base no id fornecido',
   })
   createComodidade(@Req() req, @Body('comodidadeId') comodidadeId: string) {
-    return this.hotelsService.createComodidadeHotel(+req.user.id, +comodidadeId);
+    return this.hotelsService.createComodidadeHotel(+req.user.id, [+comodidadeId]);
   }
 
   @Get(':id/comodidade/:comodidadeId') // todos logados podem acessar

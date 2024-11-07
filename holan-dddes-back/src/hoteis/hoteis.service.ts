@@ -101,7 +101,9 @@ export class hotelsService {
   }
 
   // Método para buscar comodidades de um hotel
-  async getComodidadesByHotel(hotelId: number) {
+  async getComodidadesByHotel(userId: number) {
+    const hotelId = await this.getHotelId(userId);
+
     return await this.prisma.hotel.findUnique({
       where: {id: hotelId},
       select: { Comodidade: true }
@@ -109,13 +111,13 @@ export class hotelsService {
   }
 
   // Método para atrelar uma comodidade em um hotel
-  async createComodidadeHotel(userId: number, comodidadeId: number) {
+  async createComodidadeHotel(userId: number, comodidadeId: number[]) {
     const hotelId = await this.getHotelId(userId);
     return await this.prisma.hotel.update({
       where: { id: hotelId },
       data: {
         Comodidade: {
-          connect: { id: comodidadeId }, 
+          connect: comodidadeId.map(id => ({ id })),  // Conecta as comodidades ao hotel
         },
       },
     });
