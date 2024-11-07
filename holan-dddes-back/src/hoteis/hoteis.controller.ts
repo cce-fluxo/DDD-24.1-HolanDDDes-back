@@ -98,15 +98,15 @@ export class HoteisController {
   }
 
   //Rota específica para associar uma comodidade a um hotel
-  @Post(':id/comodidade')
+  @Post('/comodidade')
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
   @ApiOperation({
     summary: 'Conecta uma comodidade a um hotel',
     description: 'Associa a um hotel já especificado com base no id fornecido',
   })
-  createComodidade(@Param('id') id: string, @Body('comodidadeId') comodidadeId: string) {
-    return this.hotelsService.createComodidadeHotel(+id, +comodidadeId);
+  createComodidade(@Req() req, @Body('comodidadeId') comodidadeId: string) {
+    return this.hotelsService.createComodidadeHotel(+req.user.id, +comodidadeId);
   }
 
   @Get(':id/comodidade/:comodidadeId') // todos logados podem acessar

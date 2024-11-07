@@ -109,7 +109,8 @@ export class hotelsService {
   }
 
   // Método para atrelar uma comodidade em um hotel
-  async createComodidadeHotel(hotelId: number, comodidadeId: number) {
+  async createComodidadeHotel(userId: number, comodidadeId: number) {
+    const hotelId = await this.getHotelId(userId);
     return await this.prisma.hotel.update({
       where: { id: hotelId },
       data: {
