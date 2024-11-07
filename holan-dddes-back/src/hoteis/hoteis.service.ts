@@ -24,6 +24,23 @@ export class hotelsService {
       throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  // hotelId para as fotos virem no meu GET
+  async getHotelId(userId: number) {
+    try {
+      const proprietarioId = await this.getProprietarioId(userId);
+      const hotel = await this.prisma.hotel.findFirst({
+        where: { proprietarioId: proprietarioId },
+    });
+    if (!hotel) {
+      throw new BadRequestException('Usuário não encontrado.');
+    }
+
+    return hotel.id;
+    } catch (error) {
+      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
   
   async create(createhotelDto: CreatehotelDto, userId: number) {
     try {
@@ -53,9 +70,15 @@ export class hotelsService {
   async findOne(userId: number) {
     // Achando a id do proprietário
     const proprietarioId = await this.getProprietarioId(userId);
+    const hotelId = await this.getHotelId(userId);
 
-    // Retornando o hotel do proprietário
-    return await this.prisma.hotel.findUnique({where: {proprietarioId: proprietarioId}});
+    const hotel = await this.prisma.hotel.findUnique({where: {proprietarioId: proprietarioId}});
+
+    // Encontrando todas as fotos do hotel
+    const foto_hotel = await this.prisma.fotosHotel.findMany({where: {hotelId: hotelId}})
+
+    // Retornando o hotel e das fotos do hotel do proprietário
+    return { hotel, foto_hotel }
   }
 
   async update(userId: number, UpdatehotelDto: UpdatehotelDto) {
