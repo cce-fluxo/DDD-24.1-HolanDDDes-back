@@ -71,6 +71,5 @@ export class CreatehotelDto {
     example: true,
   })
   @IsOptional() 
-  @IsBoolean()
   postado: boolean;
 }
