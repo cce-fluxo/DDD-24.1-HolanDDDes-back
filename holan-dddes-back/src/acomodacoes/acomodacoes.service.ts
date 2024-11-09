@@ -98,6 +98,20 @@ export class AcomodacoesService {
     return AcharTodasAcomodacoes;
   }
 
+  async findQuartoFoto(acomodacaoId, userId: number) {
+    const hotelId = await this.getHotelId(userId);
+
+    const fotoAcomodacao = await this.prisma.foto_Acomodacao.findUnique({
+      where: { acomodacaoId: acomodacaoId, id: 1 }, // quero só a primeira foto
+    });
+
+    const AcharTodasAcomodacoes = this.prisma.acomodacao.findMany({
+      where: { hotelId: hotelId }, // acha pela id do hotel
+    });
+    
+    return {AcharTodasAcomodacoes, fotoAcomodacao};
+  }
+
   findOne(findOneAcomodacoeDto: any) {
     const AcharUmaAcomodacao = this.prisma.acomodacao.findUnique({
       where: findOneAcomodacoeDto,

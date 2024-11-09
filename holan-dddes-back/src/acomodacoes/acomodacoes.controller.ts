@@ -75,6 +75,15 @@ export class AcomodacoesController {
     return this.acomodacoesService.findAll(+req.user.id);
   }
 
+  @Get(":id/box") // todos podem acessar
+  @ApiOperation({
+    summary: 'Busca todas as acomodações',
+    description: 'Busca todas as acomodações com base nos filtros fornecidos',
+  })
+  findQuartoFoto(@Req() req, @Param('id') id: string) {
+    return this.acomodacoesService.findQuartoFoto(id, +req.user.id);
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Busca uma acomodação específica',
