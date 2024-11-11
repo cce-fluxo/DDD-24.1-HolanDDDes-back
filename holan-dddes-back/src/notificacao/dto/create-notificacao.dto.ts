@@ -11,7 +11,7 @@ export class CreateNotificacaoDto {
   mensagem?: string;
 
   @ApiProperty({
-    description: "Títulod e notificação.",
+    description: "Título da notificação.",
     example:"Novo Hospede",
   })
   @IsString()

@@ -21,9 +21,9 @@ export class NotificacaoService {
     });
   }
 
-  findAll(findAllNotificacaoDto: any) {
+  findAll(id: number) {
     const AcharTodasNotificacoes = this.prisma.notificacao.findMany({
-      where: findAllNotificacaoDto,
+      where: {id},
     });
     return AcharTodasNotificacoes;
   }

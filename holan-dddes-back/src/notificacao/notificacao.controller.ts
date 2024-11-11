@@ -34,13 +34,13 @@ export class NotificacaoController {
 
   @Get()
   @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin') //somente o administrador pode ver todas as notificações
+  //@Roles('admin') //somente o administrador pode ver todas as notificações
   @ApiOperation({
     summary: 'Busca todas as notificações',
-    description: 'Busca todas as notificações com base nos filtros fornecidos',
+    description: 'Busca todas as notificações com base no id fornecido',
   })
-  findAll(@Body() findAllNotificacaoDto: any) {
-    return this.notificacaoService.findAll(findAllNotificacaoDto);
+  findAll(@Param('id') id: number) {
+    return this.notificacaoService.findAll(id);
   }
 
   @Get(':id') // todos podem acessar suas próprias notificações
