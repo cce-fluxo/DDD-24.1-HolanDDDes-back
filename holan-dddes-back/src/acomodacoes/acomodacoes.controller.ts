@@ -77,7 +77,7 @@ export class AcomodacoesController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Busca uma acomodação específica',
+    summary: 'Busca uma acomodação específica e suas fotos',
     description: 'Busca uma acomodação específica com base no id fornecido',
   })
   findOne(@Param('id') id: string) {

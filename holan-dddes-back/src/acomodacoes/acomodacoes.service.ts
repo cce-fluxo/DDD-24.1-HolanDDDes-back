@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
 import { PrismaService } from '../database/prisma.service';
@@ -74,7 +74,7 @@ export class AcomodacoesService {
       include: { FotoAcomodacao: true }, // Inclui as fotos associadas à acomodação
     });
 
-    // Retorna a acomodação e todas as suas avaliações
+    // Retorna a acomodação e sua foto principal que será usada na box do quarto
     return acomodacao;
   }
 
@@ -98,11 +98,19 @@ export class AcomodacoesService {
     return AcharTodasAcomodacoes;
   }
 
-  findOne(findOneAcomodacoeDto: any) {
-    const AcharUmaAcomodacao = this.prisma.acomodacao.findUnique({
-      where: findOneAcomodacoeDto,
+  async findOne(idAcomodacao: number) {
+    const fotoAcomodacao = await this.prisma.foto_Acomodacao.findMany({
+      where: {acomodacaoId: idAcomodacao},
     });
-    return AcharUmaAcomodacao;
+
+    const acomodacao = await this.prisma.acomodacao.findUnique({
+      where: {id: idAcomodacao},
+    });
+
+    if (!acomodacao) {
+      throw new NotFoundException('Acomodação não encontrada');
+    }
+    return {acomodacao, fotoAcomodacao};
   }
 
   update(id: number, UpdateAcomodacoeDto: UpdateAcomodacoeDto) {
