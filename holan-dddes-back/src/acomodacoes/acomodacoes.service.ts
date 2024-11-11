@@ -110,7 +110,13 @@ export class AcomodacoesService {
     if (!acomodacao) {
       throw new NotFoundException('Acomodação não encontrada');
     }
-    return {acomodacao, fotoAcomodacao};
+
+    const comodidades = await this.prisma.acomodacao.findUnique({
+      where: { id: idAcomodacao },
+      select: { ComodidadeAcomodacao: true },
+    });
+    
+    return {acomodacao, fotoAcomodacao, comodidades};
   }
 
   update(id: number, UpdateAcomodacoeDto: UpdateAcomodacoeDto) {
@@ -126,5 +132,16 @@ export class AcomodacoesService {
       where: DeleteAcomodacoeDto,
     });
     return DeletarAcomodacao;
+  }
+
+  async createComodidadeAcomodacao(acomodacaoId: number, comodidadeId: number[]) {
+    return await this.prisma.acomodacao.update({
+      where: {id: acomodacaoId},
+      data: {
+        ComodidadeAcomodacao: {
+          connect: comodidadeId.map(id => ({ id })), 
+        },
+    },
+    });
   }
 }

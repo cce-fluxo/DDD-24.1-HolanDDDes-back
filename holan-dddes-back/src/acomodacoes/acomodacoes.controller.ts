@@ -100,5 +100,18 @@ export class AcomodacoesController {
   remove(@Param('id') id: string) {
     return this.acomodacoesService.remove(+id);
   }
+
+  
+  @Post('/comodidade')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('proprietario', 'admin')
+  @ApiOperation({
+    summary: 'Conecta uma comodidade a uma acomodacação',
+    description: 'Associa a uma acomodação já especificada com base no id fornecido',
+  })
+  createComodidade(@Param('id') id: string, @Body('comodidadeId') comodidadeId: string) {
+    return this.acomodacoesService.createComodidadeAcomodacao(+id, [+comodidadeId]);
+  }
+
 }
 
