@@ -192,6 +192,14 @@ export class hotelsService {
       select: {Acomodacao: true},
     })
 
+    // Encontrando todas as fotos de acomodacação que um hotel tem
+    const foto_acomodacoes = await this.prisma.hotel.findMany({
+      where: {id: hotelId},
+      select: {Acomodacao: 
+        {select: {FotoAcomodacao: true}
+      }
+    }})
+
     // Encontrando todas as comodidades do hotel
     const comodidades = await this.prisma.hotel.findUnique({
       where: {id: hotelId},
@@ -205,6 +213,6 @@ export class hotelsService {
     })
 
     // Retornando o hotel e das fotos do hotel do proprietário
-    return { hotel, foto_hotel, acomodacoes, comodidades, avaliacoes }
+    return { hotel, foto_hotel, acomodacoes, comodidades, avaliacoes, foto_acomodacoes }
   }
 }
