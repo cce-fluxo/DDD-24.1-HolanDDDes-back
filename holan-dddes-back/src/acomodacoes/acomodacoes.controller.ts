@@ -102,7 +102,7 @@ export class AcomodacoesController {
   }
 
   
-  @Post('/comodidade')
+  @Post(':id/comodidade')
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
   @ApiOperation({
