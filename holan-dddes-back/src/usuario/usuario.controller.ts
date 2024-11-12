@@ -42,6 +42,11 @@ export class UsuarioController {
     return this.usuarioService.findOne(+req.user.id);
   }
 
+  @Get('/idfoto') // todos roles logados podem ver suas informações
+  findOneFoto(@Req() req) {
+    return this.usuarioService.findOneFoto(+req.user.id);
+  }
+
   @Patch(':id') // todos roles logados podem alterar suas informações
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(+id, updateUsuarioDto);

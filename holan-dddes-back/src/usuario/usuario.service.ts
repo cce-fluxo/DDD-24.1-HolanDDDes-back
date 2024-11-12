@@ -76,6 +76,19 @@ export class UsuarioService {
     });
   }
 
+  async findOneFoto(userId: number) {
+    // Encontrando todas as fotos, para a header usaremos só a 1ª
+    const fotoUser = await this.prisma.fotoUsuario.findMany({
+      where: { usuarioId: userId }
+    })
+
+    const user = await this.prisma.usuario.findUnique({
+      where: { id: userId },
+    })
+
+    return {user, fotoUser}
+  }
+
   // Autenticação (recebe email como parâmetro)
   async findByEmail(email: string) {
     return await this.prisma.usuario.findUnique({
