@@ -70,6 +70,7 @@ export class CreatehotelDto {
     description: 'Hotel postado?',
     example: true,
   })
-  @IsOptional() 
+  @IsNotEmpty() 
+  @IsBoolean()
   postado: boolean;
 }
