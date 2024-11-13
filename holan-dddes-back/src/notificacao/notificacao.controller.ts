@@ -39,8 +39,8 @@ export class NotificacaoController {
     summary: 'Busca todas as notificações',
     description: 'Busca todas as notificações com base nos filtros fornecidos',
   })
-  findAll(@Body() findAllNotificacaoDto: any) {
-    return this.notificacaoService.findAll(findAllNotificacaoDto);
+  findAll(@Body() id: any) {
+    return this.notificacaoService.findAll(id);
   }
 
   @Get(':id') // todos podem acessar suas próprias notificações
