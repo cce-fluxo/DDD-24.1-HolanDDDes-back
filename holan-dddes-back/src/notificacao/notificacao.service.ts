@@ -21,10 +21,10 @@ export class NotificacaoService {
     });
   }
 
-  findAll(usuarioId: number) {
+  findAll(id: any) {
     const AcharTodasNotificacoes = this.prisma.notificacao.findMany({
       where: {
-        usuarioId: usuarioId, // Filtra as notificações pelo campo `usuarioId`
+        usuarioId: id, // Filtra as notificações pelo campo `usuarioId`
       },
     });
     return AcharTodasNotificacoes;
