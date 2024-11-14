@@ -109,25 +109,26 @@ export class HoteisController {
     return this.hotelsService.createComodidadeHotel(+req.user.id, [+comodidadeId]);
   }
 
-  @Get(':id/comodidade/:comodidadeId') // todos logados podem acessar
+  @Get('/comodidade/:comodidadeId') // todos logados podem acessar
   @ApiOperation({
     summary: 'Busca uma comodidade de um hotel',
     description: 'Busca uma comodidade de um hotel já especificado com base no id fornecido',
   })
-  findComodidade(@Param('id') id: string, @Param('comodidadeId') comodidadeId: string) {
-    return this.hotelsService.findComodidade(+id, +comodidadeId);
+  findComodidade(@Req() req, @Param('comodidadeId') comodidadeId: string) {
+    return this.hotelsService.findComodidade(+req.user.id, +comodidadeId);
   }
 
-  @Delete(':id/comodidade/:comodidadeId')
+  @Delete('/comodidade/:comodidadeId')
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
   @ApiOperation({
     summary: 'Remove uma comodidade de um hotel',
     description: 'Remove uma comodidade de um hotel já especificado com base no id fornecido',
   })
-  removeComodidade(@Param('id') id: string, @Param('comodidadeId') comodidadeId: string) {
-    return this.hotelsService.removeComodidade(+id, +comodidadeId);
+  removeComodidade(@Req() req, @Param('comodidadeId') comodidadeId: string) {
+    return this.hotelsService.removeComodidade(+req.user.id, +comodidadeId);
   }
+
   //Rota específica para buscar as fotos de um hotel já especificado
   @Get(':id/fotos') // todos podem acessar
   @ApiOperation({

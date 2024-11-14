@@ -124,7 +124,9 @@ export class hotelsService {
   }
 
   // Método para resgatar uma comodidade específica de um hotel
-  async findComodidade(hotelId: number, comodidadeId: number) {
+  async findComodidade(userId: number, comodidadeId: number) {
+    const hotelId = await this.getHotelId(userId)
+
     return await this.prisma.hotel.findUnique({
       where: { id: hotelId },
       select: {
@@ -136,7 +138,9 @@ export class hotelsService {
   }
 
   //Método para remover uma comodidade de um hotel
-  async removeComodidade(hotelId: number, comodidadeId: number) {
+  async removeComodidade(userId: number, comodidadeId: number) {
+    const hotelId = await this.getHotelId(userId)
+
     return await this.prisma.hotel.update({
       where: { id: hotelId },
       data: {
