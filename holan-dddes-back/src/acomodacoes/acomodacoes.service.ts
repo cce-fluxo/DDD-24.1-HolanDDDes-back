@@ -127,11 +127,16 @@ export class AcomodacoesService {
     return acomodacao;
   }
 
-  remove(DeleteAcomodacoeDto: any) {
-    const DeletarAcomodacao = this.prisma.acomodacao.delete({
-      where: DeleteAcomodacoeDto,
-    });
-    return DeletarAcomodacao;
+  async remove(idAcomodacao: any) {
+    try {
+      const DeletarAcomodacao = await this.prisma.acomodacao.delete({
+        where: {id: idAcomodacao},
+      });
+      return DeletarAcomodacao;
+      
+    } catch(error) {
+      console.error('Erro ao enviar ao banco de dados:', error); 
+    }
   }
 
   async createComodidadeAcomodacao(acomodacaoId: number, comodidadeId: number[]) {
