@@ -21,11 +21,13 @@ export class NotificacaoService {
     });
   }
 
-  findAll(findAllNotificacaoDto: any) {
-    const AcharTodasNotificacoes = this.prisma.notificacao.findMany({
-      where: findAllNotificacaoDto,
+  findAll(userId: number) {
+    const TodasNotificacoes = this.prisma.notificacao.findMany({
+      where: {
+        usuarioId: userId,
+      },
     });
-    return AcharTodasNotificacoes;
+    return TodasNotificacoes;
   }
 
   async findOne(id: number) {

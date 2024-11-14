@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateNotificacaoDto {
   @ApiProperty({
@@ -38,7 +38,7 @@ export class CreateNotificacaoDto {
     description: "Registra a data em que a notificação foi criada",
     example:"2024-01-01T00:00:00Z",
   })
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   data_criacao?: Date;
 }

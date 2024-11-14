@@ -32,24 +32,25 @@ export class NotificacaoController {
     return this.notificacaoService.create(createNotificacaoDto);
   }
 
-  @Get()
-  @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin') //somente o administrador pode ver todas as notificações
-  @ApiOperation({
-    summary: 'Busca todas as notificações',
-    description: 'Busca todas as notificações com base nos filtros fornecidos',
-  })
-  findAll(@Body() findAllNotificacaoDto: any) {
-    return this.notificacaoService.findAll(findAllNotificacaoDto);
-  }
+  // @Get()
+  // @UseGuards(RolesGuard, JwtAuthGuard)
+  // @Roles('admin') //somente o administrador pode ver todas as notificações
+  // @ApiOperation({
+  //   summary: 'Busca todas as notificações',
+  //   description: 'Busca todas as notificações com base nos filtros fornecidos',
+  // })
+  // findAll(@Body() UsuarioId: number) {
+  //   return this.notificacaoService.findAll(UsuarioId);
+  // }
 
   @Get(':id') // todos podem acessar suas próprias notificações
+  @UseGuards(RolesGuard, JwtAuthGuard)
   @ApiOperation({
-    summary: 'Busca uma notificação específica',
-    description: 'Busca uma notificaçãoespecífica com base no id fornecido',
+    summary: 'Busca todas as notificação de um usuário',
+    description: 'Busca todas as notificações de um usuário com base no id fornecido na url',
   })
   findOne(@Param('id') id: number) {
-    return this.notificacaoService.findOne(+id);
+    return this.notificacaoService.findAll(+id);
   }
 
   @Patch(':id') // todos podem alterar notificações (o booleano de visualização)
