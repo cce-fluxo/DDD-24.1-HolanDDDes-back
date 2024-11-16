@@ -101,6 +101,13 @@ export class AcomodacoesController {
     return this.acomodacoesService.remove(+id);
   }
 
+  @Get(':id/comodidades')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('admin', 'proprietario')
+  findComodidade(@Param('id') id: string) {
+    return this.acomodacoesService.getComodidadesByAcomodacao(+id);
+  }
+
   
   @Post(':id/comodidade')
   @UseGuards(RolesGuard, JwtAuthGuard)

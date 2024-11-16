@@ -139,6 +139,13 @@ export class AcomodacoesService {
     }
   }
 
+  async getComodidadesByAcomodacao(acomodacaoId: number) {
+    return await this.prisma.acomodacao.findUnique({
+      where: {id: acomodacaoId},
+      select: { ComodidadeAcomodacao: true }
+    })
+  }
+
   async createComodidadeAcomodacao(acomodacaoId: number, comodidadeId: number[]) {
     return await this.prisma.acomodacao.update({
       where: {id: acomodacaoId},
