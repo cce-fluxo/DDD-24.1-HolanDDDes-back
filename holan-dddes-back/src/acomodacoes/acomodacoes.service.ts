@@ -133,7 +133,7 @@ export class AcomodacoesService {
         where: {id: idAcomodacao},
       });
       return DeletarAcomodacao;
-      
+
     } catch(error) {
       console.error('Erro ao enviar ao banco de dados:', error); 
     }
@@ -148,5 +148,16 @@ export class AcomodacoesService {
         },
     },
     });
+  }
+
+  async removeComodidade(acomodacaoId: number, comodidadeId: number) {
+    return await this.prisma.acomodacao.update({
+      where: { id: acomodacaoId },
+      data: {
+        ComodidadeAcomodacao: {
+          disconnect: { id: comodidadeId }
+        }
+      }
+    })
   }
 }
