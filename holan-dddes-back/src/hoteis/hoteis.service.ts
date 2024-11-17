@@ -90,8 +90,9 @@ export class hotelsService {
     return hotel
   }
 
-  async remove(id: number) {
-    return await this.prisma.hotel.delete({where: {id}});
+  async remove(userId: number) {
+    const hotelId = await this.getHotelId(userId);
+    return await this.prisma.hotel.delete({where: {id: hotelId}});
   }
 
   findAcomodacoes(id: number) {

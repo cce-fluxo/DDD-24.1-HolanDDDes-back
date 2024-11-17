@@ -66,15 +66,15 @@ export class HoteisController {
     return this.hotelsService.update(+req.user.id, updatehotelDto);
   }
 
-  @Delete(':id')
+  @Delete()
   @UseGuards(RolesGuard, JwtAuthGuard)
   @Roles('proprietario', 'admin')
   @ApiOperation({
     summary: 'Remove um hotel',
     description: 'Remove um hotel com base no id fornecido',
   })
-  remove(@Param('id') id: string) {
-    return this.hotelsService.remove(+id);
+  remove(@Req() req) {
+    return this.hotelsService.remove(+req.user.id);
   }
 
   //Rota específica para buscar as acomodações de um hotel já especificado
