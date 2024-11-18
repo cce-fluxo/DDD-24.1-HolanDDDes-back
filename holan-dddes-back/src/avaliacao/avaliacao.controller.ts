@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AvaliacaoService } from './avaliacao.service';
@@ -42,14 +43,14 @@ export class AvaliacaoController {
     return this.avaliacaoService.findAll(findAllAvaliacaoDto);
   }
 
-  @Get(':id')  // todos podem acessar
-  @ApiOperation({
-    summary: 'Busca uma avaliação específica',
-    description: 'Busca uma avaliação específica com base no id fornecido',
-  })
-  findOne(@Param('id') id: string) {
-    return this.avaliacaoService.findOne(+id);
-  }
+  // @Get(':id')  // todos podem acessar
+  // @ApiOperation({
+  //   summary: 'Busca uma avaliação específica',
+  //   description: 'Busca uma avaliação específica com base no id fornecido',
+  // })
+  // findOne(@Param('id') id: string) {
+  //   return this.avaliacaoService.findOne(+id);
+  // }
 
   @Patch(':id') 
   @UseGuards(RolesGuard, JwtAuthGuard)
@@ -74,5 +75,14 @@ export class AvaliacaoController {
   })
   remove(@Param('id') id: string) {
     return this.avaliacaoService.remove(+id);
+  }
+
+  @Get('/avaliacoes')
+  @ApiOperation({
+    summary: "Resgata todas as avaliações que um hotel recebeu",
+    description: 'Busca as avaliações de um hotel já especificado com base no id fornecido',
+  })
+  getAvaliacoes(@Req() req) {
+    return this.avaliacaoService.getAvaliacoes(+req.user.id);
   }
 }
