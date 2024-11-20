@@ -1,9 +1,31 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    BadRequestException,
+    HttpException,
+    HttpStatus,
+    Injectable,
+    UnauthorizedException,
+  } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import * as nodemailer from 'nodemailer';
+import { AuthValidarTokenDto } from './dto/auth-validarToken.dto';
+import { UpdateUsuarioDto } from 'src/usuario/dto/update-usuario.dto';
+import { AuthResetDto } from './dto/auth-resetar.dto';
+
+// Para envio do email de recuperação de senha
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.TRANSPORTER_EMAIL,
+      pass: process.env.TRANSPORTER_SENHA,
+    },
+  });
 
 @Injectable()
 export class AuthService {
@@ -44,5 +66,104 @@ export class AuthService {
             user: User,
         }
     }
+
+    
+  // Método para gerar token aleatório
+  generateRandomToken(length: number): string {
+    return crypto.randomBytes(length).toString('hex'); // Gera um token alfanumérico em base16 (hex)
+  }
+
+  // Esqueci-minha-senha
+  async esqueciSenha(authResetDto: AuthResetDto) {
+    // verifica a existência do usuário
+    const usuario = await this.userService.findByEmail(authResetDto.email);
+
+    if (!usuario) {
+      throw new HttpException(
+        'Usuário não foi encontrado!',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    // Gera um token com expiração de 10 minutos
+    const token = this.generateRandomToken(16); // token com 16 caracteres
+
+    // associando o token ao usuário a partir do envio do email
+    await this.enviarEmail(authResetDto.email, token)
+      .then(async () => {
+        await this.prisma.usuario.update({
+          where: { email: authResetDto.email },
+          data: { token_resetar_senha: token },
+        });
+      })
+      .catch(async (err) => {
+        throw new BadRequestException(
+          'Email não foi enviado, verifique e tente de novo! Erro: ' +
+            err.message,
+        );
+      });
+    return 'Token enviado com sucesso';
+  }
+
+  // Função de envio do token por email
+  enviarEmail(email: string, token: string) {
+    // verify connection configuration
+    transporter.verify(function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Server is ready to take our messages');
+      }
+    });
+
+    return transporter.sendMail({
+      from: 'Suporte bonvoyage <holandddesvoador@gmail.com>',
+      to: email,
+      subject: 'Recuperação de Senha - Bonvoyage',
+      html: `
+                <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; line-height: 1.6;">
+                    <h2 style="color: #FD6944; text-align: center;">Recuperação de Senha</h2>
+                    <p>Olá,</p>
+                    <p>Você solicitou a recuperação de sua senha no sistema <b style = "color: #DC143B;">Bonvoyage</b>. Para prosseguir, utilize o token abaixo:</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <span style="font-size: 24px; font-weight: bold; color: #DC143B;">${token}</span>
+                    </div>
+                    <p>Caso você não tenha solicitado a recuperação de senha, ignore este email.</p>
+                    <p>Atenciosamente,<br><b>Equipe Bonvoyage</b></p>
+                    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+                    <footer style="text-align: center; font-size: 12px; color: #777;">
+                        <p>Este é um email automático. Por favor, não responda.</p>
+                        <p>&copy; ${new Date().getFullYear()} Vai HolanDDDês! - Todos os direitos reservados.</p>
+                    </footer>
+                </div>
+            `,
+      text: `Olá,\n\nVocê solicitou a recuperação de sua senha no sistema MedCards. Para prosseguir, utilize o token abaixo:\n\n${token}\n\nCaso você não tenha solicitado a recuperação de senha, ignore este email.\n\nAtenciosamente,\nEquipe MedCards\n\nEste é um email automático. Por favor, não responda.\n© ${new Date().getFullYear()} MedCards - Todos os direitos reservados.`,
+    });
+  }
+
+  // validação do token
+  async validarToken(validarTokenDto: AuthValidarTokenDto) {
+    const usuario = await this.userService.findByEmail(validarTokenDto.email);
+    if (usuario.token_resetar_senha != validarTokenDto.token) {
+      throw new BadRequestException('Token inválido!');
+    }
+    return HttpStatus.OK;
+  }
+
+  // atualização da senha
+  async atualizarSenha(token: string, updateUsuarioDto: UpdateUsuarioDto) {
+    await this.prisma.usuario.update({
+      where: { token_resetar_senha: token },
+      data: {
+        hash_senha: await bcrypt.hash(updateUsuarioDto.hash_senha, 10),
+      },
+    });
+    return { message: 'Senha atualizada com sucesso' };
+  }
+  catch(error) {
+    console.error('Erro ao atualizar a senha:', error);
+    throw new Error('Não foi possível atualizar a senha');
+  }
 }
+
 

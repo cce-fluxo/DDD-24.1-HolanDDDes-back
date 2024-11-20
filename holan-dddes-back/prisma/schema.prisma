@@ -69,7 +69,7 @@ model Usuario {
   email           String        @unique
   hash_senha      String
   telefone        String?
-  token_resetar_senha String?
+  token_resetar_senha String?   @unique
   data_nascimento DateTime?
   vip             Boolean       @default(false) // definindo como falso por padrão
   Client          Client?
@@ -133,6 +133,7 @@ model Acomodacao {
   complemento            String
   tipo_acomodacaoId      Int
   hotelId                Int
+  nota                   Float        @default(5)
   hotel                  Hotel                             @relation(fields: [hotelId], references: [id], onDelete: Cascade)
   tipoAcomodacao         TipoAcomodacao                    @relation(fields: [tipo_acomodacaoId], references: [id]) // tipo de acomodação não sai
   Avaliacao_acomodacao   Avaliacao_acomodacao[]
