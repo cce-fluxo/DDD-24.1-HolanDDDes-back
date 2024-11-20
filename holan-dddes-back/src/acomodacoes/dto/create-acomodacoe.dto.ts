@@ -81,4 +81,11 @@ export class CreateAcomodacoeDto {
   })
   @IsOptional()
   hotelId: number;
+
+  @ApiProperty({
+    description: 'Nota média do hotel',
+    example: 5,
+  })
+  @IsOptional()
+  nota: number;
 }
