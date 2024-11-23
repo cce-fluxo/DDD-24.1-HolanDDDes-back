@@ -3,8 +3,6 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nes
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 import { PrismaService } from '../database/prisma.service';
-import { Cliente } from 'src/cliente/entities/cliente.entity';
-import { FotoUsuario } from 'src/foto_usuario/entities/foto_usuario.entity';
 
 @Injectable()
 export class ReservasService {
