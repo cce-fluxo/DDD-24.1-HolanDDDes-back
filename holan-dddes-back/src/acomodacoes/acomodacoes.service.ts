@@ -3,6 +3,7 @@ import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundExc
 import { CreateAcomodacoeDto } from './dto/create-acomodacoe.dto';
 import { UpdateAcomodacoeDto } from './dto/update-acomodacoe.dto';
 import { PrismaService } from '../database/prisma.service';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Injectable()
 export class AcomodacoesService {
@@ -118,7 +119,13 @@ export class AcomodacoesService {
 
     const avaliacoes = await this.prisma.acomodacao.findUnique({
       where: { id: idAcomodacao }, // Busca a acomodação com base no ID fornecido
-      include: { Avaliacao_acomodacao: true }, // Inclui as avaliações associadas à acomodação
+      include: { Avaliacao_acomodacao: {
+        include: { cliente: {
+          include: { usuario: {
+            include: { FotoUsuario: true }
+          } }
+        }}
+      }}, // Inclui as avaliações associadas à acomodação junto ao usuario que avaliou e sua foto
     });
 
     
