@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsEmail, IsNotEmpty, IsBoolean, IsOptional } from "class-validator";
+import { IsString, IsEmail, IsNotEmpty, IsBoolean, IsOptional, IsDateString } from "class-validator";
 
 export class CreateUsuarioDto {
   
@@ -26,7 +26,8 @@ export class CreateUsuarioDto {
   telefone?: string;
 
   @IsOptional()
-  dataNascimento?: Date;
+  @IsDateString()
+  data_nascimento?: Date;
 
   @IsBoolean()
   @IsOptional()
