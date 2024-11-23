@@ -115,8 +115,14 @@ export class AcomodacoesService {
       where: { id: idAcomodacao },
       select: { ComodidadeAcomodacao: true },
     });
+
+    const avaliacoes = await this.prisma.acomodacao.findUnique({
+      where: { id: idAcomodacao }, // Busca a acomodação com base no ID fornecido
+      include: { Avaliacao_acomodacao: true }, // Inclui as avaliações associadas à acomodação
+    });
+
     
-    return {acomodacao, fotoAcomodacao, comodidades};
+    return {acomodacao, fotoAcomodacao, comodidades, avaliacoes};
   }
 
   update(id: number, UpdateAcomodacoeDto: UpdateAcomodacoeDto) {
