@@ -1,7 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 import { PrismaService } from '../database/prisma.service';
+import { Cliente } from 'src/cliente/entities/cliente.entity';
+import { FotoUsuario } from 'src/foto_usuario/entities/foto_usuario.entity';
 
 @Injectable()
 export class ReservasService {
@@ -88,4 +91,194 @@ export class ReservasService {
 
     return {reservas}
   }
+
+  async getRelatorioReserva(userId: number) {
+    // pega o id do hotel do usuario
+    const hotelId = await this.getHotelId(userId);
+
+    // Data de hoje e começo do mês
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Zera a hora
+    const inicioDoMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+    const fimDoMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+
+    // Quartos ocupados no momento
+    const quartosOcupados = await this.prisma.acomodacao.findMany({
+    where: {
+      hotelId,
+      Reserva: {
+        some: {
+          data_check_in: {
+            lte: hoje, // A reserva já começou
+          },
+          data_check_out: {
+            gte: hoje, // A reserva ainda não terminou
+          },
+        },
+        },
+      },
+      include: {
+        Reserva: {
+          include: {
+            cliente: {
+              include: {
+                usuario: {
+                  select: {
+                    nome: true, // Nome do usuário associado
+                    telefone: true, // telefone do usuário associado
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Quartos com check-in hoje
+    const checkInHoje = await this.prisma.acomodacao.findMany({
+      where: {
+        hotelId,
+        Reserva: {
+          some: {
+            data_check_in: hoje, // A reserva começa hoje
+          },
+        },
+      },
+      include: {
+        Reserva: {
+          include: {
+            cliente: {
+              include: {
+                usuario: {
+                  select: {
+                    nome: true, // Nome do usuário associado
+                    telefone: true, // telefone do usuário associado
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+
+      // Quartos com check-out hoje
+    const checkOutHoje = await this.prisma.acomodacao.findMany({
+      where: {
+        hotelId,
+        Reserva: {
+          some: {
+            data_check_out: hoje, // A reserva termina hoje
+          },
+        },
+      },
+      include: {
+        Reserva: {
+          include: {
+            cliente: {
+              include: {
+                usuario: {
+                  select: {
+                    nome: true, // Nome do usuário associado                    
+                    telefone: true, // telefone do usuário associado
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+
+  // Quartos reservados neste mês
+  const quartosReservadosMes = await this.prisma.acomodacao.findMany({
+    where: {
+      hotelId,
+      Reserva: {
+        some: {
+          OR: [
+            {
+              data_check_in: {
+                gte: inicioDoMes, // A reserva começa neste mês
+                lte: fimDoMes, // E termina dentro do mês
+              },
+            },
+            {
+              data_check_out: {
+                gte: inicioDoMes, // A reserva termina neste mês
+                lte: fimDoMes,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        include: {
+        Reserva: {
+          include: {
+            cliente: {
+              include: {
+                usuario: {
+                  select: {
+                    nome: true, // Nome do usuário associado
+                  },
+                },
+              },
+            },
+          },
+        },
+        },
+  });
+
+  // Clientes no momento (hóspedes únicos)
+  const clientesNoMomento = await this.prisma.client.findMany({
+    where: {
+      Reserva: {
+        some: {
+          acomodacao: {
+            hotelId,
+          },
+          data_check_in: {
+            lte: hoje, // A reserva começou
+          },
+          data_check_out: {
+            gte: hoje, // A reserva ainda está ativa            
+          },
+        },
+        },
+      },
+      include: {
+        Reserva: true,
+        usuario: true, // Inclui as informações do usuário
+      }
+    });
+
+    // Encontra todos os quartos livres a partir de hoje
+    const quartosLivres = await this.prisma.acomodacao.findMany({
+      where: {
+        hotelId, // Apenas acomodações do hotel do usuário
+        Reserva: {
+          none: {
+            // Nenhuma reserva deve começar hoje ou depois
+            data_check_out: {
+              gte: hoje, // A reserva ainda está ativa ou vai começar
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      quartosOcupados,
+      checkInHoje,
+      checkOutHoje,
+      quartosReservadosMes,
+      quartosLivres, 
+      clientesNoMomento }
+  }
+
+
 }

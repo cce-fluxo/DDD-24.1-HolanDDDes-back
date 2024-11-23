@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -31,7 +32,7 @@ export class ReservasController {
 
   @Get()
   @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin')
+  @Roles('admin', 'proprietario')
   findAll(@Body() findAllReservaDto: any) {
     return this.reservasService.findAll(findAllReservaDto);
   }
@@ -56,11 +57,24 @@ export class ReservasController {
   }
 
   @Get('/hotel')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('proprietario')
   @ApiOperation({
     summary: "Resgata todas as reservas que um hotel recebeu",
     description: 'Busca as reservas de um hotel já especificado com base no id do usuario fornecido',
   })
-  getAvaliacoes(@Req() req) {
+  getHotelReservado(@Req() req) {
     return this.reservasService.getReservas(+req.user.id);
+  }
+
+  @Get('/hotelaria')
+  @UseGuards(RolesGuard, JwtAuthGuard)
+  @Roles('proprietario')
+  @ApiOperation({
+    summary: "Resgata todas as reservas que um hotel recebeu",
+    description: 'Busca as reservas de um hotel já especificado com base no id do usuario fornecido',
+  })
+  getHotelComReservas(@Req() req) {
+    return this.reservasService.getRelatorioReserva(+req.user.id);
   }
 }
