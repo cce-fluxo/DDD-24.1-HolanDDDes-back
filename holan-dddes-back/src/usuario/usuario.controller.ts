@@ -32,7 +32,7 @@ export class UsuarioController {
 
   @Get()
   @UseGuards(RolesGuard, JwtAuthGuard)
-  @Roles('admin') //somente o administrador pode ver TODOS os usuários
+  //somente o administrador pode ver TODOS os usuários
   findAll(@Body() findAllUsuarioDto: any) {
     return this.usuarioService.findAll(findAllUsuarioDto);
   }
@@ -57,4 +57,3 @@ export class UsuarioController {
     return this.usuarioService.remove(+id);
   }
 }
-

@@ -1,5 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 import { PrismaService } from '../database/prisma.service';
@@ -30,10 +35,10 @@ export class ReservasService {
 
   update(id: number, updateReservaDto: UpdateReservaDto) {
     const reservaDto = this.prisma.reserva.update({
-      where: {id},
+      where: { id },
       data: updateReservaDto,
-    })
-    return reservaDto
+    });
+    return reservaDto;
   }
 
   remove(deleteReservaDto: any) {
@@ -54,40 +59,43 @@ export class ReservasService {
 
       return proprietario.id;
     } catch (error) {
-      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        `Erro ao buscar o proprietário: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
-
 
   async getHotelId(userId: number) {
     try {
       const proprietarioId = await this.getProprietarioId(userId);
       const hotel = await this.prisma.hotel.findFirst({
         where: { proprietarioId: proprietarioId },
-    });
-    if (!hotel) {
-      throw new BadRequestException('Usuário não encontrado.');
-    }
+      });
+      if (!hotel) {
+        throw new BadRequestException('Usuário não encontrado.');
+      }
 
-    return hotel.id;
+      return hotel.id;
     } catch (error) {
-      throw new HttpException(`Erro ao buscar o proprietário: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        `Erro ao buscar o proprietário: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
-  
+
   async getReservas(userId: number) {
     // pega o id do hotel do usuario
     const hotelId = await this.getHotelId(userId);
 
     // Encontrando todas as reservas feitas em todas as acomodações de um hotel
     const reservas = await this.prisma.hotel.findMany({
-      where: {id: hotelId},
-      select: {Acomodacao: 
-        {select: {Reserva: true}
-      }
-    }})
+      where: { id: hotelId },
+      select: { Acomodacao: { select: { Reserva: true } } },
+    });
 
-    return {reservas}
+    return { reservas };
   }
 
   async getRelatorioReserva(userId: number) {
@@ -99,39 +107,6 @@ export class ReservasService {
     hoje.setHours(0, 0, 0, 0); // Zera a hora
     const inicioDoMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
     const fimDoMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
-
-    // Quartos ocupados no momento
-    const quartosOcupados = await this.prisma.acomodacao.findMany({
-    where: {
-      hotelId,
-      Reserva: {
-        some: {
-          data_check_in: {
-            lte: hoje, // A reserva já começou
-          },
-          data_check_out: {
-            gte: hoje, // A reserva ainda não terminou
-          },
-        },
-        },
-      },
-      include: {
-        Reserva: {
-          include: {
-            cliente: {
-              include: {
-                usuario: {
-                  select: {
-                    nome: true, // Nome do usuário associado
-                    telefone: true, // telefone do usuário associado
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
 
     // Quartos com check-in hoje
     const checkInHoje = await this.prisma.acomodacao.findMany({
@@ -161,8 +136,7 @@ export class ReservasService {
       },
     });
 
-
-      // Quartos com check-out hoje
+    // Quartos com check-out hoje
     const checkOutHoje = await this.prisma.acomodacao.findMany({
       where: {
         hotelId,
@@ -179,7 +153,7 @@ export class ReservasService {
               include: {
                 usuario: {
                   select: {
-                    nome: true, // Nome do usuário associado                    
+                    nome: true, // Nome do usuário associado
                     telefone: true, // telefone do usuário associado
                   },
                 },
@@ -190,31 +164,30 @@ export class ReservasService {
       },
     });
 
-
-  // Quartos reservados neste mês
-  const quartosReservadosMes = await this.prisma.acomodacao.findMany({
-    where: {
-      hotelId,
-      Reserva: {
-        some: {
-          OR: [
-            {
-              data_check_in: {
-                gte: inicioDoMes, // A reserva começa neste mês
-                lte: fimDoMes, // E termina dentro do mês
+    // Quartos reservados neste mês
+    const quartosReservadosMes = await this.prisma.acomodacao.findMany({
+      where: {
+        hotelId,
+        Reserva: {
+          some: {
+            OR: [
+              {
+                data_check_in: {
+                  gte: inicioDoMes, // A reserva começa neste mês
+                  lte: fimDoMes, // E termina dentro do mês
+                },
               },
-            },
-            {
-              data_check_out: {
-                gte: inicioDoMes, // A reserva termina neste mês
-                lte: fimDoMes,
-                    },
-                  },
-                ],
+              {
+                data_check_out: {
+                  gte: inicioDoMes, // A reserva termina neste mês
+                  lte: fimDoMes,
+                },
               },
-            },
+            ],
           },
-        include: {
+        },
+      },
+      include: {
         Reserva: {
           include: {
             cliente: {
@@ -228,30 +201,30 @@ export class ReservasService {
             },
           },
         },
-        },
-  });
+      },
+    });
 
-  // Clientes no momento (hóspedes únicos)
-  const clientesNoMomento = await this.prisma.client.findMany({
-    where: {
-      Reserva: {
-        some: {
-          acomodacao: {
-            hotelId,
+    // Clientes no momento (hóspedes únicos)
+    const clientesNoMomento = await this.prisma.client.findMany({
+      where: {
+        Reserva: {
+          some: {
+            acomodacao: {
+              hotelId,
+            },
+            data_check_in: {
+              lte: hoje, // A reserva começou
+            },
+            data_check_out: {
+              gte: hoje, // A reserva ainda está ativa
+            },
           },
-          data_check_in: {
-            lte: hoje, // A reserva começou
-          },
-          data_check_out: {
-            gte: hoje, // A reserva ainda está ativa            
-          },
-        },
         },
       },
       include: {
         Reserva: true,
         usuario: true, // Inclui as informações do usuário
-      }
+      },
     });
 
     // Encontra todos os quartos livres a partir de hoje
@@ -270,13 +243,11 @@ export class ReservasService {
     });
 
     return {
-      quartosOcupados,
       checkInHoje,
       checkOutHoje,
       quartosReservadosMes,
-      quartosLivres, 
-      clientesNoMomento }
+      quartosLivres,
+      clientesNoMomento,
+    };
   }
-
-
 }
