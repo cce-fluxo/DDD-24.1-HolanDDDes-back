@@ -127,6 +127,7 @@ export class ReservasService {
                   select: {
                     nome: true, // Nome do usuário associado
                     telefone: true, // telefone do usuário associado
+                    FotoUsuario: true // resgata a foto do usuario
                   },
                 },
               },
@@ -155,6 +156,7 @@ export class ReservasService {
                   select: {
                     nome: true, // Nome do usuário associado
                     telefone: true, // telefone do usuário associado
+                    FotoUsuario: true
                   },
                 },
               },
@@ -222,8 +224,24 @@ export class ReservasService {
         },
       },
       include: {
-        Reserva: true,
-        usuario: true, // Inclui as informações do usuário
+        Reserva: {
+          select: {
+            data_check_in: true,
+            acomodacao: {
+              select: {
+                FotoAcomodacao: true
+              }
+            }
+          }
+        },
+        usuario: {
+          select: {
+            id: true,
+            nome: true,
+            telefone: true,
+            FotoUsuario: true,
+          }
+        }
       },
     });
 
