@@ -118,16 +118,21 @@ export class ReservasService {
           },
         },
       },
-      include: {
+      select: {
+        titulo: true,
+        FotoAcomodacao: {
+          select: {
+            url_foto: true
+          }
+        },
         Reserva: {
-          include: {
+          select: {
             cliente: {
-              include: {
+              select: {
                 usuario: {
                   select: {
                     nome: true, // Nome do usuário associado
                     telefone: true, // telefone do usuário associado
-                    FotoUsuario: true // resgata a foto do usuario
                   },
                 },
               },
@@ -147,16 +152,21 @@ export class ReservasService {
           },
         },
       },
-      include: {
+      select: {
+        titulo: true,
+        FotoAcomodacao: {
+          select: {
+            url_foto: true
+          }
+        },
         Reserva: {
-          include: {
+          select: {
             cliente: {
-              include: {
+              select: {
                 usuario: {
                   select: {
                     nome: true, // Nome do usuário associado
                     telefone: true, // telefone do usuário associado
-                    FotoUsuario: true
                   },
                 },
               },
@@ -189,11 +199,19 @@ export class ReservasService {
           },
         },
       },
-      include: {
+      select: {
+        titulo: true,
+        FotoAcomodacao: {
+          select: {
+            url_foto: true
+          }
+        },
         Reserva: {
-          include: {
+          select: {
+            data_check_in: true,
+            data_check_out: true,
             cliente: {
-              include: {
+              select: {
                 usuario: {
                   select: {
                     nome: true, // Nome do usuário associado
@@ -223,25 +241,32 @@ export class ReservasService {
           },
         },
       },
-      include: {
-        Reserva: {
-          select: {
-            data_check_in: true,
-            acomodacao: {
-              select: {
-                FotoAcomodacao: true
-              }
-            }
-          }
-        },
+      select: {
         usuario: {
           select: {
             id: true,
             nome: true,
+            sobrenome: true,
             telefone: true,
-            FotoUsuario: true,
-          }
-        }
+            Client: {
+              select: {
+                id: true,
+              }
+            },
+            FotoUsuario: {
+              select: {
+                url_foto: true,
+              }
+            },
+          },
+        },
+        Reserva: {
+          select: {
+            clienteId: true,
+            data_check_in: true, // Retorna apenas este campo
+            // Se quiser mais campos, basta adicioná-los aqui.
+          },
+        },
       },
     });
 
