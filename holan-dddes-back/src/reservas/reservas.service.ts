@@ -127,6 +127,8 @@ export class ReservasService {
         },
         Reserva: {
           select: {
+            id: true,
+            data_check_in: true,
             cliente: {
               select: {
                 usuario: {
@@ -161,6 +163,8 @@ export class ReservasService {
         },
         Reserva: {
           select: {
+            id: true,
+            data_check_out: true,
             cliente: {
               select: {
                 usuario: {
@@ -200,6 +204,7 @@ export class ReservasService {
         },
       },
       select: {
+        id: true,
         titulo: true,
         FotoAcomodacao: {
           select: {
@@ -264,7 +269,16 @@ export class ReservasService {
           select: {
             clienteId: true,
             data_check_in: true, // Retorna apenas este campo
-            // Se quiser mais campos, basta adicioná-los aqui.
+            acomodacao: {
+              select: {
+                titulo: true,
+                FotoAcomodacao: {
+                  select: {
+                    url_foto: true,
+                  }
+                }
+              }
+            }
           },
         },
       },
@@ -283,6 +297,16 @@ export class ReservasService {
           },
         },
       },
+      select: {
+        id: true,
+        titulo: true,
+        camas: true,
+        FotoAcomodacao: {
+          select: {
+            url_foto: true,
+          }
+        }
+      }
     });
 
     return {
